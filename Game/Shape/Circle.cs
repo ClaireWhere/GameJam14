@@ -44,7 +44,7 @@ public class Circle : Shape {
     /// <param name="point">The point to check whether this circle contains.</param>
     /// <returns>True if the point is within or on the bounds of the circle, False otherwise.</returns>
     public override bool Contains(Vector2 point) {
-        return Vector2.Distance(this.Center, point) <= Radius;
+        return Vector2.Distance(this.Center, point) <= this.ScaledRadius;
     }
 
     public override bool Intersects(Shape shape) {
@@ -57,7 +57,7 @@ public class Circle : Shape {
     /// <param name="circle">The circle to check whether this circle contains.</param>
     /// <returns>True if the circle is within or on the bounds of the circle, False otherwise.</returns>
     public override bool Intersects(Circle circle) {
-        return Vector2.Distance(this.Center, circle.Center) <= ( this.Radius + circle.Radius );
+        return Vector2.Distance(this.Center, circle.Center) <= ( this.ScaledRadius + circle.ScaledRadius );
     }
 
 
@@ -67,10 +67,10 @@ public class Circle : Shape {
     /// <param name="line">The line to check whether this circle contains.</param>
     /// <returns>True if the line is within or on the bounds of the circle, False otherwise.</returns>
     public override bool Intersects(LineSegment line) {
-        float closestX = (float) Math.Min(Math.Pow(this.Center.X - line.Start.X, 2), Math.Pow(this.Center.X - line.End.X, 2));
-        float closestY = (float) Math.Min(Math.Pow(this.Center.Y - line.Start.Y, 2), Math.Pow(this.Center.Y - line.End.Y, 2));
+        float closestX = (float) Math.Min(Math.Pow(this.Center.X - line.Start.X, 2), Math.Pow(this.Center.X - line.ScaledEnd.X, 2));
+        float closestY = (float) Math.Min(Math.Pow(this.Center.Y - line.Start.Y, 2), Math.Pow(this.Center.Y - line.ScaledEnd.Y, 2));
 
-        return Vector2.Distance(Center, new Vector2(closestX, closestY)) <= Radius;
+        return Vector2.Distance(this.Center, new Vector2(closestX, closestY)) <= this.ScaledRadius;
     }
 
     /// <summary>
@@ -96,6 +96,6 @@ public class Circle : Shape {
             checkY = rectangle.Bottom;
         }
 
-        return Vector2.Distance(Center, new Vector2(checkX, checkY)) <= Radius;
+        return Vector2.Distance(this.Center, new Vector2(checkX, checkY)) <= this.ScaledRadius;
     }
 }

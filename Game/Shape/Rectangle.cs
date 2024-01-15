@@ -41,7 +41,7 @@ public class Rectangle : Shape {
     /// </summary>
     public float Top {
         get {
-            return Source.Y;
+            return ScaledSource.Y;
         }
     }
 
@@ -50,7 +50,7 @@ public class Rectangle : Shape {
     /// </summary>
     public float Bottom {
         get {
-            return Source.Y + Height;
+            return ScaledSource.Y + ScaledHeight;
         }
     }
 
@@ -59,7 +59,7 @@ public class Rectangle : Shape {
     /// </summary>
     public float Left {
         get {
-            return Source.X;
+            return ScaledSource.X;
         }
     }
 
@@ -68,7 +68,10 @@ public class Rectangle : Shape {
     /// </summary>
     public float Right {
         get {
-            return Source.X + Width;
+            return ScaledSource.X + ScaledWidth;
+        }
+    }
+
     public Vector2 ScaledSource {
         get {
             float sourceX = this.Source.X - (this.Width * this.Scale / 2);

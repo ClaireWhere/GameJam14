@@ -60,17 +60,17 @@ public class LineSegment : Shape {
     /// <returns>True if the point falls on the line segment, false otherwise.</returns>
     public override bool Contains(Vector2 point) {
         // If the point is on the line, it must be contained on the X axis
-        if ( ( point.X < this.Start.X ) == ( point.X < this.End.X ) ) {
+        if ( ( point.X < this.Start.X ) == ( point.X < this.ScaledEnd.X ) ) {
             return false;
         }
         // If the point is on the line, it must be contained on the Y axis
-        if ( ( point.Y < this.Start.Y ) == ( point.Y < this.End.Y ) ) {
+        if ( ( point.Y < this.Start.Y ) == ( point.Y < this.ScaledEnd.Y ) ) {
             return false;
         }
 
         // If the point is on the line, it must have the same slope to one end point as the line segment itself.
         // Here, we compare the slope from the point to the Start of the line segment, but it could be End as well, since the line segment is straight.
-        return ( this.Start.Y - point.Y ) * ( this.End.X - this.Start.X ) == ( this.End.Y - this.Start.Y ) * ( this.Start.X - point.X );
+        return ( this.Start.Y - point.Y ) * ( this.ScaledEnd.X - this.Start.X ) == ( this.ScaledEnd.Y - this.Start.Y ) * ( this.Start.X - point.X );
     }
 
     public override bool Intersects(Shape shape) {
@@ -94,10 +94,10 @@ public class LineSegment : Shape {
         // (x2-x1)(y3-y1) - (y2-y1)(x3-x1)
         // (x4-x3)(y2-y) - (y4-y3)(x2-x1)
 
-        float denominator = ( ( line.End.X - line.Start.X ) * ( this.End.Y - this.Start.Y ) ) - ( ( line.End.Y - line.Start.Y ) * ( this.End.X - this.Start.X ) );
+        float denominator = ( ( line.ScaledEnd.X - line.Start.X ) * ( this.ScaledEnd.Y - this.Start.Y ) ) - ( ( line.ScaledEnd.Y - line.Start.Y ) * ( this.ScaledEnd.X - this.Start.X ) );
 
-        float intersectThisNumerator = ( ( line.End.X - line.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( line.Start.Y - line.End.Y ) * ( line.Start.X - this.Start.X ) );
-        float intersectOtherNumerator = ( ( this.End.X - this.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( this.End.Y - this.Start.Y ) * ( line.Start.X - this.Start.X ) );
+        float intersectThisNumerator = ( ( line.ScaledEnd.X - line.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( line.Start.Y - line.ScaledEnd.Y ) * ( line.Start.X - this.Start.X ) );
+        float intersectOtherNumerator = ( ( this.ScaledEnd.X - this.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( this.ScaledEnd.Y - this.Start.Y ) * ( line.Start.X - this.Start.X ) );
 
         // if denominator is 0, the lines are parallel. If the numerator is also 0, the lines are collinear.
         if ( denominator == 0 ) {
