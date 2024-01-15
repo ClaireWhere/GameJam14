@@ -20,6 +20,14 @@ public class LineSegment : Shape {
     /// </summary>
     public Vector2 End { get; }
 
+    public Vector2 ScaledEnd {
+        get {
+            float diffX = this.End.X - this.Start.X;
+            float diffY = this.End.Y - this.Start.Y;
+            return new Vector2(this.Start.X + ( diffX * this.Scale ), this.Start.Y + ( diffY * this.Scale ));
+        }
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="LineSegment"/> class.
     /// </summary>
@@ -36,6 +44,12 @@ public class LineSegment : Shape {
     public float Length {
         get {
             return Vector2.Distance(Start, End);
+        }
+    }
+
+    public float ScaledLength {
+        get {
+            return this.Length * this.Scale;
         }
     }
 

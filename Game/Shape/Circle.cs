@@ -15,12 +15,18 @@ public class Circle : Shape {
     /// <summary>
     /// Gets the center of the circle.
     /// </summary>
-    public Vector2 Center { get; }
+    public Vector2 Center { get; set;  }
 
     /// <summary>
     /// Gets the radius of the circle.
     /// </summary>
-    public float Radius { get; }
+    public float Radius { get; set; }
+
+    public float ScaledRadius {
+        get {
+            return this.Radius * this.Scale;
+        }
+    }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Circle"/> class.

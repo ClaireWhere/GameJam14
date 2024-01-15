@@ -69,6 +69,23 @@ public class Rectangle : Shape {
     public float Right {
         get {
             return Source.X + Width;
+    public Vector2 ScaledSource {
+        get {
+            float sourceX = this.Source.X - (this.Width * this.Scale / 2);
+            float sourceY = this.Source.Y - (this.Height * this.Scale / 2);
+            return new Vector2(sourceX, sourceY);
+        }
+    }
+
+    public float ScaledWidth {
+        get {
+            return this.Width * this.Scale;
+        }
+    }
+
+    public float ScaledHeight {
+        get {
+            return this.Height * this.Scale;
         }
     }
 
