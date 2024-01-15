@@ -6,9 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Shape;
-struct Circle {
-    public Vector2 Center;
-    public float Radius;
+
+/// <summary>
+/// A Circle.
+/// </summary>
+public class Circle {
+
+    /// <summary>
+    /// Gets the center of the circle.
+    /// </summary>
+    public Vector2 Center { get; }
+
+    /// <summary>
+    /// Gets the radius of the circle.
+    /// </summary>
+    public float Radius { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Circle"/> class.
@@ -25,7 +37,7 @@ struct Circle {
     /// </summary>
     /// <param name="point">The point to check whether this circle contains.</param>
     /// <returns>True if the point is within or on the bounds of the circle, False otherwise.</returns>
-    public readonly bool Contains(Vector2 point) {
+    public bool Contains(Vector2 point) {
         return Vector2.Distance(this.Center, point) <= Radius;
     }
 
@@ -34,7 +46,7 @@ struct Circle {
     /// </summary>
     /// <param name="circle">The circle to check whether this circle contains.</param>
     /// <returns>True if the circle is within or on the bounds of the circle, False otherwise.</returns>
-    public readonly bool Intersects(Circle circle) {
+    public bool Intersects(Circle circle) {
         return Vector2.Distance(this.Center, circle.Center) <= ( this.Radius + circle.Radius );
     }
 
@@ -44,7 +56,7 @@ struct Circle {
     /// </summary>
     /// <param name="line">The line to check whether this circle contains.</param>
     /// <returns>True if the line is within or on the bounds of the circle, False otherwise.</returns>
-    public readonly bool Intersects(LineSegment line) {
+    public bool Intersects(LineSegment line) {
         float closestX = (float) Math.Min(Math.Pow(this.Center.X - line.Start.X, 2), Math.Pow(this.Center.X - line.End.X, 2));
         float closestY = (float) Math.Min(Math.Pow(this.Center.Y - line.Start.Y, 2), Math.Pow(this.Center.Y - line.End.Y, 2));
 
@@ -56,7 +68,7 @@ struct Circle {
     /// </summary>
     /// <param name="rect">The rectangle to check whether this circle contains.</param>
     /// <returns>True if the rectangle is within or on the bounds of the circle, False otherwise.</returns>
-    public readonly bool Intersects(Rectangle rect) {
+    public bool Intersects(Rectangle rect) {
         float checkX = this.Center.X;
         float checkY = this.Center.Y;
 

@@ -6,9 +6,19 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Shape;
-struct LineSegment {
-    public Vector2 Start;
-    public Vector2 End;
+
+/// <summary>
+/// A line segment.
+/// </summary>
+public class LineSegment {
+    /// <summary>
+    /// Gets the source vector of the line segment.
+    /// </summary>
+    public Vector2 Start { get; }
+    /// <summary>
+    /// Gets the destination vector of the line segment.
+    /// </summary>
+    public Vector2 End { get; }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="LineSegment"/> class.
@@ -23,7 +33,7 @@ struct LineSegment {
     /// <summary>
     /// Gets the length of the line segment.
     /// </summary>
-    public readonly float Length {
+    public float Length {
         get {
             return Vector2.Distance(Start, End);
         }
@@ -34,7 +44,7 @@ struct LineSegment {
     /// </summary>
     /// <param name="point">The point to check whether it falls on the line segment.</param>
     /// <returns>True if the point falls on the line segment, false otherwise.</returns>
-    public readonly bool Contains(Vector2 point) {
+    public bool Contains(Vector2 point) {
         // If the point is on the line, it must be contained on the X axis
         if ( ( point.X < this.Start.X ) == ( point.X < this.End.X ) ) {
             return false;
@@ -54,7 +64,7 @@ struct LineSegment {
     /// </summary>
     /// <param name="line">The line segment to check intersection with.</param>
     /// <returns>True if the line segments intersect or are collinear, false otherwise</returns>
-    public readonly bool Intersects(LineSegment line) {
+    public bool Intersects(LineSegment line) {
         // (x1, x2) = (this.Start.X, this.End.X)
         // (y1, y2) = (this.Start.Y, this.End.Y)
         // (x3, x4) = (line.Start.X, line.End.X)
@@ -89,7 +99,7 @@ struct LineSegment {
     /// </summary>
     /// <param name="rect">The rectangle to check intersection with.</param>
     /// <returns>True if the line segment intersects with the rectangle, false otherwise.</returns>
-    public readonly bool Intersects(Rectangle rect) {
+    public bool Intersects(Rectangle rect) {
         return rect.Intersects(this);
     }
 
@@ -98,7 +108,7 @@ struct LineSegment {
     /// </summary>
     /// <param name="circle">The circle to check intersection with.</param>
     /// <returns>True if the line segment intersects with the circle, false otherwise.</returns>
-    public readonly bool Intersects(Circle circle) {
+    public bool Intersects(Circle circle) {
         return circle.Intersects(this);
     }
 }
