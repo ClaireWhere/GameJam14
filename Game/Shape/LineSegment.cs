@@ -118,7 +118,12 @@ public class LineSegment : Shape {
     /// <param name="rectangle">The rectangle to check intersection with.</param>
     /// <returns>True if the line segment intersects with the rectangle, false otherwise.</returns>
     public override bool Intersects(Rectangle rectangle) {
-        return rectangle.Intersects(this);
+        bool left = this.Intersects(new LineSegment(new Vector2(rectangle.Left, rectangle.Top), new Vector2(rectangle.Left, rectangle.Bottom)));
+        bool right = this.Intersects(new LineSegment(new Vector2(rectangle.Right, rectangle.Top), new Vector2(rectangle.Right, rectangle.Bottom)));
+        bool top = this.Intersects(new LineSegment(new Vector2(rectangle.Left, rectangle.Top), new Vector2(rectangle.Right, rectangle.Top)));
+        bool bottom = this.Intersects(new LineSegment(new Vector2(rectangle.Left, rectangle.Bottom), new Vector2(rectangle.Right, rectangle.Bottom)));
+
+        return left || right || top || bottom;
     }
 
     /// <summary>
