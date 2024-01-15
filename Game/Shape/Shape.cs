@@ -18,18 +18,28 @@ public abstract class Shape {
     /// <param name="point">The point to check whether this shape contains.</param>
     /// <returns>True if the point is within or on the bounds of the shape, False otherwise.</returns>
     public abstract bool Contains(Vector2 point);
+
+    /// <summary>
+    /// Determines whether this shape intersects the specified shape.
+    /// </summary>
+    /// <param name="shape">The shape to check whether this shape intersects.</param>
+    /// <returns>True if the shape is within or on the bounds of the shape, False otherwise.</returns>
+    public abstract bool Intersects(Shape shape);
+
     /// <summary>
     /// Determines whether this shape intersects the specified rectangle.
     /// </summary>
     /// <param name="rectangle">The rectangle to check whether this shape intersects.</param>
     /// <returns>True if the rectangle is within or on the bounds of the shape, False otherwise.</returns>
     public abstract bool Intersects(Rectangle rectangle);
+
     /// <summary>
     /// Determines whether this shape intersects the specified line segment.
     /// </summary>
     /// <param name="line">The line segment to check whether this shape intersects.</param>
     /// <returns>True if the line segment is within or on the bounds of the shape, False otherwise.</returns>
     public abstract bool Intersects(LineSegment line);
+
     /// <summary>
     /// Determines whether this shape intersects the specified circle.
     /// </summary>
