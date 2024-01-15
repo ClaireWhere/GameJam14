@@ -34,8 +34,8 @@ public class Circle : Shape {
     /// <param name="center">The center.</param>
     /// <param name="radius">The radius.</param>
     public Circle(Vector2 center, float radius) {
-        Center = center;
-        Radius = radius;
+        this.Center = center;
+        this.Radius = radius;
     }
 
     /// <summary>

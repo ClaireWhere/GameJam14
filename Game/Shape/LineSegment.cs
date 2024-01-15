@@ -34,8 +34,8 @@ public class LineSegment : Shape {
     /// <param name="start">The start (source) vector of the line segment.</param>
     /// <param name="end">The end (destination) vector of the line segment.</param>
     public LineSegment(Vector2 start, Vector2 end) {
-        Start = start;
-        End = end;
+        this.Start = start;
+        this.End = end;
     }
 
     /// <summary>
