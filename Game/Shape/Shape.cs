@@ -10,6 +10,8 @@ namespace GameJam14.Game.Shape;
 /// The base class for a shape.
 /// </summary>
 public abstract class Shape {
+    public float Scale { get; set; } = 1f;
+
     /// <summary>
     /// Determines whether this shape contains the specified point.
     /// </summary>
