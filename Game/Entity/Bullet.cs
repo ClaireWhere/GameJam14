@@ -39,4 +39,19 @@ internal class Bullet : Entity {
         this.TimeAlive = 0;
         this.Death = deathEffect;
     }
+
+    public override void Update(GameTime gameTime) {
+        base.Update(gameTime);
+        this.UpdateTimeAlive(gameTime.ElapsedGameTime.TotalSeconds);
+    }
+
+    public void UpdateTimeAlive(double deltaTime) {
+        if ( this.TimeAlive != -1f && this.TimeAlive < this.TimeToLive ) {
+            this.TimeAlive += deltaTime;
+        }
+        if ( this.TimeAlive >= this.TimeToLive ) {
+            this.Kill();
+            this.TimeAlive = -1f;
+        }
+    }
 }
