@@ -5,5 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Entity;
-internal class Enemy {
+internal class Enemy : Entity {
+    
 }
