@@ -54,4 +54,18 @@ internal class Bullet : Entity {
             this.TimeAlive = -1f;
         }
     }
+
+    public override void Kill() {
+        switch ( this.Death ) {
+            case DeathEffect.None:
+                break;
+            case DeathEffect.Default:
+                base.Kill();
+                break;
+            case DeathEffect.Explode:
+                // create a new Cloud attack entity at this position
+                base.Kill();
+                break;
+        }
+    }
 }
