@@ -59,6 +59,10 @@ public class LineSegment : Shape {
         return ( this.Start.Y - point.Y ) * ( this.End.X - this.Start.X ) == ( this.End.Y - this.Start.Y ) * ( this.Start.X - point.X );
     }
 
+    public override bool Intersects(Shape shape) {
+        return shape.Intersects(this);
+    }
+
     /// <summary>
     /// Checks whether the line segment intersects with the specified line segment.
     /// </summary>

@@ -81,6 +81,10 @@ public class Rectangle : Shape {
         return point.X >= this.Left && point.X <= this.Right && point.Y >= this.Top && point.Y <= this.Bottom;
     }
 
+    public override bool Intersects(Shape shape) {
+        return shape.Intersects(this);
+    }
+
     /// <summary>
     /// Checks whether this rectangle is intersecting with the provided line.
     /// </summary>

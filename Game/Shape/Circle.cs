@@ -41,6 +41,10 @@ public class Circle : Shape {
         return Vector2.Distance(this.Center, point) <= Radius;
     }
 
+    public override bool Intersects(Shape shape) {
+        return shape.Intersects(this);
+    }
+
     /// <summary>
     /// Checks whether this circle is intersecting with the provided circle.
     /// </summary>
