@@ -38,4 +38,23 @@ internal class Cloud : Entity {
         this.DamageDegredation = damageDegradation;
         this.HitboxRadius = sprite.Texture.Width;
     }
+
+    public override void Update(GameTime gameTime) {
+        base.Update(gameTime);
+        this.UpdateExpansion(gameTime.ElapsedGameTime.TotalSeconds);
+    }
+
+    public void UpdateExpansion(double deltaTime) {
+        if ( this.Expansion < this.MaxExpansion ) {
+            this.Expansion += ( this.ExpansionSpeed * (float) deltaTime ) + ( this.ExpansionAcceleration * (float) Math.Pow(deltaTime, 2) / 2 );
+            this.ExpansionSpeed += this.ExpansionAcceleration * (float) deltaTime;
+
+            // Update hit box and sprite based on expansion
+            this.Collision.Hitbox[0].Scale = this.Expansion;
+            this.Sprite.Scale = this.Expansion;
+        }
+        if ( this.Expansion >= this.MaxExpansion ) {
+            this.Kill();
+        }
+    }
 }
