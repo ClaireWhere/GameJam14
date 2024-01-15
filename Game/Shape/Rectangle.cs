@@ -23,4 +23,39 @@ struct Rectangle {
         Height = height;
     }
 
+    /// <summary>
+    /// Gets the top (Y-coordinate) of the rectangle.
+    /// </summary>
+    public readonly float Top {
+        get {
+            return Source.Y;
+        }
+    }
+
+    /// <summary>
+    /// Gets the bottom (Y-coordinate) of the rectangle.
+    /// </summary>
+    public readonly float Bottom {
+        get {
+            return Source.Y + Height;
+        }
+    }
+
+    /// <summary>
+    /// Gets the left (X-coordinate) of the rectangle.
+    /// </summary>
+    public readonly float Left {
+        get {
+            return Source.X;
+        }
+    }
+
+    /// <summary>
+    /// Gets the right (X-coordinate) of the rectangle.
+    /// </summary>
+    public readonly float Right {
+        get {
+            return Source.X + Width;
+        }
+    }
 }

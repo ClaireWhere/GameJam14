@@ -20,4 +20,12 @@ struct LineSegment {
         End = end;
     }
 
+    /// <summary>
+    /// Gets the length of the line segment.
+    /// </summary>
+    public readonly float Length {
+        get {
+            return Vector2.Distance(Start, End);
+        }
+    }
 }
