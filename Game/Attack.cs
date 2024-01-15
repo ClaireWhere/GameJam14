@@ -10,15 +10,15 @@ namespace GameJam14.Game;
 internal class Attack {
     public float AttackRange { get; set; }
     public float AttackDistance { get; set; }
-    public float AttackSpeed { get; set; }
-    public float AttackCooldown { get; set; }
+    public double AttackSpeed { get; set; }
+    public double AttackCooldown { get; set; }
     public int AttackDamage { get; set; }
     public bool IsAttacking { get; set; }
 
-    public float CooldownTimer { get; set; }
-    public float AttackTimer { get; set; }
+    public double CooldownTimer { get; set; }
+    public double AttackTimer { get; set; }
 
-    public Attack(float attackRange, float attackDistance, float attackSpeed, float attackCooldown, int attackDamage) {
+    public Attack(float attackRange, float attackDistance, double attackSpeed, double attackCooldown, int attackDamage) {
         this.AttackRange = attackRange;
         this.AttackDistance = attackDistance;
         this.AttackSpeed = attackSpeed;
@@ -26,7 +26,7 @@ internal class Attack {
         this.AttackDamage = attackDamage;
     }
 
-    public void Update(float deltaTime) {
+    public void Update(double deltaTime) {
         if (this.IsAttacking) {
             if (this.AttackTimer >= this.AttackSpeed) {
                 this.FinishAttack();
@@ -42,13 +42,13 @@ internal class Attack {
     }
 
     public void ResetCooldownTimer() {
-        this.CooldownTimer = 0;
+        this.CooldownTimer = 0.0;
     }
     public void ResetAttackTimer() {
-        this.AttackTimer = 0;
+        this.AttackTimer = 0.0;
     }
 
-    public void UpdateCooldownTimer(float deltaTime) {
+    public void UpdateCooldownTimer(double deltaTime) {
         if (this.CooldownTimer < this.AttackCooldown) {
             if (this.CooldownTimer + deltaTime > this.AttackCooldown) {
                 this.CooldownTimer = this.AttackCooldown;
@@ -58,7 +58,7 @@ internal class Attack {
         }
     }
 
-    public void UpdateAttackTimer(float deltaTime) {
+    public void UpdateAttackTimer(double deltaTime) {
         if ( this.AttackTimer < this.AttackSpeed ) {
             if ( this.AttackTimer + deltaTime > this.AttackSpeed ) {
                 this.AttackTimer = this.AttackSpeed;
