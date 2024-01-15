@@ -10,7 +10,7 @@ namespace GameJam14.Game.Shape;
 /// <summary>
 /// A line segment.
 /// </summary>
-public class LineSegment {
+public class LineSegment : Shape {
     /// <summary>
     /// Gets the source vector of the line segment.
     /// </summary>
@@ -44,7 +44,7 @@ public class LineSegment {
     /// </summary>
     /// <param name="point">The point to check whether it falls on the line segment.</param>
     /// <returns>True if the point falls on the line segment, false otherwise.</returns>
-    public bool Contains(Vector2 point) {
+    public override bool Contains(Vector2 point) {
         // If the point is on the line, it must be contained on the X axis
         if ( ( point.X < this.Start.X ) == ( point.X < this.End.X ) ) {
             return false;
@@ -64,7 +64,7 @@ public class LineSegment {
     /// </summary>
     /// <param name="line">The line segment to check intersection with.</param>
     /// <returns>True if the line segments intersect or are collinear, false otherwise</returns>
-    public bool Intersects(LineSegment line) {
+    public override bool Intersects(LineSegment line) {
         // (x1, x2) = (this.Start.X, this.End.X)
         // (y1, y2) = (this.Start.Y, this.End.Y)
         // (x3, x4) = (line.Start.X, line.End.X)
@@ -97,10 +97,10 @@ public class LineSegment {
     /// <summary>
     /// Checks whether the line segment intersects with the specified rectangle.
     /// </summary>
-    /// <param name="rect">The rectangle to check intersection with.</param>
+    /// <param name="rectangle">The rectangle to check intersection with.</param>
     /// <returns>True if the line segment intersects with the rectangle, false otherwise.</returns>
-    public bool Intersects(Rectangle rect) {
-        return rect.Intersects(this);
+    public override bool Intersects(Rectangle rectangle) {
+        return rectangle.Intersects(this);
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class LineSegment {
     /// </summary>
     /// <param name="circle">The circle to check intersection with.</param>
     /// <returns>True if the line segment intersects with the circle, false otherwise.</returns>
-    public bool Intersects(Circle circle) {
+    public override bool Intersects(Circle circle) {
         return circle.Intersects(this);
     }
 }

@@ -10,7 +10,7 @@ namespace GameJam14.Game.Shape;
 /// <summary>
 /// A Rectangle.
 /// </summary>
-public class Rectangle {
+public class Rectangle : Shape {
     /// <summary>
     /// Top left corner
     /// </summary>
@@ -77,7 +77,7 @@ public class Rectangle {
     /// </summary>
     /// <param name="point">The point to check whether this rectangle contains.</param>
     /// <returns>True if the point is within or on the bounds of the rectangle, False otherwise.</returns>
-    public bool Contains(Vector2 point) {
+    public override bool Contains(Vector2 point) {
         return point.X >= this.Left && point.X <= this.Right && point.Y >= this.Top && point.Y <= this.Bottom;
     }
 
@@ -86,21 +86,21 @@ public class Rectangle {
     /// </summary>
     /// <param name="line">The line to check whether this rectangle contains.</param>
     /// <returns>True if the line is within or on the bounds of the rectangle, False otherwise.</returns>
-    public bool Intersects(LineSegment line) {
+    public override bool Intersects(LineSegment line) {
         return line.Intersects(this);
     }
 
     /// <summary>
     /// Checks whether this rectangle is intersecting with the provided rectangle.
     /// </summary>
-    /// <param name="rect">The rectangle to check whether this rectangle contains.</param>
+    /// <param name="rectangle">The rectangle to check whether this rectangle contains.</param>
     /// <returns>True if the rectangle is within or on the bounds of the rectangle, False otherwise.</returns>
     /// <returns>A bool.</returns>
-    public bool Intersects(Rectangle rect) {
-        return this.Right >= rect.Left
-            && this.Left <= rect.Right
-            && this.Top >= rect.Bottom
-            && this.Bottom <= rect.Top;
+    public override bool Intersects(Rectangle rectangle) {
+        return this.Right >= rectangle.Left
+            && this.Left <= rectangle.Right
+            && this.Top >= rectangle.Bottom
+            && this.Bottom <= rectangle.Top;
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class Rectangle {
     /// </summary>
     /// <param name="circle">The circle to check whether this rectangle contains.</param>
     /// <returns>True if the circle is within or on the bounds of the rectangle, False otherwise.</returns>
-    public bool Intersects(Circle circle) {
+    public override bool Intersects(Circle circle) {
         return circle.Intersects(this);
     }
 
