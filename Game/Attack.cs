@@ -26,6 +26,14 @@ internal class Attack {
         this.AttackDamage = attackDamage;
     }
 
+    public Attack() {
+        this.AttackRange = 0.0f;
+        this.AttackDistance = 0.0f;
+        this.AttackSpeed = 0.0;
+        this.AttackCooldown = 0.0;
+        this.AttackDamage = 0;
+    }
+
     public void Update(double deltaTime) {
         if (this.IsAttacking) {
             if (this.AttackTimer >= this.AttackSpeed) {
