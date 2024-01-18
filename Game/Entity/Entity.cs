@@ -14,11 +14,11 @@ internal class Entity {
     public CollisionSource Collision { get; set; }
     public Sprite Sprite { get; set; }
 
-    public Entity(int id, Vector2 position, Vector2 velocity, Vector2 acceleration, CollisionSource collision, Sprite sprite ) {
+    public Entity(int id, Vector2 position, CollisionSource collision, Sprite sprite ) {
         this.Id = id;
         this.Position = position;
-        this.Velocity = velocity;
-        this.Acceleration = acceleration;
+        this.Velocity = Vector2.Zero;
+        this.Acceleration = Vector2.Zero;
         this.Collision = collision;
         this.Sprite = sprite;
     }
