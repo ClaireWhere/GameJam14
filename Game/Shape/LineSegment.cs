@@ -83,33 +83,11 @@ public class LineSegment : Shape {
     /// <param name="line">The line segment to check intersection with.</param>
     /// <returns>True if the line segments intersect or are collinear, false otherwise</returns>
     public override bool Intersects(LineSegment line) {
-        // (x1, x2) = (this.Start.X, this.End.X)
-        // (y1, y2) = (this.Start.Y, this.End.Y)
-        // (x3, x4) = (line.Start.X, line.End.X)
-        // (y3, y4) = (line.Start.Y, line.End.Y)
-
-        // (x4-x3)(y3-y1) - (y4-y3)(x3-x1)
-        // (x4-x3)(y2-y1) - (y4-y3)(x2-x1)
-
-        // (x2-x1)(y3-y1) - (y2-y1)(x3-x1)
-        // (x4-x3)(y2-y) - (y4-y3)(x2-x1)
-
         float denominator = ( ( line.ScaledEnd.X - line.Start.X ) * ( this.ScaledEnd.Y - this.Start.Y ) ) - ( ( line.ScaledEnd.Y - line.Start.Y ) * ( this.ScaledEnd.X - this.Start.X ) );
 
         float intersectThisNumerator = ( ( line.ScaledEnd.X - line.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( line.Start.Y - line.ScaledEnd.Y ) * ( line.Start.X - this.Start.X ) );
-        float intersectOtherNumerator = ( ( this.ScaledEnd.X - this.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( this.ScaledEnd.Y - this.Start.Y ) * ( line.Start.X - this.Start.X ) );
 
-        // if denominator is 0, the lines are parallel. If the numerator is also 0, the lines are collinear.
-        if ( denominator == 0 ) {
-            return intersectThisNumerator == 0 || intersectOtherNumerator == 0;
-        }
-
-        // The distance along the "this" line at which the intersection occurs
-        float intersectThis = intersectThisNumerator / denominator;
-        // The distance along the "other" line at which the intersection occurs
-        float intersectOther = intersectOtherNumerator / denominator;
-
-        return intersectThis >= 0 && intersectThis <= 1 && intersectOther >= 0 && intersectOther <= 1;
+        return ( denominator < 0 ) == ( intersectThisNumerator < 0 ) && Math.Abs(denominator) >= Math.Abs(intersectThisNumerator);
     }
 
     /// <summary>
@@ -133,5 +111,42 @@ public class LineSegment : Shape {
     /// <returns>True if the line segment intersects with the circle, false otherwise.</returns>
     public override bool Intersects(Circle circle) {
         return circle.Intersects(this);
+    }
+
+    public Vector2 GetIntersection(LineSegment line) {
+        // (x1, x2) = (this.Start.X, this.End.X)
+        // (y1, y2) = (this.Start.Y, this.End.Y)
+        // (x3, x4) = (line.Start.X, line.End.X)
+        // (y3, y4) = (line.Start.Y, line.End.Y)
+
+        // (x4-x3)(y3-y1) - (y4-y3)(x3-x1)
+        // (x4-x3)(y2-y1) - (y4-y3)(x2-x1)
+
+        // (x2-x1)(y3-y1) - (y2-y1)(x3-x1)
+        // (x4-x3)(y2-y) - (y4-y3)(x2-x1)
+        float denominator = ( ( line.ScaledEnd.X - line.Start.X ) * ( this.ScaledEnd.Y - this.Start.Y ) ) - ( ( line.ScaledEnd.Y - line.Start.Y ) * ( this.ScaledEnd.X - this.Start.X ) );
+
+        float intersectThisNumerator = ( ( line.ScaledEnd.X - line.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( line.Start.Y - line.ScaledEnd.Y ) * ( line.Start.X - this.Start.X ) );
+        float intersectOtherNumerator = ( ( this.ScaledEnd.X - this.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( this.ScaledEnd.Y - this.Start.Y ) * ( line.Start.X - this.Start.X ) );
+
+        // if denominator is 0, the lines are parallel, so they do not intersect. If the numerator is also 0, the lines are collinear (return the center).
+        if ( denominator == 0 ) {
+            if ( intersectThisNumerator == 0 && intersectOtherNumerator == 0 ) {
+                return new Vector2(this.Start.X + ( ( this.ScaledEnd.X - this.Start.X ) / 2 ), this.Start.Y + ( ( this.ScaledEnd.Y - this.Start.Y ) / 2 ));
+            } else {
+                return Vector2.Zero;
+            }
+        }
+
+        // The distance along the "this" line at which the intersection occurs
+        float intersectThis = intersectThisNumerator / denominator;
+        // The distance along the "other" line at which the intersection occurs
+        float intersectOther = intersectOtherNumerator / denominator;
+
+        if ( intersectThis >= 0 && intersectThis <= 1 && intersectOther >= 0 && intersectOther <= 1 ) {
+            return new Vector2(this.Start.X + ( ( this.ScaledEnd.X - this.Start.X ) * intersectThis ), this.Start.Y + ( ( this.ScaledEnd.Y - this.Start.Y ) * intersectThis ));
+        } else {
+            return Vector2.Zero;
+        }
     }
 }
