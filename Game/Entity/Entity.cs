@@ -49,6 +49,9 @@ internal class Entity {
     public virtual void Kill() {
 
     }
+    public bool CheckCollision(Entity entity) {
+        return this.Collision.CollidesWith(entity.Collision);
+    }
 
     /// <summary>
     /// Teleports the entity to a given position.
