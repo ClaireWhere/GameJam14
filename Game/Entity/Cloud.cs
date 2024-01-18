@@ -21,8 +21,6 @@ internal class Cloud : Entity {
             : base(
                 id: id,
                 position: position,
-                velocity: Vector2.Zero,
-                acceleration: Vector2.Zero,
                 collision: new CollisionSource(
                     type: new CollisionType(CollisionType.SolidType.NonSolid,
                         CollisionType.LightType.None,

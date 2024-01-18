@@ -23,11 +23,9 @@ internal class Bullet : Entity {
     }
     public DeathEffect Death { get; set; }
 
-    public Bullet(int id, Vector2 position, Vector2 velocity, Vector2 acceleration, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect)
+    public Bullet(int id, Vector2 position, float speed, float angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect)
             : base(id,
                 position,
-                velocity,
-                acceleration,
                 new CollisionSource(
                     type: new CollisionType(CollisionType.SolidType.NonSolid, CollisionType.LightType.None, CollisionType.EntityType.Other, hitsPlayer, hitsEnemy),
                     hitbox: new List<Shape.Shape>() { new Shape.Rectangle(position, sprite.Texture.Width, sprite.Texture.Height) }
@@ -38,6 +36,7 @@ internal class Bullet : Entity {
         this.TimeToLive = timeToLive;
         this.TimeAlive = 0;
         this.Death = deathEffect;
+        this.DirectedMove(angle, speed);
     }
 
     public override void Update(GameTime gameTime) {
