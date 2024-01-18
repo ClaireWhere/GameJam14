@@ -5,5 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Entity;
-internal class Player : Entity {
+
+
+internal class Player : EntityActor {
 }
