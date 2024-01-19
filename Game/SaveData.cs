@@ -72,4 +72,15 @@ internal class SaveData {
         CurrentArea = currentArea;
         SaveDate = DateTime.Now;
     }
+
+    public Entity.Player GetPlayer() {
+        return new Entity.Player(
+            name: Player.Name,
+            position: new Vector2(Player.PositionX, Player.PositionY),
+            currentTexture: Player.CurrentTexture,
+            baseStats: Player.BaseStats,
+            inventory: Player.Inventory,
+            health: Player.Health
+        );
+    }
 }
