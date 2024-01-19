@@ -16,7 +16,8 @@ internal class SaveManager {
         LoadingDirectory,
         LoadingStream,
         LoadingFile,
-        Deserializing
+        Deserializing,
+        Finishing
     }
     public enum SaveSlot {
         One,
@@ -55,44 +56,50 @@ internal class SaveManager {
         CurrentSaveSlot = saveSlot;
     }
 
-    public async Task Load() {
+    public async Task<ErrorState> Load() {
         if ( State != SavingState.Ready ) {
-            return;
+            this.CurrentSave = null;
+            return ErrorState.SaveManagerNotReady;
         }
 
         State = SavingState.LoadingDirectory;
 
-        if ( !Directory.Exists(SaveDir) ) {
-            Directory.CreateDirectory(SaveDir);
+        if ( !Directory.Exists(SaveDir) || !File.Exists(path: SavePath) ) {
+            State = SavingState.Ready;
+            return ErrorState.SaveFileDoesNotExist;
         }
 
         State = SavingState.LoadingStream;
 
-        if ( File.Exists(SavePath) ) {
+        try {
             await using FileStream loadStream = File.OpenRead(SavePath);
 
             if ( loadStream == null ) {
                 State = SavingState.Ready;
-                return;
+                this.CurrentSave = null;
+                return ErrorState.StreamError;
             }
 
             State = SavingState.Deserializing;
 
             this.CurrentSave = await JsonSerializer.DeserializeAsync<SaveData>(loadStream);
 
-            State = SavingState.LoadingStream;
+            State = SavingState.Finishing;
 
             await loadStream.DisposeAsync();
-
-            State = SavingState.Ready;
-        } else {
+        } catch ( Exception e ) {
+            Debug.WriteLine(e.Message);
             this.State = SavingState.Ready;
+            return ErrorState.FileOpen;
         }
+
+        this.State = SavingState.Ready;
+        return ErrorState.None;
     }
 
-    public async Task Save() {
+    public async Task<ErrorState> Save() {
         if (State != SavingState.Ready) {
-            return;
+            return ErrorState.SaveManagerNotReady;
         }
 
         State = SavingState.LoadingDirectory;
@@ -103,27 +110,44 @@ internal class SaveManager {
         }
 
         State = SavingState.LoadingStream;
-        Debug.WriteLine("Loading Stream");
 
-        await using FileStream saveStream = File.OpenWrite(SavePath);
+        try {
+            Debug.WriteLine("Loading Stream");
 
-        State = SavingState.Serializing;
-        Debug.WriteLine("Serializing Save Data");
+            await using FileStream saveStream = File.OpenWrite(SavePath);
 
-        var options = new JsonSerializerOptions {
-            WriteIndented = true
-        };
-        await JsonSerializer.SerializeAsync(utf8Json: saveStream, value: this.CurrentSave, inputType: this.CurrentSave.GetType(), options: options);
+            if ( saveStream == null ) {
+                State = SavingState.Ready;
+                this.CurrentSave = null;
+                return ErrorState.StreamError;
+            }
 
-        Debug.WriteLine("Save data serialized and saved. Data:");
+            State = SavingState.Serializing;
+            Debug.WriteLine("Serializing Save Data");
 
-        State = SavingState.Saving;
-        await saveStream.DisposeAsync();
+            var options = new JsonSerializerOptions {
+                WriteIndented = true
+            };
+            await JsonSerializer.SerializeAsync(utf8Json: saveStream, value: this.CurrentSave, inputType: this.CurrentSave.GetType(), options: options);
 
+            Debug.WriteLine("Save data serialized and saved. Data:");
 
-        Debug.WriteLine(File.ReadAllText(this.SavePath));
+            State = SavingState.Saving;
+            await saveStream.DisposeAsync();
+
+            // Debug.WriteLine(File.ReadAllText(this.SavePath));
+        } catch ( Exception e ) {
+            Debug.WriteLine(e.Message);
+            this.State = SavingState.Ready;
+            return ErrorState.FileOpen;
+        }
 
         State = SavingState.Ready;
+        return ErrorState.None;
+    }
+
+    public bool SaveLoaded() {
+        return CurrentSave != null;
     }
 
     private string SavePath {
