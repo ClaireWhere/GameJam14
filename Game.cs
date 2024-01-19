@@ -90,7 +90,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             _ = this.LoadSave();
         }
 
-        if (!_isPaused) {
+        if (!_isPaused && !_isSaving) {
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) ) {
                 Console.WriteLine("Space pressed");
                 this.Draw(gameTime);
