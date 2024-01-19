@@ -42,6 +42,30 @@ internal class Player : EntityActor {
 
     }
 
+    public Player(string name, Vector2 position, TextureType currentTexture, Stats baseStats, Inventory inventory, int health) : base(
+        id: 0,
+        name: name,
+        position: position,
+        collision:
+            new CollisionSource(
+                type: new CollisionType(
+                    solidType: CollisionType.SolidType.Solid,
+                    lightType: CollisionType.LightType.None,
+                    entityType: CollisionType.EntityType.Player,
+                    playerCollision: false,
+                    enemyCollision: false
+                ),
+                hitbox: new List<Shape.Shape>() { new Shape.Rectangle(Vector2.Zero, Data.SpriteData.PlayerSprite.Texture.Width, Data.SpriteData.PlayerSprite.Texture.Height) }
+            ),
+        sprite: Data.SpriteData.PlayerSprite,
+        baseStats: baseStats,
+        inventory: inventory,
+        attack: new Attack()
+    ) {
+        this.SetHealth(health);
+        this.Sprite.SetTexture(currentTexture);
+    }
+
     public override void Update(GameTime gameTime) {
         this.UpdateVelocity();
         this.UpdateTexture();
