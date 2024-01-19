@@ -80,6 +80,10 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             this.Save();
         }
 
+        if (Input.IsKeyPressed(Keys.F2)) {
+            _ = this.LoadSave();
+        }
+
         if (!_isPaused) {
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) ) {
                 Console.WriteLine("Space pressed");
@@ -99,6 +103,21 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         this._saveManager.Update(this._currentSave);
         _ = this._saveManager.Save();
     }
+
+    private async Task LoadSave() {
+        this._isPaused = true;
+        SaveManager.ErrorState state = await this._saveManager.Load();
+        if ( state != SaveManager.ErrorState.None ) {
+            Debug.WriteLine($"Error loading save: {state}");
+        } else {
+            this._currentSave = this._saveManager.CurrentSave;
+            this._entityManager.Reset();
+            this._entityManager.AddEntity(this._currentSave.GetPlayer());
+            // Update the rest of save data here
+        }
+        this._isPaused = false;
+    }
+
     /// <summary>
     /// Draws objects on screen
     /// </summary>
