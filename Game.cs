@@ -77,9 +77,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         }
 
         if (Input.IsKeyPressed(Keys.F1)) {
-            this._currentSave.Update((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
-            this._saveManager.Update(this._currentSave);
-            _ = this._saveManager.Save();
+            this.Save();
         }
 
         if (!_isPaused) {
@@ -96,6 +94,11 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             base.Update(gameTime);
     }
 
+    private void Save() {
+        this._currentSave.Update((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
+        this._saveManager.Update(this._currentSave);
+        _ = this._saveManager.Save();
+    }
     /// <summary>
     /// Draws objects on screen
     /// </summary>
