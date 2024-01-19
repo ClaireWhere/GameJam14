@@ -23,6 +23,15 @@ internal class SaveManager {
         Two,
         Three
     }
+
+    public enum ErrorState {
+        None,
+        SaveFileDoesNotExist,
+        FileOpen,
+        SaveManagerNotReady,
+        StreamError
+    }
+
     private SaveData Save1 { get; set; }
     private SaveData Save2 { get; set; }
     private SaveData Save3 { get; set; }
