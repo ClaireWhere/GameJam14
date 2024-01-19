@@ -54,21 +54,6 @@ internal class TextureBundle {
         return this._textures.ContainsKey(type);
     }
 
-    private Texture2D GetTexture(TextureType type) {
-        if (!this.HasTexture(type)) {
-            return null;
-        }
-        return this._textures[type];
-    }
-
-    private Texture2D GetTexture(string type) {
-        return this.GetTexture((TextureType) Enum.Parse(typeof(TextureType), type));
-    }
-
-    private Texture2D GetTexture(int type) {
-        return this.GetTexture((TextureType) type);
-    }
-
     /// <summary>
     /// Sets the texture for the specified type.
     /// </summary>
