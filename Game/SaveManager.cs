@@ -82,7 +82,16 @@ internal class SaveManager {
 
             State = SavingState.Deserializing;
 
-            this.CurrentSave = await JsonSerializer.DeserializeAsync<SaveData>(loadStream);
+            var options = new JsonSerializerOptions {
+                WriteIndented = true,
+                AllowTrailingCommas = false,
+                NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+            };
+
+            this.CurrentSave = await JsonSerializer.DeserializeAsync<SaveData>(
+                utf8Json: loadStream,
+                options: options
+            );
 
             State = SavingState.Finishing;
 
@@ -114,6 +123,22 @@ internal class SaveManager {
         try {
             Debug.WriteLine("Loading Stream");
 
+            /*
+             * Note: .NET versions below 8.0 do not support the JsonObjectCreationHandling option
+             * Ideally, we would use:
+             *   JsonObjectCreationHandling = System.Text.Json.Serialization.JsonObjectCreationHandling.Replace
+             *
+             * This means that the serializer will attempt to populate existing JSON objects rather than
+             *   creating new ones. This causes issues with saving to the file, as floating point precision
+             *   differences between the previous file and the new data may cause the JSON serializer to
+             *   output invalid JSON.
+             *
+             * The current fix is to clear the contents of the file before writing to it. This is not ideal,
+             *   but it works.
+            */
+            File.WriteAllText(SavePath, string.Empty);
+
+
             await using FileStream saveStream = File.OpenWrite(SavePath);
 
             if ( saveStream == null ) {
@@ -126,7 +151,9 @@ internal class SaveManager {
             Debug.WriteLine("Serializing Save Data");
 
             var options = new JsonSerializerOptions {
-                WriteIndented = true
+                WriteIndented = true,
+                AllowTrailingCommas = false,
+                NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.Strict
             };
             await JsonSerializer.SerializeAsync(utf8Json: saveStream, value: this.CurrentSave, inputType: this.CurrentSave.GetType(), options: options);
 
@@ -135,7 +162,7 @@ internal class SaveManager {
             State = SavingState.Saving;
             await saveStream.DisposeAsync();
 
-            // Debug.WriteLine(File.ReadAllText(this.SavePath));
+            Debug.WriteLine(File.ReadAllText(this.SavePath));
         } catch ( Exception e ) {
             Debug.WriteLine(e.Message);
             this.State = SavingState.Ready;
