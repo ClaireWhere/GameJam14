@@ -102,29 +102,38 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             base.Update(gameTime);
     }
 
-        this._currentSave.Update((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
-        this._saveManager.Update(this._currentSave);
-        _ = this._saveManager.Save();
+    private async Task Save() {
         if (this._isSaving) {
             return;
         }
         this._isSaving = true;
+        try {
+            this._currentSave.Update((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
+            this._saveManager.Update(this._currentSave);
+            await this._saveManager.Save();
+        } catch ( Exception e ) {
+            Debug.WriteLine($"Error saving: {e}");
+        }
         this._isSaving = false;
     }
 
     private async Task LoadSave() {
-        SaveManager.ErrorState state = await this._saveManager.Load();
-        if ( state != SaveManager.ErrorState.None ) {
-            Debug.WriteLine($"Error loading save: {state}");
-        } else {
-            this._currentSave = this._saveManager.CurrentSave;
-            this._entityManager.Reset();
-            this._entityManager.AddEntity(this._currentSave.GetPlayer());
-            // Update the rest of save data here
         if (this._isSaving) {
             return;
         }
         this._isSaving = true;
+        try {
+            SaveManager.ErrorState state = await this._saveManager.Load();
+            if ( state != SaveManager.ErrorState.None ) {
+                Debug.WriteLine($"Error loading save: {state}");
+            } else {
+                this._currentSave = this._saveManager.CurrentSave;
+                this._entityManager.Reset();
+                this._entityManager.AddEntity(this._currentSave.GetPlayer());
+                // Update the rest of save data here
+            }
+        } catch ( Exception e ) {
+            Debug.WriteLine($"Error loading save: {e}");
         }
         this._isSaving = false;
     }
