@@ -156,7 +156,7 @@ internal class SaveManager {
         }
     }
 
-    private SaveData CurrentSave {
+    public SaveData CurrentSave {
         get {
             if ( CurrentSaveSlot == SaveSlot.One ) {
                 return Save1;
