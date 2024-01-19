@@ -81,7 +81,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         }
 
         if (Input.IsKeyPressed(Keys.F1)) {
-            this.Save();
+            _ = this.Save();
         }
 
         if (Input.IsKeyPressed(Keys.F2)) {
