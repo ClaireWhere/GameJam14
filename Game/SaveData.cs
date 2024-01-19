@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
@@ -16,6 +17,17 @@ internal class SaveData {
         public float PositionY { get; set; }
         public TextureType CurrentTexture { get; set; }
         public int Health { get; set; }
+
+        [JsonConstructorAttribute]
+        public PlayerData(string name, Stats baseStats, Inventory inventory, float positionX, float positionY, TextureType currentTexture, int health) {
+            this.Name = name;
+            this.BaseStats = baseStats;
+            this.Inventory = inventory;
+            this.PositionX = positionX;
+            this.PositionY = positionY;
+            this.CurrentTexture = currentTexture;
+            this.Health = health;
+        }
 
         public PlayerData(Entity.Player player) {
             Name = player.Name;
@@ -36,12 +48,18 @@ internal class SaveData {
             CurrentTexture = player.Sprite.TextureType;
             Health = player.Health;
         }
-
     }
 
     public int CurrentArea { get; private set; }
     public DateTime SaveDate { get; private set; }
     public PlayerData Player { get; private set; }
+
+    [JsonConstructorAttribute]
+    public SaveData(int currentArea, DateTime saveDate, PlayerData player) {
+        this.CurrentArea = currentArea;
+        this.SaveDate = saveDate;
+        this.Player = player;
+    }
 
     public SaveData(Entity.Player playerData, int currentArea) {
         Player = new PlayerData(playerData);

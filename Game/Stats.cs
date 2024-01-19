@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game;
@@ -12,6 +13,7 @@ internal class Stats {
     public int IdleSpeed { get; set; }
     public int RunSpeed { get; set; }
 
+    [JsonConstructorAttribute]
     public Stats(int health, int attack, int defense, int idleSpeed, int runSpeed) {
         Health = health;
         Attack = attack;
