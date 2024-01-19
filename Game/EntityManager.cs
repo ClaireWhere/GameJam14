@@ -34,4 +34,8 @@ internal class EntityManager {
             entity.Draw(spriteBatch);
         }
     }
+
+    public void Reset() {
+        _entities.Clear();
+    }
 }
