@@ -15,7 +15,7 @@ static class SpriteData {
                     { TextureType.FaceFront, Assets.PlayerTextureFront },
                     { TextureType.FaceLeft, Assets.PlayerTextureLeft },
                     { TextureType.FaceRight, Assets.PlayerTextureRight },
-                    { TextureType.FaceBack, Assets.PlayerTextureFront },
+                    { TextureType.FaceBack, Assets.PlayerTextureBack },
                     { TextureType.ExpressionShock, Assets.PlayerTextureShockt },
                     { TextureType.ExpressionRizz, Assets.PlayerTextureRock },
                 },
