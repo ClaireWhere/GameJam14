@@ -23,6 +23,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     private SaveData _currentSave;
 
     private bool _isPaused = false;
+    private bool _isSaving = false;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Game"/> class.
@@ -70,6 +71,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     /// </summary>
     protected override void Update(GameTime gameTime)
     {
+        if (this._isSaving) {
+            return;
+        }
         Input.Update();
 
         if (Input.IsKeyPressed(Keys.Escape)) {
@@ -98,14 +102,17 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             base.Update(gameTime);
     }
 
-    private void Save() {
         this._currentSave.Update((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
         this._saveManager.Update(this._currentSave);
         _ = this._saveManager.Save();
+        if (this._isSaving) {
+            return;
+        }
+        this._isSaving = true;
+        this._isSaving = false;
     }
 
     private async Task LoadSave() {
-        this._isPaused = true;
         SaveManager.ErrorState state = await this._saveManager.Load();
         if ( state != SaveManager.ErrorState.None ) {
             Debug.WriteLine($"Error loading save: {state}");
@@ -114,8 +121,12 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             this._entityManager.Reset();
             this._entityManager.AddEntity(this._currentSave.GetPlayer());
             // Update the rest of save data here
+        if (this._isSaving) {
+            return;
         }
-        this._isPaused = false;
+        this._isSaving = true;
+        }
+        this._isSaving = false;
     }
 
     /// <summary>
