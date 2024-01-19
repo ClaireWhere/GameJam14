@@ -22,8 +22,8 @@ internal class Game2 : Microsoft.Xna.Framework.Game
 
     private SaveData _currentSave;
 
-    private bool _isPaused = false;
-    private bool _isSaving = false;
+    private bool _isPaused;
+    private bool _isSaving;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Game"/> class.
@@ -33,6 +33,8 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        this._isSaving = false;
+        this._isPaused = false;
     }
 
     /// <summary>
