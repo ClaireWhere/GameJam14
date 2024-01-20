@@ -20,8 +20,19 @@ static class EntityData {
         sprite: SpriteData.TreeSprite,
         baseStats: StatData.GetEnemyStats(EnemyData.EnemyType.Tree),
         inventory: new Inventory(),
-        attack: new Attack(),
-        target: new Target(Target.TargetType.Player, 20, 20, 0)
+        attack: new Attack(
+            attackRange: 0,
+            attackDistance: 0,
+            attackSpeed: 0,
+            attackCooldown: 2.0,
+            attackDamage: 10
+        ),
+        target: new Target(
+            type: Target.TargetType.Player,
+            targetRange: 500,
+            targetDistance: 200,
+            targetAngle: 0
+        )
     );
 
     public static Player Player => Player.Instance;
