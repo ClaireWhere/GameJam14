@@ -1,6 +1,8 @@
 ﻿using GameJam14.Game;
 using GameJam14.Game.Data;
 using GameJam14.Game.Entity;
+using GameJam14.Game.Graphics;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -16,6 +18,8 @@ internal class Game2 : Microsoft.Xna.Framework.Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+
+    private Screen _screen;
 
     // private List<Sprite> sprites;
     private EntityManager _entityManager;
@@ -54,8 +58,19 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     /// </summary>
     protected override void Initialize()
     {
+        this._graphics.PreferredBackBufferWidth = 1920;
+        this._graphics.PreferredBackBufferHeight = 1080;
+        this._graphics.ApplyChanges();
+        Window.AllowUserResizing = true;
+        Window.ClientSizeChanged += (sender, args) => {
+            this._graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
+            this._graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
+            this._graphics.ApplyChanges();
+        };
+
         // this.sprites = new List<Sprite>();
 
+        this._screen = new Screen(1920, 1080);
 
         base.Initialize();
     }
@@ -170,6 +185,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     /// </summary>
     protected override void Draw(GameTime gameTime)
     {
+        this._screen.Set();
         GraphicsDevice.Clear(Color.DarkSlateGray);
 
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp);
@@ -182,6 +198,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         _entityManager.Draw(_spriteBatch);
 
         _spriteBatch.End();
+
+        this._screen.Unset();
+        this._screen.Present(_spriteBatch);
 
         base.Draw(gameTime);
     }
