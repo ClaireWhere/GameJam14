@@ -73,6 +73,12 @@ internal class Entity {
         this.IsTraveling = false;
     }
 
+    public void DirectedMove(Vector2 angle, float speed, float acceleration = 0f) {
+        this.Velocity = angle * speed;
+        this.Acceleration = angle * acceleration;
+        this.IsTraveling = false;
+    }
+
     /// <summary>
     /// Sets the trajectory of the entity to the given destination with the given speed and (optionally) acceleration.
     /// </summary>
