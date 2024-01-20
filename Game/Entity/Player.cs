@@ -37,7 +37,13 @@ internal class Player : EntityActor {
         sprite: Data.SpriteData.PlayerSprite,
         baseStats: Data.StatData.PlayerStats,
         inventory: new Inventory(),
-        attack: new Attack()
+        attack: new Attack(
+            attackRange: 0,
+            attackDistance: 0,
+            attackSpeed: 0,
+            attackCooldown: 1.0,
+            attackDamage: 10
+        )
     ) {
 
     }
