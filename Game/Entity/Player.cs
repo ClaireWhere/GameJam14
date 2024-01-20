@@ -91,7 +91,7 @@ internal class Player : EntityActor {
         }
 
         if ( angle.LengthSquared() > 0 ) {
-            this.DirectedMove(Math.Atan2(angle.Y, angle.X), this.Stats.RunSpeed);
+            this.DirectedMove(angle, this.Stats.RunSpeed);
         } else {
             this.StopMoving();
         }
