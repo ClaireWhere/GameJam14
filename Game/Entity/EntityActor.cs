@@ -38,6 +38,7 @@ internal class EntityActor : Entity {
 
     public override void Update(GameTime gameTime) {
         this.UpdateModifiers(gameTime);
+        this.Attack.Update(gameTime.ElapsedGameTime.TotalSeconds);
         base.Update(gameTime);
     }
 
