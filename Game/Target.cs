@@ -45,4 +45,17 @@ internal class Target {
         TargetDistance = 0;
         TargetAngle = 0;
     }
+
+    public bool IsTargetType(Entity.Entity entity) {
+        if (this.Type == TargetType.None) {
+            return false;
+        }
+        if (this.Type == TargetType.Player) {
+            return entity.GetType() == typeof(Entity.Player);
+        }
+        if (this.Type == TargetType.Light) {
+            return entity.GetType() == typeof(Entity.Light);
+        }
+        return false;
+    }
 }
