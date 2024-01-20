@@ -43,6 +43,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         IsMouseVisible = true;
         this._isSaving = false;
         this._isPaused = false;
+        this._entityManager = new EntityManager();
     }
 
     /// <summary>
@@ -51,7 +52,6 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     protected override void Initialize()
     {
         // this.sprites = new List<Sprite>();
-        this._entityManager = new EntityManager();
 
         base.Initialize();
     }
