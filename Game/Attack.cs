@@ -8,6 +8,12 @@ using System.Threading.Tasks;
 
 namespace GameJam14.Game;
 internal class Attack {
+    public enum AttackType {
+        Shoot,
+        Squish,
+        Body,
+        None
+    }
     public float AttackRange { get; set; }
     public float AttackDistance { get; set; }
     public double AttackSpeed { get; set; }
@@ -17,6 +23,7 @@ internal class Attack {
 
     public double CooldownTimer { get; set; }
     public double AttackTimer { get; set; }
+    public AttackType Type { get; set; }
 
     public Attack(float attackRange, float attackDistance, double attackSpeed, double attackCooldown, int attackDamage) {
         this.AttackRange = attackRange;
