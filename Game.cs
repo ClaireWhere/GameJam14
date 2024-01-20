@@ -18,6 +18,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
 
     // private List<Sprite> sprites;
     private EntityManager _entityManager;
+    private List<Game.Entity.Entity> _entity_queue;
     private SaveManager _saveManager;
 
     private SaveData _currentSave;
@@ -44,6 +45,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         this._isSaving = false;
         this._isPaused = false;
         this._entityManager = new EntityManager();
+        this._entity_queue = new List<Game.Entity.Entity>();
     }
 
     /// <summary>
@@ -52,6 +54,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     protected override void Initialize()
     {
         // this.sprites = new List<Sprite>();
+
 
         base.Initialize();
     }
@@ -105,11 +108,23 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             }
 
             // Update everything here
+            this.ProcessEntityQueue();
             _entityManager.Update(gameTime);
         }
 
         if ( GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) )
             base.Update(gameTime);
+    }
+
+    public void AddEntity(Game.Entity.Entity entity) {
+        s_Instance._entity_queue.Add(entity);
+    }
+
+    private void ProcessEntityQueue() {
+        foreach (Game.Entity.Entity entity in this._entity_queue) {
+            this._entityManager.AddEntity(entity);
+        }
+        this._entity_queue.Clear();
     }
 
     private async Task Save() {
