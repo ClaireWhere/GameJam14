@@ -7,6 +7,7 @@ using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 
@@ -59,6 +60,7 @@ internal class Player : EntityActor {
     public override void Update(GameTime gameTime) {
         this.UpdateVelocity();
         this.UpdateTexture();
+        this.UpdateAttack();
         base.Update(gameTime);
     }
 
@@ -95,6 +97,37 @@ internal class Player : EntityActor {
         } else {
             this.StopMoving();
         }
+    }
+
+    private void UpdateAttack() {
+        if (Input.CheckMouseButtonState(Input.MouseButtonType.Left, ButtonState.Pressed)) {
+            Debug.WriteLine("Attack");
+            if (this.Attack.CanAttack()) {
+                Debug.WriteLine("Starting attack");
+                this.Attack.StartAttack();
+                this.Shoot();
+            }
+        }
+    }
+
+    private void Shoot() {
+        Vector2 angle = Input.MousePosition - this.Position;
+        angle.Normalize();
+
+        Projectile projectile = new Projectile(
+            id: 0,
+            position: this.Position,
+            speed: 1000,
+            angle: angle,
+            sprite: Data.SpriteData.ProjectileSprite,
+            hitsPlayer: false,
+            hitsEnemy: true,
+            power: this.Attack.AttackDamage,
+            timeToLive: 0.5,
+            deathEffect: Projectile.DeathEffect.Default
+        );
+        Debug.WriteLine("Projectile angle: " + angle);
+        Game2.Instance().AddEntity(projectile);
     }
 
 }
