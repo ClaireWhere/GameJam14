@@ -11,10 +11,10 @@ internal class Projectile : Entity {
     public double TimeToLive { get; set; }
     public double TimeAlive { get; set; }
     /// <summary>
-    /// The death effect when this bullet dies.
-    /// Default : The bullet will disappear.
-    /// Explode : The bullet will explode in a cloud effect.
-    /// None    : The bullet will never die.
+    /// The death effect when this projectile dies.
+    /// Default : The projectile will disappear.
+    /// Explode : The projectile will explode in a cloud effect.
+    /// None    : The projectile will never die.
     /// </summary>
     public enum DeathEffect {
         Default,
