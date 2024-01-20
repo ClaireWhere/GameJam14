@@ -154,7 +154,8 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             } else {
                 this._currentSave = this._saveManager.CurrentSave;
                 this._entityManager.Reset();
-                this._entityManager.AddEntity(this._currentSave.GetPlayer());
+                this._currentSave.UpdatePlayer();
+                this._entityManager.AddEntity(Game.Entity.Player.Instance);
                 // Update the rest of save data here
             }
         } catch ( Exception e ) {

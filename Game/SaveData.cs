@@ -73,8 +73,8 @@ internal class SaveData {
         SaveDate = DateTime.Now;
     }
 
-    public Entity.Player GetPlayer() {
-        return new Entity.Player(
+    public void UpdatePlayer() {
+        Entity.Player.UpdateInstance(
             name: Player.Name,
             position: new Vector2(Player.PositionX, Player.PositionY),
             currentTexture: Player.CurrentTexture,

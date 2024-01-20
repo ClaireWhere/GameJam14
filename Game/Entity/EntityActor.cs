@@ -30,6 +30,12 @@ internal class EntityActor : Entity {
         this.Heal();
     }
 
+    public void UpdateInstance(string name, Stats baseStats, Inventory inventory) {
+        this.Name = name;
+        this.BaseStats = baseStats;
+        this.Inventory = inventory;
+    }
+
     public override void Update(GameTime gameTime) {
         this.UpdateModifiers(gameTime);
         base.Update(gameTime);
