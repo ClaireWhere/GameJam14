@@ -97,3 +97,27 @@
 /processorParam:TextureFormat=Color
 /build:Assets/Chok_32.png
 
+#begin Assets/Rad-Circle-3.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Rad-Circle-3.png;Assets/Red_Circle.png
+
+#begin Assets/Yellow-Circle-PNG-Free-Image.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Assets/Yellow-Circle-PNG-Free-Image.png;Assets/Yellow_Circle.png
+

@@ -23,6 +23,11 @@ static class Assets {
     public static Texture2D TreeTextureLeft { get; private set; }
     public static Texture2D TreeTextureRight { get; private set; }
 
+    public static Texture2D LightTexture { get; private set; }
+
+    public static Texture2D ProjectileTexture { get; private set; }
+    public static Texture2D CloudTexture { get; private set; }
+
 
     public static SpriteFont Font { get; private set; }
 
@@ -39,6 +44,10 @@ static class Assets {
         TreeTextureBack = content.Load<Texture2D>("Assets/Chok_32");
         TreeTextureRight = content.Load<Texture2D>("Assets/Chok_32");
         TreeTextureLeft = content.Load<Texture2D>("Assets/Chok_32");
+
+        LightTexture = content.Load<Texture2D>("Assets/Yellow_Circle");
+        ProjectileTexture = content.Load<Texture2D>("Assets/Red_Circle");
+        CloudTexture = content.Load<Texture2D>("Assets/Red_Circle");
 
         // Font = content.Load<SpriteFont>("Font");
     }
