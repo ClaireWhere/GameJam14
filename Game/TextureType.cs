@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameJam14.Game;
 public enum TextureType {
+    Default,
     FaceRight,
     FaceLeft,
     FaceFront,
