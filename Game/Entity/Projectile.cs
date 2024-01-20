@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Entity;
-internal class Bullet : Entity {
+internal class Projectile : Entity {
     public int Power { get; set; }
     public double TimeToLive { get; set; }
     public double TimeAlive { get; set; }
@@ -23,7 +23,7 @@ internal class Bullet : Entity {
     }
     public DeathEffect Death { get; set; }
 
-    public Bullet(int id, Vector2 position, float speed, float angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect)
+    public Projectile(int id, Vector2 position, float speed, float angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect)
             : base(id,
                 position,
                 new CollisionSource(
