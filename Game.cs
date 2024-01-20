@@ -1,5 +1,6 @@
 ﻿using GameJam14.Game;
 using GameJam14.Game.Data;
+using GameJam14.Game.Entity;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -18,7 +19,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
 
     // private List<Sprite> sprites;
     private EntityManager _entityManager;
-    private List<Game.Entity.Entity> _entity_queue;
+    private List<Entity> _entity_queue;
     private SaveManager _saveManager;
 
     private SaveData _currentSave;
@@ -45,7 +46,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         this._isSaving = false;
         this._isPaused = false;
         this._entityManager = new EntityManager();
-        this._entity_queue = new List<Game.Entity.Entity>();
+        this._entity_queue = new List<Entity>();
     }
 
     /// <summary>
