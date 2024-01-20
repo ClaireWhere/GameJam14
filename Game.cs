@@ -25,10 +25,18 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     private bool _isPaused;
     private bool _isSaving;
 
+    private static Game2 s_Instance;
+    public static Game2 Instance() {
+        if ( s_Instance == null ) {
+            s_Instance = new Game2();
+        }
+        return s_Instance;
+    }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Game"/> class.
     /// </summary>
-    public Game2()
+    private Game2()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
