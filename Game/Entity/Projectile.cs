@@ -23,7 +23,7 @@ internal class Projectile : Entity {
     }
     public DeathEffect Death { get; set; }
 
-    public Projectile(int id, Vector2 position, float speed, float angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect)
+    public Projectile(int id, Vector2 position, float speed, Vector2 angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect)
             : base(id,
                 position,
                 new CollisionSource(
