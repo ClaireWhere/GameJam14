@@ -7,8 +7,9 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameJam14.Game;
-internal class Sprite {
+namespace GameJam14.Game.Graphics;
+internal class Sprite
+{
     /// <summary>
     /// Initializes a new instance of the <see cref="Sprite"/> class.
     /// </summary>
@@ -29,38 +30,57 @@ internal class Sprite {
             [Optional] Color color,
             [Optional] SpriteEffects effects,
             [Optional] float layerDepth
-        ) {
-        this.Textures = textures;
-        this.Position = position;
-        if ( rotation == default ) {
-            this.Rotation = 0;
-        } else {
-            this.Rotation = rotation;
+        )
+    {
+        Textures = textures;
+        Position = position;
+        if (rotation == default)
+        {
+            Rotation = 0;
         }
-        if ( scale == default ) {
-            this.Scale = 1;
-        } else {
-            this.Scale = scale;
+        else
+        {
+            Rotation = rotation;
         }
-        if ( sourceRectangle == default ) {
-            this.SourceRectangle = new Rectangle(0, 0, this.Texture.Width, this.Texture.Height);
-        } else {
-            this.SourceRectangle = sourceRectangle;
+        if (scale == default)
+        {
+            Scale = 1;
         }
-        if ( color == default ) {
-            this.Color = Color.White;
-        } else {
-            this.Color = color;
+        else
+        {
+            Scale = scale;
         }
-        if ( effects == default ) {
-            this.Effects = SpriteEffects.None;
-        } else {
-            this.Effects = effects;
+        if (sourceRectangle == default)
+        {
+            SourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
         }
-        if ( layerDepth == default ) {
-            this.LayerDepth = 0;
-        } else {
-            this.LayerDepth = layerDepth;
+        else
+        {
+            SourceRectangle = sourceRectangle;
+        }
+        if (color == default)
+        {
+            Color = Color.White;
+        }
+        else
+        {
+            Color = color;
+        }
+        if (effects == default)
+        {
+            Effects = SpriteEffects.None;
+        }
+        else
+        {
+            Effects = effects;
+        }
+        if (layerDepth == default)
+        {
+            LayerDepth = 0;
+        }
+        else
+        {
+            LayerDepth = layerDepth;
         }
     }
 
@@ -68,14 +88,15 @@ internal class Sprite {
     /// Draws the sprite
     /// </summary>
     /// <param name="spriteBatch">The sprite batch to draw to.</param>
-    public void Draw(SpriteBatch spriteBatch) {
-        spriteBatch.Draw(this.Texture, this.Position, this.SourceRectangle, this.Color, this.Rotation, Vector2.Zero, this.Scale, this.Effects, this.LayerDepth);
+    public void Draw(SpriteBatch spriteBatch)
+    {
+        spriteBatch.Draw(Texture, Position, SourceRectangle, Color, Rotation, Vector2.Zero, Scale, Effects, LayerDepth);
     }
 
     /// <summary>
     /// Gets the color filter of the sprite.
     /// </summary>
-    public Color Color { get; set;  }
+    public Color Color { get; set; }
 
     /// <summary>
     /// Gets the effects of the sprite.
@@ -112,22 +133,28 @@ internal class Sprite {
     /// </summary>
     private TextureBundle Textures { get; }
 
-    public Texture2D Texture {
-        get {
-            return this.Textures.Texture;
+    public Texture2D Texture
+    {
+        get
+        {
+            return Textures.Texture;
         }
     }
 
-    public TextureType TextureType {
-        get {
-            return this.Textures.CurrentState;
+    public TextureType TextureType
+    {
+        get
+        {
+            return Textures.CurrentState;
         }
     }
 
-    public void SetTexture(TextureType type) {
-        if (this.Textures.CurrentState == type) {
+    public void SetTexture(TextureType type)
+    {
+        if (Textures.CurrentState == type)
+        {
             return;
         }
-        this.Textures.SetState(type);
+        Textures.SetState(type);
     }
 }

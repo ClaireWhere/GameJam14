@@ -1,5 +1,7 @@
 ﻿// Ignore Spelling: hitbox
 
+using GameJam14.Game.Entity.EntitySystem;
+using GameJam14.Game.Graphics;
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using static GameJam14.Game.Attack;
+using static GameJam14.Game.Entity.EntitySystem.Attack;
 
 namespace GameJam14.Game.Entity;
 internal class Enemy : EntityActor {

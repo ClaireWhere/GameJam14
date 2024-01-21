@@ -1,6 +1,6 @@
-﻿using GameJam14.Game;
-using GameJam14.Game.Data;
+﻿using GameJam14.Game.Data;
 using GameJam14.Game.Entity;
+using GameJam14.Game.GameSystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;

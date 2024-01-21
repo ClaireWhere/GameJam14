@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameJam14.Game;
-internal class TextureBundle {
+namespace GameJam14.Game.Graphics;
+internal class TextureBundle
+{
 
 
     /// <summary>
@@ -19,9 +19,11 @@ internal class TextureBundle {
     /// </summary>
     private TextureType _currentState { get; set; }
 
-    public TextureType CurrentState {
-        get {
-            return this._currentState;
+    public TextureType CurrentState
+    {
+        get
+        {
+            return _currentState;
         }
     }
 
@@ -30,28 +32,34 @@ internal class TextureBundle {
     /// </summary>
     /// <param name="textures">The textures.</param>
     /// <param name="initialState">The initial state.</param>
-    public TextureBundle(Dictionary<TextureType, Texture2D> textures, TextureType? initialState = null) {
-        this._textures = textures;
-        this._currentState = initialState ?? textures.Keys.First();
+    public TextureBundle(Dictionary<TextureType, Texture2D> textures, TextureType? initialState = null)
+    {
+        _textures = textures;
+        _currentState = initialState ?? textures.Keys.First();
     }
 
     /// <summary>
     /// Gets the current texture of this bundle.
     /// </summary>
-    public Texture2D Texture {
-        get {
-            return this._textures[this._currentState];
+    public Texture2D Texture
+    {
+        get
+        {
+            return _textures[_currentState];
         }
     }
 
-    public void SetState(TextureType state) {
-        if (this.HasTexture(state)) {
-            this._currentState = state;
+    public void SetState(TextureType state)
+    {
+        if (HasTexture(state))
+        {
+            _currentState = state;
         }
     }
 
-    private bool HasTexture(TextureType type) {
-        return this._textures.ContainsKey(type);
+    private bool HasTexture(TextureType type)
+    {
+        return _textures.ContainsKey(type);
     }
 
     /// <summary>
@@ -59,11 +67,15 @@ internal class TextureBundle {
     /// </summary>
     /// <param name="type">The texture type.</param>
     /// <param name="texture">The texture.</param>
-    public void SetTexture(TextureType type, Texture2D texture) {
-        if (this.HasTexture(type)) {
-            this._textures[type] = texture;
-        } else {
-            this._textures.Add(type, texture);
+    public void SetTexture(TextureType type, Texture2D texture)
+    {
+        if (HasTexture(type))
+        {
+            _textures[type] = texture;
+        }
+        else
+        {
+            _textures.Add(type, texture);
         }
     }
 

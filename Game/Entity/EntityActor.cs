@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using GameJam14.Game.Entity.EntitySystem;
+using GameJam14.Game.Graphics;
 using Microsoft.Xna.Framework;
 
 namespace GameJam14.Game.Entity;

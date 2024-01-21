@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameJam14.Game.Entity.EntitySystem;
+using GameJam14.Game.Graphics;
+using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
