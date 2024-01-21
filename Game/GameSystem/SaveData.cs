@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 using GameJam14.Game.Entity.EntitySystem;
 using Microsoft.Xna.Framework;
 
-namespace GameJam14.Game;
-internal class SaveData {
-    public class PlayerData {
+namespace GameJam14.Game.GameSystem;
+internal class SaveData
+{
+    public class PlayerData
+    {
         public string Name { get; set; }
         public Stats BaseStats { get; set; }
         public Inventory Inventory { get; set; }
@@ -18,18 +20,20 @@ internal class SaveData {
         public TextureType CurrentTexture { get; set; }
         public int Health { get; set; }
 
-        [JsonConstructorAttribute]
-        public PlayerData(string name, Stats baseStats, Inventory inventory, float positionX, float positionY, TextureType currentTexture, int health) {
-            this.Name = name;
-            this.BaseStats = baseStats;
-            this.Inventory = inventory;
-            this.PositionX = positionX;
-            this.PositionY = positionY;
-            this.CurrentTexture = currentTexture;
-            this.Health = health;
+        [JsonConstructor]
+        public PlayerData(string name, Stats baseStats, Inventory inventory, float positionX, float positionY, TextureType currentTexture, int health)
+        {
+            Name = name;
+            BaseStats = baseStats;
+            Inventory = inventory;
+            PositionX = positionX;
+            PositionY = positionY;
+            CurrentTexture = currentTexture;
+            Health = health;
         }
 
-        public PlayerData(Entity.Player player) {
+        public PlayerData(Entity.Player player)
+        {
             Name = player.Name;
             BaseStats = player.BaseStats;
             Inventory = player.Inventory;
@@ -39,7 +43,8 @@ internal class SaveData {
             Health = player.Health;
         }
 
-        public void Update(Entity.Player player) {
+        public void Update(Entity.Player player)
+        {
             Name = player.Name;
             BaseStats = player.BaseStats;
             Inventory = player.Inventory;
@@ -54,26 +59,30 @@ internal class SaveData {
     public DateTime SaveDate { get; private set; }
     public PlayerData Player { get; private set; }
 
-    [JsonConstructorAttribute]
-    public SaveData(int currentArea, DateTime saveDate, PlayerData player) {
-        this.CurrentArea = currentArea;
-        this.SaveDate = saveDate;
-        this.Player = player;
+    [JsonConstructor]
+    public SaveData(int currentArea, DateTime saveDate, PlayerData player)
+    {
+        CurrentArea = currentArea;
+        SaveDate = saveDate;
+        Player = player;
     }
 
-    public SaveData(Entity.Player playerData, int currentArea) {
+    public SaveData(Entity.Player playerData, int currentArea)
+    {
         Player = new PlayerData(playerData);
         CurrentArea = currentArea;
         SaveDate = DateTime.Now;
     }
 
-    public void Update(Entity.Player playerData, int currentArea) {
+    public void Update(Entity.Player playerData, int currentArea)
+    {
         Player = new PlayerData(playerData);
         CurrentArea = currentArea;
         SaveDate = DateTime.Now;
     }
 
-    public void UpdatePlayer() {
+    public void UpdatePlayer()
+    {
         Entity.Player.UpdateInstance(
             name: Player.Name,
             position: new Vector2(Player.PositionX, Player.PositionY),
