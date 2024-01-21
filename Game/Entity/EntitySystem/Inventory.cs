@@ -7,54 +7,67 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace GameJam14.Game;
-internal class Inventory {
+namespace GameJam14.Game.Entity.EntitySystem;
+internal class Inventory
+{
     public int Money { get; private set; }
 
     public List<Item> Items { get; private set; }
 
-    public Inventory() {
+    public Inventory()
+    {
         Money = 0;
         Items = new List<Item>();
     }
 
-    [JsonConstructorAttribute]
-    public Inventory(int money, List<Item> items) {
+    [JsonConstructor]
+    public Inventory(int money, List<Item> items)
+    {
         Money = money;
         Items = items;
     }
 
-    public void ReceivePaycheck(int amount) {
+    public void ReceivePaycheck(int amount)
+    {
         Money += amount;
     }
 
-    public void SpendMoney(int amount) {
-        if (this.HasFunds(amount)) {
+    public void SpendMoney(int amount)
+    {
+        if (HasFunds(amount))
+        {
             Money -= amount;
         }
     }
 
-    public bool HasFunds(int amount) {
+    public bool HasFunds(int amount)
+    {
         return Money >= amount;
     }
 
-    public void AddItem(Item item) {
+    public void AddItem(Item item)
+    {
         Items.Add(item);
     }
 
-    public void RemoveItem(Item item) {
+    public void RemoveItem(Item item)
+    {
         Items.Remove(item);
     }
 
-    private Stats CalcTotalStats() {
+    private Stats CalcTotalStats()
+    {
         Stats total = new Stats();
-        foreach (Item item in Items) {
+        foreach (Item item in Items)
+        {
             total.Add(item.Stats);
         }
         return total;
     }
-    public Stats TotalStats {
-        get {
+    public Stats TotalStats
+    {
+        get
+        {
             return CalcTotalStats();
         }
     }
