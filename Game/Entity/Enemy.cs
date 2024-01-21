@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using static GameJam14.Game.Attack;
+using static GameJam14.Game.Entity.Attack;
 
 namespace GameJam14.Game.Entity;
 internal class Enemy : EntityActor {
