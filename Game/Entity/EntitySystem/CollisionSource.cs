@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameJam14.Game;
+namespace GameJam14.Game.Entity.EntitySystem;
 /// <summary>
 /// Handles collisions between different types of objects and shapes.
 /// </summary>
-public class CollisionSource {
+public class CollisionSource
+{
     /// <summary>
     /// Gets or sets the type of the collision.
     /// </summary>
@@ -26,9 +27,10 @@ public class CollisionSource {
     /// </summary>
     /// <param name="type">The type of the collision.</param>
     /// <param name="hitbox">The area of collision of the object.</param>
-    public CollisionSource(CollisionType type, List<Shape.Shape> hitbox) {
-        this.Type = type;
-        this.Hitbox = hitbox;
+    public CollisionSource(CollisionType type, List<Shape.Shape> hitbox)
+    {
+        Type = type;
+        Hitbox = hitbox;
     }
 
     /// <summary>
@@ -36,8 +38,9 @@ public class CollisionSource {
     /// </summary>
     /// <param name="other">The other collision source.</param>
     /// <returns>True if the two sources are able to collide, false otherwise.</returns>
-    public bool CanCollideWith(CollisionSource other) {
-        return this.Type.Collides(other.Type);
+    public bool CanCollideWith(CollisionSource other)
+    {
+        return Type.Collides(other.Type);
     }
 
     /// <summary>
@@ -45,14 +48,18 @@ public class CollisionSource {
     /// </summary>
     /// <param name="other">The other collision source.</param>
     /// <returns>True if the collision sources are able to collide and at least one collision occurs between the hitboxes of the collision sources, false otherwise.</returns>
-    public bool CollidesWith(CollisionSource other) {
-        if ( !this.CanCollideWith(other) ) {
+    public bool CollidesWith(CollisionSource other)
+    {
+        if (!CanCollideWith(other))
+        {
             return false;
         }
 
-        for ( int i = 0; i < this.Hitbox.Count; i++ ) {
-            Shape.Shape shape = this.Hitbox[i];
-            if ( other.CollidesWith(shape)) {
+        for (int i = 0; i < Hitbox.Count; i++)
+        {
+            Shape.Shape shape = Hitbox[i];
+            if (other.CollidesWith(shape))
+            {
                 return true;
             }
         }
@@ -67,10 +74,13 @@ public class CollisionSource {
     /// <returns>
     /// True if at least one collision occurs between the shape and this collision source's hitbox, false otherwise.
     /// </returns>
-    public bool CollidesWith(Shape.Shape hitbox) {
-        for ( int i = 0; i < this.Hitbox.Count; i++ ) {
-            Shape.Shape shape = this.Hitbox[i];
-            if ( shape.Intersects(hitbox) ) {
+    public bool CollidesWith(Shape.Shape hitbox)
+    {
+        for (int i = 0; i < Hitbox.Count; i++)
+        {
+            Shape.Shape shape = Hitbox[i];
+            if (shape.Intersects(hitbox))
+            {
                 return true;
             }
         }

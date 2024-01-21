@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using GameJam14.Game.Entity;
-
+using GameJam14.Game.Entity.EntitySystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 

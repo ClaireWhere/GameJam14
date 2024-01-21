@@ -1,5 +1,6 @@
 ﻿// Ignore Spelling: hitbox
 
+using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 using Microsoft.Xna.Framework;
 using System;
