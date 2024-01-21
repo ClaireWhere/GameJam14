@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using GameJam14.Game.GameSystem;
 
 namespace GameJam14.Game.Entity;
 
