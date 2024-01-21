@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameJam14.Game.Entity;
+namespace GameJam14.Game.Entity.EntitySystem;
 internal class Attack
 {
     public enum AttackType
