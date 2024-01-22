@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Ignore Spelling: Calc
+
+using System;
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
@@ -15,8 +17,6 @@ internal class Camera {
         this._baseZoom = this.CalcZoomFromHeight(screen.Height);
         this._zoom = this._baseZoom;
         this._incrementZoom = 10f;
-
-        //this.origin = new Vector2(screen.Height / 2.0f, screen.Height / 2.0f);
 
         this.UpdateViewMatrix();
         this.UpdateProjectionMatrix();

@@ -74,7 +74,6 @@ internal class EntityManager : IDisposable {
                 continue;
             }
             enemy.CurrentTarget = null;
-            // Debug.WriteLine("Lost target");
             if ( enemy.Target.Type == Target.TargetType.Player ) {
                 float distance = Vector2.Distance(enemy.Position, Player().Position);
                 if ( enemy.Target.TargetRange >= distance ) {
@@ -106,8 +105,8 @@ internal class EntityManager : IDisposable {
     }
 
     private readonly List<Entity.Entity> _entities;
-    private List<Entity.Entity> _entityQueue;
-    private SpriteManager _spriteManager;
+    private readonly List<Entity.Entity> _entityQueue;
+    private readonly SpriteManager _spriteManager;
     private void ProcessEntityQueue() {
         this._entities.AddRange(this._entityQueue);
         this._entityQueue.Clear();

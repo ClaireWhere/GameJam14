@@ -61,7 +61,6 @@ internal class SpriteManager : IDisposable {
     }
 
     public void Draw(Entity.Entity entity) {
-        // Debug.WriteLine("Drawing entity: " + entity);
         Vector2 center = new Vector2(entity.Sprite.Texture.Width / 2, entity.Sprite.Texture.Height / 2);
         this._spriteBatch.Draw(
             texture: entity.Sprite.Texture,
@@ -113,8 +112,8 @@ internal class SpriteManager : IDisposable {
         this._disposed = true;
     }
 
-    private BasicEffect _effect;
-    private SpriteBatch _spriteBatch;
+    private readonly BasicEffect _effect;
+    private readonly SpriteBatch _spriteBatch;
     private BasicEffect GetDefaultEffect() {
         BasicEffect effect = new BasicEffect(Game2.Instance().GraphicsDevice);
         effect.VertexColorEnabled = true;
