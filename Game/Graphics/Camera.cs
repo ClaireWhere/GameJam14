@@ -1,36 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Microsoft.Xna.Framework;
 
 namespace GameJam14.Game.Graphics;
-internal class Camera
-{
-    public readonly static float minZoom = 0.1f;
-    public readonly static float maxZoom = 2000.0f;
-
-    private Vector2 position { get; set; }
-    private float _baseZoom { get; set; }
-    private float _zoom { get; set; }
-    private float _incrementZoom { get; set; }
-
-    private float aspectRatio { get; set; }
-    private float fieldOfView { get; set; }
-
-    private Matrix view { get; set; }
-    private Matrix projection { get; set; }
-
-    public Matrix Projection { get { return this.projection; } }
-    public Matrix View { get { return this.view; } }
-    public Vector2 Position { get { return this.position; } }
-    public float Zoom { get { return this._baseZoom; } }
-
+internal class Camera {
+    public static readonly float maxZoom = 2000.0f;
+    public static readonly float minZoom = 0.1f;
     public Camera(Screen screen) {
-        this.aspectRatio = screen.Width / (float)screen.Height;
-        this.fieldOfView = (float)(Math.PI / 2.0f);
+        this.aspectRatio = screen.Width / (float) screen.Height;
+        this.fieldOfView = (float) ( Math.PI / 2.0f );
 
         this.position = Vector2.Zero;
         this._baseZoom = this.CalcZoomFromHeight(screen.Height);
@@ -43,23 +22,10 @@ internal class Camera
         this.UpdateProjectionMatrix();
     }
 
-    public void UpdateViewMatrix() {
-        this.view = Matrix.CreateLookAt(
-            cameraPosition: new Vector3(0, 0, -this._zoom),
-            cameraTarget: Vector3.Zero,
-            cameraUpVector: Vector3.Down
-        );
-    }
-
-    public void UpdateProjectionMatrix() {
-        this.projection = Matrix.CreatePerspectiveFieldOfView(
-            fieldOfView: fieldOfView,
-            aspectRatio: aspectRatio,
-            nearPlaneDistance: minZoom,
-            farPlaneDistance: maxZoom
-        );
-    }
-
+    public Vector2 Position { get { return this.position; } }
+    public Matrix Projection { get { return this.projection; } }
+    public Matrix View { get { return this.view; } }
+    public float Zoom { get { return this._baseZoom; } }
     public float CalcZoomFromHeight(float height) {
         Debug.WriteLine(
             "Height: " + height + "\n" +
@@ -70,22 +36,37 @@ internal class Camera
         return height / ( 2.0f * MathF.Tan(this.fieldOfView / 2.0f) );
     }
 
+    public void GetExtents(out Vector2 topLeft, out Vector2 bottomRight, out Vector2 center) {
+        float tanTheta = (float) Math.Tan(this.fieldOfView / 2.0f);
+        float halfHeight = this._zoom * tanTheta;
+        float halfWidth = halfHeight * this.aspectRatio;
+
+        topLeft = new Vector2(this.position.X - halfWidth, this.position.Y - halfHeight);
+        bottomRight = new Vector2(this.position.X + halfWidth, this.position.Y + halfHeight);
+        center = new Vector2(this.position.X, this.position.Y);
+    }
+
+    public void Move(Vector2 move) {
+        this.position += move;
+    }
+
+    public void MoveTo(Vector2 position) {
+        this.position = position;
+    }
+
     public void MoveZoom(float zoom) {
         this._zoom += zoom;
-        if (this._zoom < minZoom ) {
+        if ( this._zoom < minZoom ) {
             this._zoom = minZoom;
         }
-        if (this._zoom > maxZoom) {
+        if ( this._zoom > maxZoom ) {
             this._zoom = maxZoom;
         }
         Debug.WriteLine("Zoom: " + this._zoom);
     }
 
-    public void ZoomIn() {
-        MoveZoom(-this._incrementZoom);
-    }
-    public void ZoomOut() {
-        MoveZoom(this._incrementZoom);
+    public void ResetZoom() {
+        this._zoom = this._baseZoom;
     }
 
     public void SetZoom(float zoom) {
@@ -98,25 +79,37 @@ internal class Camera
         }
     }
 
-    public void ResetZoom() {
-        this._zoom = this._baseZoom;
+    public void UpdateProjectionMatrix() {
+        this.projection = Matrix.CreatePerspectiveFieldOfView(
+            fieldOfView: fieldOfView,
+            aspectRatio: aspectRatio,
+            nearPlaneDistance: minZoom,
+            farPlaneDistance: maxZoom
+        );
     }
 
-    public void Move(Vector2 move) {
-        this.position += move;
+    public void UpdateViewMatrix() {
+        this.view = Matrix.CreateLookAt(
+            cameraPosition: new Vector3(0, 0, -this._zoom),
+            cameraTarget: Vector3.Zero,
+            cameraUpVector: Vector3.Down
+        );
     }
 
-    public void MoveTo(Vector2 position) {
-        this.position = position;
+    public void ZoomIn() {
+        MoveZoom(-this._incrementZoom);
     }
 
-    public void GetExtents(out Vector2 topLeft, out Vector2 bottomRight, out Vector2 center) {
-        float tanTheta = (float) Math.Tan(this.fieldOfView / 2.0f);
-        float halfHeight = this._zoom * tanTheta;
-        float halfWidth = halfHeight * this.aspectRatio;
-
-        topLeft = new Vector2(this.position.X - halfWidth, this.position.Y - halfHeight);
-        bottomRight = new Vector2(this.position.X + halfWidth, this.position.Y + halfHeight);
-        center = new Vector2(this.position.X, this.position.Y);
+    public void ZoomOut() {
+        MoveZoom(this._incrementZoom);
     }
+
+    private float _baseZoom { get; set; }
+    private float _incrementZoom { get; set; }
+    private float _zoom { get; set; }
+    private float aspectRatio { get; set; }
+    private float fieldOfView { get; set; }
+    private Vector2 position { get; set; }
+    private Matrix projection { get; set; }
+    private Matrix view { get; set; }
 }

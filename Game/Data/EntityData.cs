@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 using GameJam14.Game.Entity;
 using GameJam14.Game.Entity.EntitySystem;
+
 using Microsoft.Xna.Framework;
 
 namespace GameJam14.Game.Data;
-static class EntityData {
+internal static class EntityData {
+    public static Player Player => Player.Instance;
     public static Enemy Tree => new Enemy(
-        id: 1,
+            id: 1,
         name: "Tree",
         position: new Vector2(20, 20),
         hitbox: new List<Shape.Shape> {
@@ -34,6 +32,4 @@ static class EntityData {
             targetAngle: 0
         )
     );
-
-    public static Player Player => Player.Instance;
 }

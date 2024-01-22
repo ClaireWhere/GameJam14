@@ -1,26 +1,17 @@
 ﻿// Ignore Spelling: Hitbox
 
-using GameJam14.Game.Entity.EntitySystem;
-using GameJam14.Game.Graphics;
-using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using GameJam14.Game.Entity.EntitySystem;
+using GameJam14.Game.Graphics;
+
+using Microsoft.Xna.Framework;
 
 namespace GameJam14.Game.Entity;
 internal class Cloud : Entity {
-    public float ExpansionSpeed { get; set; }
-    public float ExpansionAcceleration { get; set; }
-    public float MaxExpansion { get; set; }
-    public int Damage { get; set; }
-    public double DamageDegradation { get; set; }
-
-    public float Expansion { get; set; }
-    public float HitboxRadius { get; set; }
-
-    // int id, Vector2 position, Vector2 velocity, Vector2 acceleration, CollisionSource collision, Sprite sprite
+    // int id, Vector2 position, Vector2 velocity, Vector2 acceleration, CollisionSource collision,
+    // Sprite sprite
     public Cloud(int id, Vector2 position, Sprite sprite, float expansionSpeed, float expansionAcceleration, float maxExpansion, int damage, double damageDegradation)
             : base(
                 id: id,
@@ -41,6 +32,13 @@ internal class Cloud : Entity {
         this.HitboxRadius = sprite.Texture.Width;
     }
 
+    public int Damage { get; set; }
+    public double DamageDegradation { get; set; }
+    public float Expansion { get; set; }
+    public float ExpansionAcceleration { get; set; }
+    public float ExpansionSpeed { get; set; }
+    public float HitboxRadius { get; set; }
+    public float MaxExpansion { get; set; }
     public override void Update(GameTime gameTime) {
         base.Update(gameTime);
         this.UpdateExpansion(gameTime.ElapsedGameTime.TotalSeconds);

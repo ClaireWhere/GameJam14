@@ -1,55 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using GameJam14.Game.Entity;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam14.Game.Graphics;
 internal class SpriteManager : IDisposable {
-    private SpriteBatch _spriteBatch;
-    private BasicEffect _effect;
-
-
     public SpriteManager() {
         this._spriteBatch = Game2.Instance().SpriteBatch;
         this._effect = this.GetDefaultEffect();
     }
 
-    private BasicEffect GetDefaultEffect() {
-        BasicEffect effect = new BasicEffect(Game2.Instance().GraphicsDevice);
-        effect.VertexColorEnabled = true;
-        effect.LightingEnabled = false;
-        //effect.LightingEnabled = true;
-        //effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f);
-        //effect.DirectionalLight0.Direction = new Vector3(0, 0, -1);
-        //effect.DirectionalLight0.SpecularColor = new Vector3(0, 0, 0);
-        effect.FogEnabled = false;
-        effect.TextureEnabled = true;
-        effect.World = Matrix.Identity;
-        effect.View = Matrix.Identity;
-        effect.Projection = Matrix.Identity;
-        return effect;
-    }
-
-    public void Dispose() {
-        this.Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing) {
-        this._effect.Dispose();
-        this._spriteBatch.Dispose();
-        this.Dispose();
-    }
-
     public void Begin(Camera camera) {
-        if (camera == null) {
+        if ( camera == null ) {
             Viewport viewport = Game2.Instance().GraphicsDevice.Viewport;
             this._effect.Projection = Matrix.CreateOrthographicOffCenter(
                 left: 0,
@@ -75,8 +37,9 @@ internal class SpriteManager : IDisposable {
         );
     }
 
-    public void End() {
-        this._spriteBatch.End();
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
     public void Draw(Texture2D texture, Vector2 origin, Vector2 position, Color color) {
@@ -134,5 +97,31 @@ internal class SpriteManager : IDisposable {
         );
     }
 
+    public void End() {
+        this._spriteBatch.End();
+    }
 
+    protected virtual void Dispose(bool disposing) {
+        this._effect.Dispose();
+        this._spriteBatch.Dispose();
+        this.Dispose();
+    }
+
+    private BasicEffect _effect;
+    private SpriteBatch _spriteBatch;
+    private BasicEffect GetDefaultEffect() {
+        BasicEffect effect = new BasicEffect(Game2.Instance().GraphicsDevice);
+        effect.VertexColorEnabled = true;
+        effect.LightingEnabled = false;
+        //effect.LightingEnabled = true;
+        //effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f);
+        //effect.DirectionalLight0.Direction = new Vector3(0, 0, -1);
+        //effect.DirectionalLight0.SpecularColor = new Vector3(0, 0, 0);
+        effect.FogEnabled = false;
+        effect.TextureEnabled = true;
+        effect.World = Matrix.Identity;
+        effect.View = Matrix.Identity;
+        effect.Projection = Matrix.Identity;
+        return effect;
+    }
 }

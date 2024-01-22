@@ -6,6 +6,7 @@ using GameJam14.Game.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,8 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14;
-internal class Game2 : Microsoft.Xna.Framework.Game
-{
+internal class Game2 : Microsoft.Xna.Framework.Game {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -37,13 +37,13 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         }
         return s_Instance;
     }
+
     public SpriteBatch SpriteBatch { get { return this._spriteBatch; } }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Game"/> class.
+    ///   Initializes a new instance of the <see cref="Game" /> class.
     /// </summary>
-    private Game2()
-    {
+    private Game2() {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -53,10 +53,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     }
 
     /// <summary>
-    /// Initializes the Game.
+    ///   Initializes the Game.
     /// </summary>
-    protected override void Initialize()
-    {
+    protected override void Initialize() {
         this._graphics.PreferredBackBufferWidth = 1920;
         this._graphics.PreferredBackBufferHeight = 1080;
         this._graphics.ApplyChanges();
@@ -77,10 +76,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     }
 
     /// <summary>
-    ///  Loads the content of the game
+    ///   Loads the content of the game
     /// </summary>
-    protected override void LoadContent()
-    {
+    protected override void LoadContent() {
         Assets.LoadContent(this.Content);
 
         // Add entities to queue, then update the entity manager to process the queue
@@ -95,41 +93,40 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     }
 
     /// <summary>
-    /// Updates the content of the game
+    ///   Updates the content of the game
     /// </summary>
-    protected override void Update(GameTime gameTime)
-    {
-        if (this._isSaving) {
+    protected override void Update(GameTime gameTime) {
+        if ( this._isSaving ) {
             return;
         }
         Input.Update();
 
-        if (Input.IsKeyPressed(Keys.Escape)) {
+        if ( Input.IsKeyPressed(Keys.Escape) ) {
             _isPaused = !_isPaused;
         }
 #if DEBUG
-        if ( Input.IsKeyPressed(Keys.F1)) {
+        if ( Input.IsKeyPressed(Keys.F1) ) {
             _ = this.Save();
         }
 
-        if (Input.IsKeyPressed(Keys.F2)) {
+        if ( Input.IsKeyPressed(Keys.F2) ) {
             _ = this.LoadSave();
         }
 
-        if (Input.IsKeyPressed(Keys.F3)) {
+        if ( Input.IsKeyPressed(Keys.F3) ) {
             this._entityManager.Reset();
             this._entityManager.AddEntity(Player.Instance);
         }
 
-        if (Input.IsKeyDown(Keys.Up)) {
+        if ( Input.IsKeyDown(Keys.Up) ) {
             Debug.WriteLine("Moving camera up");
             this._camera.ZoomIn();
         }
-        if (Input.IsKeyDown(Keys.Down)) {
+        if ( Input.IsKeyDown(Keys.Down) ) {
             this._camera.ZoomOut();
         }
 
-        if (Input.IsKeyPressed(Keys.F6)) {
+        if ( Input.IsKeyPressed(Keys.F6) ) {
             Debug.WriteLine(
                 "Player position: " + this._entityManager.Player().Position + "\n" +
                 "Player velocity: " + this._entityManager.Player().Velocity + "\n" +
@@ -148,12 +145,12 @@ internal class Game2 : Microsoft.Xna.Framework.Game
                 "Camera center: " + center + "\n"
             );
         }
-        if (Input.IsKeyPressed(Keys.F7)) {
-            this._entityManager.Player().TeleportTo(new Vector2(this._screen.Width/2, this._screen.Height/2));
+        if ( Input.IsKeyPressed(Keys.F7) ) {
+            this._entityManager.Player().TeleportTo(new Vector2(this._screen.Width / 2, this._screen.Height / 2));
         }
 #endif
 
-        if ( !_isPaused && !_isSaving) {
+        if ( !_isPaused && !_isSaving ) {
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) ) {
                 Debug.WriteLine("Space pressed");
                 this.Draw(gameTime);
@@ -172,7 +169,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     }
 
     private async Task Save() {
-        if (this._isSaving) {
+        if ( this._isSaving ) {
             return;
         }
         this._isSaving = true;
@@ -187,7 +184,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     }
 
     private async Task LoadSave() {
-        if (this._isSaving) {
+        if ( this._isSaving ) {
             return;
         }
         this._isSaving = true;
@@ -209,10 +206,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     }
 
     /// <summary>
-    /// Draws objects on screen
+    ///   Draws objects on screen
     /// </summary>
-    protected override void Draw(GameTime gameTime)
-    {
+    protected override void Draw(GameTime gameTime) {
         this._screen.Set();
         GraphicsDevice.Clear(Color.DarkSlateGray);
 
@@ -223,5 +219,4 @@ internal class Game2 : Microsoft.Xna.Framework.Game
 
         base.Draw(gameTime);
     }
-
 }

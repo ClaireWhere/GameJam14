@@ -2,38 +2,25 @@
 
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameJam14.Game.Graphics;
-static class Assets
-{
-    public static Texture2D PlayerTextureFront { get; private set; }
+internal static class Assets {
+    public static Texture2D CloudTexture { get; private set; }
+    public static SpriteFont Font { get; private set; }
+    public static Texture2D LightTexture { get; private set; }
     public static Texture2D PlayerTextureBack { get; private set; }
+    public static Texture2D PlayerTextureCake { get; private set; }
+    public static Texture2D PlayerTextureFront { get; private set; }
     public static Texture2D PlayerTextureLeft { get; private set; }
     public static Texture2D PlayerTextureRight { get; private set; }
     public static Texture2D PlayerTextureRock { get; private set; }
     public static Texture2D PlayerTextureShockt { get; private set; }
-    public static Texture2D PlayerTextureCake { get; private set; }
-
-    public static Texture2D TreeTextureFront { get; private set; }
+    public static Texture2D ProjectileTexture { get; private set; }
     public static Texture2D TreeTextureBack { get; private set; }
+    public static Texture2D TreeTextureFront { get; private set; }
     public static Texture2D TreeTextureLeft { get; private set; }
     public static Texture2D TreeTextureRight { get; private set; }
-
-    public static Texture2D LightTexture { get; private set; }
-
-    public static Texture2D ProjectileTexture { get; private set; }
-    public static Texture2D CloudTexture { get; private set; }
-
-
-    public static SpriteFont Font { get; private set; }
-
-    public static void LoadContent(ContentManager content)
-    {
+    public static void LoadContent(ContentManager content) {
         PlayerTextureFront = content.Load<Texture2D>("Assets/Chok_32");
         PlayerTextureBack = content.Load<Texture2D>("Assets/Chok_32_Back");
         PlayerTextureRight = content.Load<Texture2D>("Assets/Chok_32_Right");

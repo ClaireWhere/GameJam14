@@ -2,20 +2,17 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using GameJam14.Game.Entity;
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam14.Game.GameSystem;
 internal class EntityManager : IDisposable {
     /// <summary>
-    /// Initializes a new instance of the <see cref="EntityManager"/> class.
+    ///   Initializes a new instance of the <see cref="EntityManager" /> class.
     /// </summary>
     public EntityManager() {
         this._entities = new List<Entity.Entity>();
@@ -25,6 +22,11 @@ internal class EntityManager : IDisposable {
 
     public void AddEntity(Entity.Entity entity) {
         _entityQueue.Add(entity);
+    }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
     public void Draw(Camera camera) {
@@ -91,19 +93,6 @@ internal class EntityManager : IDisposable {
         }
     }
 
-    private readonly List<Entity.Entity> _entities;
-    private List<Entity.Entity> _entityQueue;
-    private SpriteManager _spriteManager;
-    private void ProcessEntityQueue() {
-        this._entities.AddRange(this._entityQueue );
-        this._entityQueue.Clear();
-    }
-
-    public void Dispose() {
-        this.Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
     protected virtual void Dispose(bool disposing) {
         this._entities.Clear();
         this._entityQueue.Clear();
@@ -111,4 +100,11 @@ internal class EntityManager : IDisposable {
         this.Dispose();
     }
 
+    private readonly List<Entity.Entity> _entities;
+    private List<Entity.Entity> _entityQueue;
+    private SpriteManager _spriteManager;
+    private void ProcessEntityQueue() {
+        this._entities.AddRange(this._entityQueue);
+        this._entityQueue.Clear();
+    }
 }

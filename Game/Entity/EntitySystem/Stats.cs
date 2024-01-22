@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace GameJam14.Game;
 internal class Stats : IDisposable {
-    public int Health { get; set; }
-    public int Attack { get; set; }
-    public int Defense { get; set; }
-    public int IdleSpeed { get; set; }
-    public int RunSpeed { get; set; }
-
     [JsonConstructorAttribute]
     public Stats(int health, int attack, int defense, int idleSpeed, int runSpeed) {
         Health = health;
@@ -30,6 +20,24 @@ internal class Stats : IDisposable {
         RunSpeed = 0;
     }
 
+    public int Attack { get; set; }
+    public int Defense { get; set; }
+    public int Health { get; set; }
+    public int IdleSpeed { get; set; }
+    public int RunSpeed { get; set; }
+    public void Add(Stats stats) {
+        this.Health += stats.Health;
+        this.Attack += stats.Attack;
+        this.Defense += stats.Defense;
+        this.IdleSpeed += stats.IdleSpeed;
+        this.RunSpeed += stats.RunSpeed;
+    }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
     public Stats Sum(Stats stats) {
         return new Stats(
             health: this.Health + stats.Health,
@@ -40,25 +48,12 @@ internal class Stats : IDisposable {
         );
     }
 
-    public void Add(Stats stats) {
-        this.Health += stats.Health;
-        this.Attack += stats.Attack;
-        this.Defense += stats.Defense;
-        this.IdleSpeed += stats.IdleSpeed;
-        this.RunSpeed += stats.RunSpeed;
-    }
-
     public void TakeDamage(int damage) {
-        if (this.Health - damage < 0) {
+        if ( this.Health - damage < 0 ) {
             this.Health = 0;
         } else {
             this.Health -= damage;
         }
-    }
-
-    public void Dispose() {
-        this.Dispose(true);
-        GC.SuppressFinalize(this);
     }
 
     protected virtual void Dispose(bool disposing) {

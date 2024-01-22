@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam14.Game.Graphics;
 internal class Screen : IDisposable {
-    private readonly static int _min_width = 720;
-    private readonly static int _min_height = 576;
+    private static readonly int _min_width = 720;
+    private static readonly int _min_height = 576;
 
-    private readonly static int _max_width = 7680;
-    private readonly static int _max_height = 4320;
+    private static readonly int _max_width = 7680;
+    private static readonly int _max_height = 4320;
 
     private readonly int _width;
     private readonly int _height;
@@ -24,10 +21,10 @@ internal class Screen : IDisposable {
     private readonly RenderTarget2D _renderTarget;
 
     public Screen(int width, int height) {
-        if (width < _min_width || width > _max_width) {
+        if ( width < _min_width || width > _max_width ) {
             throw new ArgumentOutOfRangeException(nameof(width), width, $"Width must be between {_min_width} and {_max_width}");
         }
-        if (height < _min_height || height > _max_height) {
+        if ( height < _min_height || height > _max_height ) {
             throw new ArgumentOutOfRangeException(nameof(height), height, $"Height must be between {_min_height} and {_max_height}");
         }
 
@@ -37,14 +34,14 @@ internal class Screen : IDisposable {
     }
 
     public void Set() {
-        if (this.IsSet()) {
+        if ( this.IsSet() ) {
             return;
         }
         Game2.Instance().GraphicsDevice.SetRenderTarget(this._renderTarget);
     }
 
     public void Unset() {
-        if (!this.IsSet()) {
+        if ( !this.IsSet() ) {
             return;
         }
 
@@ -69,20 +66,20 @@ internal class Screen : IDisposable {
 
     private Rectangle CalculateDestinationRectangle() {
         Rectangle bounds = Game2.Instance().GraphicsDevice.PresentationParameters.Bounds;
-        float aspectRatio = (float)bounds.Width / (float)bounds.Height;
-        float targetAspectRatio = (float)_width / (float)_height;
+        float aspectRatio = (float) bounds.Width / (float) bounds.Height;
+        float targetAspectRatio = (float) _width / (float) _height;
 
         int targetX = 0;
         int targetY = 0;
         int targetWidth = bounds.Width;
         int targetHeight = bounds.Height;
 
-        if (aspectRatio > targetAspectRatio) {
-            targetWidth = (int)((float)bounds.Height * targetAspectRatio);
-            targetX = (int)((bounds.Width - targetWidth) / 2f);
-        } else if (aspectRatio < targetAspectRatio) {
-            targetHeight = (int)((float)bounds.Width / targetAspectRatio);
-            targetY = (int)((bounds.Height - targetHeight) / 2f);
+        if ( aspectRatio > targetAspectRatio ) {
+            targetWidth = (int) ( (float) bounds.Height * targetAspectRatio );
+            targetX = (int) ( ( bounds.Width - targetWidth ) / 2f );
+        } else if ( aspectRatio < targetAspectRatio ) {
+            targetHeight = (int) ( (float) bounds.Width / targetAspectRatio );
+            targetY = (int) ( ( bounds.Height - targetHeight ) / 2f );
         }
         return new Rectangle(targetX, targetY, targetWidth, targetHeight);
     }
