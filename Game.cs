@@ -21,9 +21,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
 
     private Screen _screen;
 
-    // private List<Sprite> sprites;
     private EntityManager _entityManager;
-    private List<Entity> _entity_queue;
     private SaveManager _saveManager;
 
     private SaveData _currentSave;
@@ -50,7 +48,6 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         this._isSaving = false;
         this._isPaused = false;
         this._entityManager = new EntityManager();
-        this._entity_queue = new List<Entity>();
     }
 
     /// <summary>
@@ -132,15 +129,8 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             base.Update(gameTime);
     }
 
-    public void AddEntity(Game.Entity.Entity entity) {
-        s_Instance._entity_queue.Add(entity);
-    }
-
-    private void ProcessEntityQueue() {
-        foreach (Game.Entity.Entity entity in this._entity_queue) {
-            this._entityManager.AddEntity(entity);
-        }
-        this._entity_queue.Clear();
+    public void AddEntity(Entity entity) {
+        this._entityManager.AddEntity(entity);
     }
 
     private async Task Save() {
