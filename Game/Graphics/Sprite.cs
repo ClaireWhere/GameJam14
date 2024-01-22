@@ -26,6 +26,7 @@ internal class Sprite
             Vector2 position,
             [Optional] float rotation,
             [Optional] float scale,
+            [Optional] Vector2 origin,
             [Optional] Rectangle sourceRectangle,
             [Optional] Color color,
             [Optional] SpriteEffects effects,
@@ -34,63 +35,48 @@ internal class Sprite
     {
         Textures = textures;
         Position = position;
-        if (rotation == default)
-        {
+        if (rotation == default) {
             Rotation = 0;
         }
-        else
-        {
+        else {
             Rotation = rotation;
         }
-        if (scale == default)
-        {
+        if (scale == default) {
             Scale = 1;
         }
-        else
-        {
+        else {
             Scale = scale;
         }
-        if (sourceRectangle == default)
-        {
+        if (origin == default) {
+            Origin = Vector2.Zero;
+        }
+        else {
+            Origin = origin;
+        }
+        if (sourceRectangle == default) {
             SourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
         }
-        else
-        {
+        else {
             SourceRectangle = sourceRectangle;
         }
-        if (color == default)
-        {
+        if (color == default) {
             Color = Color.White;
         }
-        else
-        {
+        else {
             Color = color;
         }
-        if (effects == default)
-        {
+        if (effects == default) {
             Effects = SpriteEffects.None;
         }
-        else
-        {
+        else {
             Effects = effects;
         }
-        if (layerDepth == default)
-        {
+        if (layerDepth == default) {
             LayerDepth = 0;
         }
-        else
-        {
+        else {
             LayerDepth = layerDepth;
         }
-    }
-
-    /// <summary>
-    /// Draws the sprite
-    /// </summary>
-    /// <param name="spriteBatch">The sprite batch to draw to.</param>
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(Texture, Position, SourceRectangle, Color, Rotation, Vector2.Zero, Scale, Effects, LayerDepth);
     }
 
     /// <summary>
@@ -112,6 +98,8 @@ internal class Sprite
     /// Gets or sets the position of the sprite.
     /// </summary>
     public Vector2 Position { get; set; }
+
+    public Vector2 Origin { get; set; }
 
     /// <summary>
     /// Gets the rotation of the sprite in radians.

@@ -20,10 +20,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     private SpriteBatch _spriteBatch;
 
     private Screen _screen;
+    private Camera _camera;
 
-    // private List<Sprite> sprites;
     private EntityManager _entityManager;
-    private List<Entity> _entity_queue;
     private SaveManager _saveManager;
 
     private SaveData _currentSave;
@@ -38,6 +37,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         }
         return s_Instance;
     }
+    public SpriteBatch SpriteBatch { get { return this._spriteBatch; } }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Game"/> class.
@@ -49,8 +49,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         IsMouseVisible = true;
         this._isSaving = false;
         this._isPaused = false;
-        this._entityManager = new EntityManager();
-        this._entity_queue = new List<Entity>();
+        this._currentSave = null;
     }
 
     /// <summary>
@@ -68,9 +67,11 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             this._graphics.ApplyChanges();
         };
 
-        // this.sprites = new List<Sprite>();
+        this._spriteBatch = new SpriteBatch(GraphicsDevice);
+        this._entityManager = new EntityManager();
 
         this._screen = new Screen(1920, 1080);
+        this._camera = new Camera(this._screen);
 
         base.Initialize();
     }
@@ -80,19 +81,17 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     /// </summary>
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
         Assets.LoadContent(this.Content);
 
-        this._entityManager.AddEntity(EntityData.Player);
+        // Add entities to queue, then update the entity manager to process the queue
+        this._entityManager.AddEntity(Player.Instance);
         this._entityManager.AddEntity(EntityData.Tree);
+        this._entityManager.Update(new GameTime());
 
-        this._currentSave = new SaveData((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
+        this._currentSave = new SaveData(this._entityManager.Player(), 0);
         this._saveManager = new SaveManager();
         this._saveManager.SelectSaveSlot(SaveManager.SaveSlot.One);
         this._saveManager.Update(this._currentSave);
-
-        //sprites.Add(SpriteData.PlayerSprite);
-        //sprites.Add(SpriteData.TreeSprite);
     }
 
     /// <summary>
@@ -108,8 +107,8 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         if (Input.IsKeyPressed(Keys.Escape)) {
             _isPaused = !_isPaused;
         }
-
-        if (Input.IsKeyPressed(Keys.F1)) {
+#if DEBUG
+        if ( Input.IsKeyPressed(Keys.F1)) {
             _ = this.Save();
         }
 
@@ -117,30 +116,59 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             _ = this.LoadSave();
         }
 
-        if (!_isPaused && !_isSaving) {
+        if (Input.IsKeyPressed(Keys.F3)) {
+            this._entityManager.Reset();
+            this._entityManager.AddEntity(Player.Instance);
+        }
+
+        if (Input.IsKeyDown(Keys.Up)) {
+            Debug.WriteLine("Moving camera up");
+            this._camera.ZoomIn();
+        }
+        if (Input.IsKeyDown(Keys.Down)) {
+            this._camera.ZoomOut();
+        }
+
+        if (Input.IsKeyPressed(Keys.F6)) {
+            Debug.WriteLine(
+                "Player position: " + this._entityManager.Player().Position + "\n" +
+                "Player velocity: " + this._entityManager.Player().Velocity + "\n" +
+                "Player acceleration: " + this._entityManager.Player().Acceleration + "\n" +
+                "Player destination: " + this._entityManager.Player().Destination + "\n" +
+                "Player is traveling: " + this._entityManager.Player().IsTraveling + "\n" +
+                "Player is moving: " + this._entityManager.Player().IsMoving + "\n"
+            );
+
+            this._camera.GetExtents(out Vector2 topLeft, out Vector2 bottomRight, out Vector2 center);
+
+            Debug.WriteLine(
+                "Camera position: " + this._camera.Position + "\n" +
+                "Camera zoom: " + this._camera.Zoom + "\n" +
+                "Camera extents: " + topLeft + ", " + bottomRight + "\n" +
+                "Camera center: " + center + "\n"
+            );
+        }
+        if (Input.IsKeyPressed(Keys.F7)) {
+            this._entityManager.Player().TeleportTo(new Vector2(this._screen.Width/2, this._screen.Height/2));
+        }
+#endif
+
+        if ( !_isPaused && !_isSaving) {
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) ) {
-                Console.WriteLine("Space pressed");
+                Debug.WriteLine("Space pressed");
                 this.Draw(gameTime);
             }
 
             // Update everything here
-            this.ProcessEntityQueue();
-            _entityManager.Update(gameTime);
+            this._entityManager.Update(gameTime);
         }
 
         if ( GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) )
             base.Update(gameTime);
     }
 
-    public void AddEntity(Game.Entity.Entity entity) {
-        s_Instance._entity_queue.Add(entity);
-    }
-
-    private void ProcessEntityQueue() {
-        foreach (Game.Entity.Entity entity in this._entity_queue) {
-            this._entityManager.AddEntity(entity);
-        }
-        this._entity_queue.Clear();
+    public void AddEntity(Entity entity) {
+        this._entityManager.AddEntity(entity);
     }
 
     private async Task Save() {
@@ -149,7 +177,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         }
         this._isSaving = true;
         try {
-            this._currentSave.Update((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
+            this._currentSave.Update(this._entityManager.Player(), 0);
             this._saveManager.Update(this._currentSave);
             await this._saveManager.Save();
         } catch ( Exception e ) {
@@ -188,16 +216,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         this._screen.Set();
         GraphicsDevice.Clear(Color.DarkSlateGray);
 
-        _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp);
-
-        //foreach (Sprite sprite in sprites)
-        //{
-        //    sprite.Draw(_spriteBatch);
-        //}
-
-        _entityManager.Draw(_spriteBatch);
-
-        _spriteBatch.End();
+        _entityManager.Draw(this._camera);
 
         this._screen.Unset();
         this._screen.Present(_spriteBatch);

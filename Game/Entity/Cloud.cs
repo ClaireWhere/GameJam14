@@ -1,4 +1,6 @@
-﻿using GameJam14.Game.Entity.EntitySystem;
+﻿// Ignore Spelling: Hitbox
+
+using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 using Microsoft.Xna.Framework;
 using System;
@@ -13,7 +15,7 @@ internal class Cloud : Entity {
     public float ExpansionAcceleration { get; set; }
     public float MaxExpansion { get; set; }
     public int Damage { get; set; }
-    public double DamageDegredation { get; set; }
+    public double DamageDegradation { get; set; }
 
     public float Expansion { get; set; }
     public float HitboxRadius { get; set; }
@@ -35,7 +37,7 @@ internal class Cloud : Entity {
         this.Expansion = 0f;
         this.MaxExpansion = maxExpansion;
         this.Damage = damage;
-        this.DamageDegredation = damageDegradation;
+        this.DamageDegradation = damageDegradation;
         this.HitboxRadius = sprite.Texture.Width;
     }
 

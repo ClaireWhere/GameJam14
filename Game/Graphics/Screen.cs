@@ -18,15 +18,18 @@ internal class Screen : IDisposable {
     private readonly int _width;
     private readonly int _height;
 
+    public int Width { get { return this._width; } }
+    public int Height { get { return this._height; } }
+
     private bool _isDisposed;
     private readonly RenderTarget2D _renderTarget;
 
     public Screen(int width, int height) {
         if (width < _min_width || width > _max_width) {
-            throw new ArgumentOutOfRangeException("width", width, $"Width must be between {_min_width} and {_max_width}");
+            throw new ArgumentOutOfRangeException(nameof(width), width, $"Width must be between {_min_width} and {_max_width}");
         }
         if (height < _min_height || height > _max_height) {
-            throw new ArgumentOutOfRangeException("height", height, $"Height must be between {_min_height} and {_max_height}");
+            throw new ArgumentOutOfRangeException(nameof(height), height, $"Height must be between {_min_height} and {_max_height}");
         }
 
         this._isDisposed = false;
