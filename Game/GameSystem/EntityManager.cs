@@ -17,12 +17,17 @@ internal class EntityManager : IDisposable {
     public EntityManager() {
         this._entities = new List<Entity.Entity>();
         this._entityQueue = new List<Entity.Entity>();
+        this._removeQueue = new List<Entity.Entity>();
         _spriteManager = new SpriteManager();
         this._disposed = false;
     }
     private bool _disposed;
     public void AddEntity(Entity.Entity entity) {
         _entityQueue.Add(entity);
+    }
+
+    public void RemoveEntity(Entity.Entity entity) {
+        _removeQueue.Add(entity);
     }
 
     public void Dispose() {
@@ -103,9 +108,13 @@ internal class EntityManager : IDisposable {
 
     private readonly List<Entity.Entity> _entities;
     private readonly List<Entity.Entity> _entityQueue;
+    private readonly List<Entity.Entity> _removeQueue;
     private readonly SpriteManager _spriteManager;
     private void ProcessEntityQueue() {
         this._entities.AddRange(this._entityQueue);
+        foreach ( Entity.Entity entity in this._removeQueue ) {
+            this._entities.Remove(entity);
+        }
         this._entityQueue.Clear();
     }
 }

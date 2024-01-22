@@ -151,6 +151,7 @@ internal class Entity : IDisposable {
         }
         this.Sprite.Dispose();
         this.Collision.Dispose();
+        Game2.Instance().RemoveEntity(this);
         this._disposed = true;
     }
 }

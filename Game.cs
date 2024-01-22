@@ -168,6 +168,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
     public void AddEntity(Entity entity) {
         this._entityManager.AddEntity(entity);
     }
+    public void RemoveEntity(Entity entity) {
+        this._entityManager.RemoveEntity(entity);
+    }
 
     private async Task Save() {
         if ( this._isSaving ) {
