@@ -26,6 +26,7 @@ internal class Sprite
             Vector2 position,
             [Optional] float rotation,
             [Optional] float scale,
+            [Optional] Vector2 origin,
             [Optional] Rectangle sourceRectangle,
             [Optional] Color color,
             [Optional] SpriteEffects effects,
@@ -50,8 +51,13 @@ internal class Sprite
         {
             Scale = scale;
         }
-        if (sourceRectangle == default)
-        {
+        if (origin == default) {
+            Origin = Vector2.Zero;
+        }
+        else {
+            Origin = origin;
+        }
+        if (sourceRectangle == default) {
             SourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
         }
         else
@@ -112,6 +118,8 @@ internal class Sprite
     /// Gets or sets the position of the sprite.
     /// </summary>
     public Vector2 Position { get; set; }
+
+    public Vector2 Origin { get; set; }
 
     /// <summary>
     /// Gets the rotation of the sprite in radians.
