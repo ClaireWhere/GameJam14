@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Ignore Spelling: Calc
+
+using System;
 using System.Diagnostics;
 
 using Microsoft.Xna.Framework;
@@ -15,8 +17,6 @@ internal class Camera {
         this._baseZoom = this.CalcZoomFromHeight(screen.Height);
         this._zoom = this._baseZoom;
         this._incrementZoom = 10f;
-
-        //this.origin = new Vector2(screen.Height / 2.0f, screen.Height / 2.0f);
 
         this.UpdateViewMatrix();
         this.UpdateProjectionMatrix();
@@ -51,6 +51,12 @@ internal class Camera {
     }
 
     public void MoveTo(Vector2 position) {
+        const float c_delta = 1f;
+
+        if (Vector2.Distance(this.Position, position) < c_delta) {
+            return;
+        }
+
         this.position = position;
     }
 
@@ -90,8 +96,8 @@ internal class Camera {
 
     public void UpdateViewMatrix() {
         this.view = Matrix.CreateLookAt(
-            cameraPosition: new Vector3(0, 0, -this._zoom),
-            cameraTarget: Vector3.Zero,
+            cameraPosition: new Vector3(this.Position.X, this.Position.Y, -this._zoom),
+            cameraTarget: new Vector3(this.Position.X, this.Position.Y, 0),
             cameraUpVector: Vector3.Down
         );
     }

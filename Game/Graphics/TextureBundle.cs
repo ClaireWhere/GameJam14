@@ -18,6 +18,7 @@ internal class TextureBundle : IDisposable {
     public TextureBundle(Dictionary<TextureType, Texture2D> textures, TextureType? initialState = null) {
         _textures = textures;
         _currentState = initialState ?? textures.Keys.First();
+        _disposed = false;
     }
 
     public TextureType CurrentState {
@@ -64,11 +65,10 @@ internal class TextureBundle : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
-        foreach ( Texture2D texture in this._textures.Values ) {
-            texture.Dispose();
+        if (this._disposed) {
+            return;
         }
-        this.Texture.Dispose();
-        this.Dispose();
+        this._disposed = true;
     }
 
     /// <summary>
@@ -84,4 +84,5 @@ internal class TextureBundle : IDisposable {
     private bool HasTexture(TextureType type) {
         return _textures.ContainsKey(type);
     }
+    private bool _disposed;
 }

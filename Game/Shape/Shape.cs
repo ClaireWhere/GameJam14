@@ -24,6 +24,8 @@ public abstract class Shape : IDisposable {
     /// </returns>
     public abstract bool Contains(Vector2 point);
 
+    private bool _disposed;
+
     public void Dispose() {
         this.Dispose(true);
         GC.SuppressFinalize(this);
@@ -74,6 +76,9 @@ public abstract class Shape : IDisposable {
     public abstract bool Intersects(Circle circle);
 
     protected virtual void Dispose(bool disposing) {
-        this.Dispose();
+        if ( this._disposed ) {
+            return;
+        }
+        this._disposed = true;
     }
 }

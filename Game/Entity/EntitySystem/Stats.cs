@@ -10,6 +10,7 @@ internal class Stats : IDisposable {
         Defense = defense;
         IdleSpeed = idleSpeed;
         RunSpeed = runSpeed;
+        this._disposed = false;
     }
 
     public Stats() {
@@ -18,6 +19,7 @@ internal class Stats : IDisposable {
         Defense = 0;
         IdleSpeed = 0;
         RunSpeed = 0;
+        this._disposed = false;
     }
 
     public int Attack { get; set; }
@@ -57,6 +59,10 @@ internal class Stats : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
-        this.Dispose();
+        if ( this._disposed ) {
+            return;
+        }
+        this._disposed = true;
     }
+    private bool _disposed;
 }

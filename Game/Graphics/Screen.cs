@@ -15,6 +15,8 @@ internal class Screen : IDisposable {
     private readonly int _width;
     private readonly int _height;
 
+    private bool _disposed;
+
     public int Width { get { return this._width; } }
     public int Height { get { return this._height; } }
 
@@ -31,6 +33,7 @@ internal class Screen : IDisposable {
         this._width = width;
         this._height = height;
         this._renderTarget = new RenderTarget2D(Game2.Instance().GraphicsDevice, _width, _height);
+        this._disposed = false;
     }
 
     public void Set() {
@@ -90,7 +93,10 @@ internal class Screen : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
+        if ( this._disposed ) {
+            return;
+        }
         this._renderTarget.Dispose();
-        this.Dispose();
+        this._disposed = true;
     }
 }

@@ -17,11 +17,17 @@ internal class EntityManager : IDisposable {
     public EntityManager() {
         this._entities = new List<Entity.Entity>();
         this._entityQueue = new List<Entity.Entity>();
+        this._removeQueue = new List<Entity.Entity>();
         _spriteManager = new SpriteManager();
+        this._disposed = false;
     }
-
+    private bool _disposed;
     public void AddEntity(Entity.Entity entity) {
         _entityQueue.Add(entity);
+    }
+
+    public void RemoveEntity(Entity.Entity entity) {
+        _removeQueue.Add(entity);
     }
 
     public void Dispose() {
@@ -73,7 +79,6 @@ internal class EntityManager : IDisposable {
                 continue;
             }
             enemy.CurrentTarget = null;
-            // Debug.WriteLine("Lost target");
             if ( enemy.Target.Type == Target.TargetType.Player ) {
                 float distance = Vector2.Distance(enemy.Position, Player().Position);
                 if ( enemy.Target.TargetRange >= distance ) {
@@ -94,17 +99,22 @@ internal class EntityManager : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
-        this._entities.Clear();
-        this._entityQueue.Clear();
+        if ( this._disposed ) {
+            return;
+        }
         this._spriteManager.Dispose();
-        this.Dispose();
+        this._disposed = true;
     }
 
     private readonly List<Entity.Entity> _entities;
-    private List<Entity.Entity> _entityQueue;
-    private SpriteManager _spriteManager;
+    private readonly List<Entity.Entity> _entityQueue;
+    private readonly List<Entity.Entity> _removeQueue;
+    private readonly SpriteManager _spriteManager;
     private void ProcessEntityQueue() {
         this._entities.AddRange(this._entityQueue);
+        foreach ( Entity.Entity entity in this._removeQueue ) {
+            this._entities.Remove(entity);
+        }
         this._entityQueue.Clear();
     }
 }
