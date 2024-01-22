@@ -58,7 +58,6 @@ internal class Inventory : IDisposable {
         if ( this._disposed ) {
             return;
         }
-        this.Dispose();
         this._disposed = true;
     }
 

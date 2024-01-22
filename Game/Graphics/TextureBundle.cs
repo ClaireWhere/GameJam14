@@ -68,7 +68,6 @@ internal class TextureBundle : IDisposable {
         if (this._disposed) {
             return;
         }
-        this.Dispose();
         this._disposed = true;
     }
 

@@ -97,7 +97,6 @@ internal class Screen : IDisposable {
             return;
         }
         this._renderTarget.Dispose();
-        this.Dispose();
         this._disposed = true;
     }
 }

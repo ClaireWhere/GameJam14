@@ -28,7 +28,6 @@ internal class Modifier : IDisposable {
             return;
         }
         this.Stats.Dispose();
-        this.Dispose();
         this._disposed = true;
     }
 

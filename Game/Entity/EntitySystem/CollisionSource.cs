@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameJam14.Game.Entity.EntitySystem;
 /// <summary>
@@ -102,7 +103,6 @@ public class CollisionSource : IDisposable {
         if ( this._disposed ) {
             return;
         }
-        this.Dispose();
         this._disposed = true;
     }
 }

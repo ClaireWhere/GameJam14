@@ -10,6 +10,7 @@ internal class Attack : IDisposable {
         AttackSpeed = attackSpeed;
         AttackCooldown = attackCooldown;
         AttackDamage = attackDamage;
+        this._disposed = false;
     }
 
     public Attack() {
@@ -100,6 +101,10 @@ internal class Attack : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
-        this.Dispose();
+        if ( this._disposed ) {
+            return;
+        }
+        this._disposed = true;
     }
+    private bool _disposed;
 }

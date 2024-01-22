@@ -108,7 +108,6 @@ internal class SpriteManager : IDisposable {
         }
         this._effect.Dispose();
         this._spriteBatch.Dispose();
-        this.Dispose();
         this._disposed = true;
     }
 

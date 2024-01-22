@@ -97,10 +97,7 @@ internal class EntityManager : IDisposable {
         if ( this._disposed ) {
             return;
         }
-        this._entities.Clear();
-        this._entityQueue.Clear();
         this._spriteManager.Dispose();
-        this.Dispose();
         this._disposed = true;
     }
 

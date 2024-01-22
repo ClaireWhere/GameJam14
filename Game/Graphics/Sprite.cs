@@ -150,7 +150,6 @@ internal class Sprite : IDisposable {
         }
         this.Texture.Dispose();
         this.Textures.Dispose();
-        this.Dispose();
         this._disposed = true;
     }
 
