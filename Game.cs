@@ -20,6 +20,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     private SpriteBatch _spriteBatch;
 
     private Screen _screen;
+    private Camera _camera;
 
     private EntityManager _entityManager;
     private SaveManager _saveManager;
@@ -69,6 +70,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         this._entityManager = new EntityManager();
 
         this._screen = new Screen(1920, 1080);
+        this._camera = new Camera(this._screen);
 
         base.Initialize();
     }
