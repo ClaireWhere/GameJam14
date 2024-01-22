@@ -10,7 +10,7 @@ namespace GameJam14.Game.Entity.EntitySystem;
 /// <summary>
 /// Handles collisions between different types of objects and shapes.
 /// </summary>
-public class CollisionSource
+public class CollisionSource : IDisposable
 {
     /// <summary>
     /// Gets or sets the type of the collision.
@@ -86,5 +86,17 @@ public class CollisionSource
         }
 
         return false;
+    }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        foreach ( Shape.Shape shape in this.Hitbox ) {
+            shape.Dispose();
+        }
+        this.Dispose();
     }
 }

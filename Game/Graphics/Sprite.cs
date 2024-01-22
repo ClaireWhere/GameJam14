@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Graphics;
-internal class Sprite
+internal class Sprite : IDisposable
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="Sprite"/> class.
@@ -144,5 +144,16 @@ internal class Sprite
             return;
         }
         Textures.SetState(type);
+    }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        this.Texture.Dispose();
+        this.Textures.Dispose();
+        this.Dispose();
     }
 }

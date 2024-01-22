@@ -100,4 +100,13 @@ internal class EntityActor : Entity {
         this.Modifiers.Add(modifier);
     }
 
+    protected override void Dispose(bool disposing) {
+        this.Stats.Dispose();
+        foreach ( Modifier modifier in this.Modifiers ) {
+            modifier.Dispose();
+        }
+        this.Inventory.Dispose();
+        this.Attack.Dispose();
+        base.Dispose(disposing);
+    }
 }

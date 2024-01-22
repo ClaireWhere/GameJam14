@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Entity.EntitySystem;
-internal class Item
+internal class Item : IDisposable
 {
     public enum ItemType
     {
@@ -40,4 +40,13 @@ internal class Item
         Price = 0;
     }
 
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        this.Stats.Dispose();
+        this.Dispose();
+    }
 }

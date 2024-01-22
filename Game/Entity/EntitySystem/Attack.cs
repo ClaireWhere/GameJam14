@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Entity.EntitySystem;
-internal class Attack
+internal class Attack : IDisposable
 {
     public enum AttackType
     {
@@ -122,5 +122,14 @@ internal class Attack
             AttackTimer = AttackSpeed;
             IsAttacking = false;
         }
+    }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        this.Dispose();
     }
 }

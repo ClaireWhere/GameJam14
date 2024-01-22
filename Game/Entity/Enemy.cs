@@ -121,4 +121,9 @@ internal class Enemy : EntityActor {
         Game2.Instance().AddEntity(cloud);
     }
 
+    protected override void Dispose(bool disposing) {
+        this.CurrentTarget.Dispose();
+        base.Dispose(disposing);
+    }
+
 }

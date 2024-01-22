@@ -9,7 +9,7 @@ namespace GameJam14.Game.Shape;
 /// <summary>
 /// The base class for a shape.
 /// </summary>
-public abstract class Shape {
+public abstract class Shape : IDisposable {
     public float Scale { get; set; } = 1f;
 
     /// <summary>
@@ -46,4 +46,13 @@ public abstract class Shape {
     /// <param name="circle">The circle to check whether this shape intersects.</param>
     /// <returns>True if the circle is within or on the bounds of the shape, False otherwise.</returns>
     public abstract bool Intersects(Circle circle);
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        this.Dispose();
+    }
 }

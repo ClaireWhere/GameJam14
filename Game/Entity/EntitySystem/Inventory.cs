@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Entity.EntitySystem;
-internal class Inventory
+internal class Inventory : IDisposable
 {
     public int Money { get; private set; }
 
@@ -70,5 +70,17 @@ internal class Inventory
         {
             return CalcTotalStats();
         }
+    }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        foreach ( Item item in this.Items ) {
+            item.Dispose();
+        }
+        this.Dispose();
     }
 }

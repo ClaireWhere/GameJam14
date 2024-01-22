@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam14.Game.GameSystem;
+internal class EntityManager : IDisposable {
     /// <summary>
     /// Initializes a new instance of the <see cref="EntityManager"/> class.
     /// </summary>
@@ -98,7 +99,16 @@ namespace GameJam14.Game.GameSystem;
         this._entityQueue.Clear();
     }
 
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
     }
 
+    protected virtual void Dispose(bool disposing) {
+        this._entities.Clear();
+        this._entityQueue.Clear();
+        this._spriteManager.Dispose();
+        this.Dispose();
     }
+
 }
