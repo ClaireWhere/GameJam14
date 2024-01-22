@@ -36,6 +36,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         }
         return s_Instance;
     }
+    public SpriteBatch SpriteBatch { get { return this._spriteBatch; } }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Game"/> class.
