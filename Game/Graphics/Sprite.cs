@@ -35,20 +35,16 @@ internal class Sprite
     {
         Textures = textures;
         Position = position;
-        if (rotation == default)
-        {
+        if (rotation == default) {
             Rotation = 0;
         }
-        else
-        {
+        else {
             Rotation = rotation;
         }
-        if (scale == default)
-        {
+        if (scale == default) {
             Scale = 1;
         }
-        else
-        {
+        else {
             Scale = scale;
         }
         if (origin == default) {
@@ -60,36 +56,28 @@ internal class Sprite
         if (sourceRectangle == default) {
             SourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
         }
-        else
-        {
+        else {
             SourceRectangle = sourceRectangle;
         }
-        if (color == default)
-        {
+        if (color == default) {
             Color = Color.White;
         }
-        else
-        {
+        else {
             Color = color;
         }
-        if (effects == default)
-        {
+        if (effects == default) {
             Effects = SpriteEffects.None;
         }
-        else
-        {
+        else {
             Effects = effects;
         }
-        if (layerDepth == default)
-        {
+        if (layerDepth == default) {
             LayerDepth = 0;
         }
-        else
-        {
+        else {
             LayerDepth = layerDepth;
         }
     }
-
 
     /// <summary>
     /// Gets the color filter of the sprite.
