@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Entity.EntitySystem;
-internal class Modifier
+internal class Modifier : IDisposable
 {
     public Stats Stats { get; private set; }
     private float Duration { get; set; }
@@ -28,4 +28,13 @@ internal class Modifier
         return TimeRemaining <= 0;
     }
 
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        this.Stats.Dispose();
+        this.Dispose();
+    }
 }

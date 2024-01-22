@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam14.Game.Graphics;
-internal class TextureBundle
+internal class TextureBundle : IDisposable
 {
 
 
@@ -79,4 +79,16 @@ internal class TextureBundle
         }
     }
 
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        foreach ( Texture2D texture in this._textures.Values ) {
+            texture.Dispose();
+        }
+        this.Texture.Dispose();
+        this.Dispose();
+    }
 }

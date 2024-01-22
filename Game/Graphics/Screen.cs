@@ -21,7 +21,6 @@ internal class Screen : IDisposable {
     public int Width { get { return this._width; } }
     public int Height { get { return this._height; } }
 
-    private bool _isDisposed;
     private readonly RenderTarget2D _renderTarget;
 
     public Screen(int width, int height) {
@@ -32,18 +31,9 @@ internal class Screen : IDisposable {
             throw new ArgumentOutOfRangeException(nameof(height), height, $"Height must be between {_min_height} and {_max_height}");
         }
 
-        this._isDisposed = false;
         this._width = width;
         this._height = height;
         this._renderTarget = new RenderTarget2D(Game2.Instance().GraphicsDevice, _width, _height);
-    }
-
-    public void Dispose() {
-        if (this._isDisposed) {
-            return;
-        }
-        this._renderTarget.Dispose();
-        this._isDisposed = true;
     }
 
     public void Set() {
@@ -95,5 +85,15 @@ internal class Screen : IDisposable {
             targetY = (int)((bounds.Height - targetHeight) / 2f);
         }
         return new Rectangle(targetX, targetY, targetWidth, targetHeight);
+    }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        this._renderTarget.Dispose();
+        this.Dispose();
     }
 }

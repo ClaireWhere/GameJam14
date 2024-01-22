@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game.Entity;
-internal class Entity {
+internal class Entity : IDisposable {
     public int Id { get; set; }
     public Vector2 Position { get; set; }
     public Vector2 Destination { get; set; }
@@ -126,4 +126,15 @@ internal class Entity {
     }
 
     public bool IsMoving { get { return this.Velocity != Vector2.Zero || this.Acceleration != Vector2.Zero; } }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        this.Sprite.Dispose();
+        this.Collision.Dispose();
+        this.Dispose();
+    }
 }

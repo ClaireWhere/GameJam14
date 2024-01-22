@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace GameJam14.Game;
-internal class Stats {
+internal class Stats : IDisposable {
     public int Health { get; set; }
     public int Attack { get; set; }
     public int Defense { get; set; }
@@ -54,5 +54,14 @@ internal class Stats {
         } else {
             this.Health -= damage;
         }
+    }
+
+    public void Dispose() {
+        this.Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing) {
+        this.Dispose();
     }
 }
