@@ -18,6 +18,9 @@ internal class Screen : IDisposable {
     private readonly int _width;
     private readonly int _height;
 
+    public int Width { get { return this._width; } }
+    public int Height { get { return this._height; } }
+
     private bool _isDisposed;
     private readonly RenderTarget2D _renderTarget;
 
