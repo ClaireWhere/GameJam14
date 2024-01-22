@@ -90,8 +90,8 @@ internal class Camera {
 
     public void UpdateViewMatrix() {
         this.view = Matrix.CreateLookAt(
-            cameraPosition: new Vector3(0, 0, -this._zoom),
-            cameraTarget: Vector3.Zero,
+            cameraPosition: new Vector3(this.Position.X, this.Position.Y, -this._zoom),
+            cameraTarget: new Vector3(this.Position.X, this.Position.Y, 0),
             cameraUpVector: Vector3.Down
         );
     }
