@@ -65,7 +65,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             this._graphics.ApplyChanges();
         };
 
-        // this.sprites = new List<Sprite>();
+        this._spriteBatch = new SpriteBatch(GraphicsDevice);
         this._entityManager = new EntityManager();
 
         this._screen = new Screen(1920, 1080);
@@ -78,19 +78,17 @@ internal class Game2 : Microsoft.Xna.Framework.Game
     /// </summary>
     protected override void LoadContent()
     {
-        _spriteBatch = new SpriteBatch(GraphicsDevice);
         Assets.LoadContent(this.Content);
 
-        this._entityManager.AddEntity(EntityData.Player);
+        // Add entities to queue, then update the entity manager to process the queue
+        this._entityManager.AddEntity(Player.Instance);
         this._entityManager.AddEntity(EntityData.Tree);
+        this._entityManager.Update(new GameTime());
 
-        this._currentSave = new SaveData((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
+        this._currentSave = new SaveData(this._entityManager.Player(), 0);
         this._saveManager = new SaveManager();
         this._saveManager.SelectSaveSlot(SaveManager.SaveSlot.One);
         this._saveManager.Update(this._currentSave);
-
-        //sprites.Add(SpriteData.PlayerSprite);
-        //sprites.Add(SpriteData.TreeSprite);
     }
 
     /// <summary>
@@ -122,8 +120,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             }
 
             // Update everything here
-            this.ProcessEntityQueue();
-            _entityManager.Update(gameTime);
+            this._entityManager.Update(gameTime);
         }
 
         if ( GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) )
@@ -140,7 +137,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         }
         this._isSaving = true;
         try {
-            this._currentSave.Update((Game.Entity.Player) this._entityManager.GetEntity(0), 0);
+            this._currentSave.Update(this._entityManager.Player(), 0);
             this._saveManager.Update(this._currentSave);
             await this._saveManager.Save();
         } catch ( Exception e ) {
@@ -179,16 +176,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         this._screen.Set();
         GraphicsDevice.Clear(Color.DarkSlateGray);
 
-        _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp);
-
-        //foreach (Sprite sprite in sprites)
-        //{
-        //    sprite.Draw(_spriteBatch);
-        //}
-
-        _entityManager.Draw(_spriteBatch);
-
-        _spriteBatch.End();
+        _entityManager.Draw(this._camera);
 
         this._screen.Unset();
         this._screen.Present(_spriteBatch);
