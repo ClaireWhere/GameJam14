@@ -43,11 +43,6 @@ internal class Entity {
         this.Move(gameTime);
     }
 
-    public virtual void Draw(SpriteBatch spriteBatch) {
-        this.Sprite.Position = this.Position;
-        this.Sprite.Draw(spriteBatch);
-    }
-
     public virtual void Kill() {
 
     }

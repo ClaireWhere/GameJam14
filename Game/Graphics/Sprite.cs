@@ -90,14 +90,6 @@ internal class Sprite
         }
     }
 
-    /// <summary>
-    /// Draws the sprite
-    /// </summary>
-    /// <param name="spriteBatch">The sprite batch to draw to.</param>
-    public void Draw(SpriteBatch spriteBatch)
-    {
-        spriteBatch.Draw(Texture, Position, SourceRectangle, Color, Rotation, Vector2.Zero, Scale, Effects, LayerDepth);
-    }
 
     /// <summary>
     /// Gets the color filter of the sprite.
