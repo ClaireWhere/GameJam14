@@ -81,6 +81,7 @@ internal class Sprite : IDisposable {
         } else {
             LayerDepth = layerDepth;
         }
+        this._disposed = true;
     }
 
     /// <summary>
@@ -144,13 +145,18 @@ internal class Sprite : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
+        if ( this._disposed ) {
+            return;
+        }
         this.Texture.Dispose();
         this.Textures.Dispose();
         this.Dispose();
+        this._disposed = true;
     }
 
     /// <summary>
     ///   Gets the texture of the sprite.
     /// </summary>
     private TextureBundle Textures { get; }
+    private bool _disposed;
 }

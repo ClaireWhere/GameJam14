@@ -77,6 +77,9 @@ internal class Enemy : EntityActor {
     }
 
     protected override void Dispose(bool disposing) {
+        if ( this._disposed ) {
+            return;
+        }
         this.CurrentTarget.Dispose();
         base.Dispose(disposing);
     }

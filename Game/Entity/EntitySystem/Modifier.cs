@@ -6,6 +6,7 @@ internal class Modifier : IDisposable {
         Stats = stats;
         Duration = duration;
         TimeRemaining = duration;
+        this._disposed = false;
     }
 
     public Stats Stats { get; private set; }
@@ -23,10 +24,15 @@ internal class Modifier : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
+        if ( this._disposed ) {
+            return;
+        }
         this.Stats.Dispose();
         this.Dispose();
+        this._disposed = true;
     }
 
     private float Duration { get; set; }
     private float TimeRemaining { get; set; }
+    public bool _disposed;
 }

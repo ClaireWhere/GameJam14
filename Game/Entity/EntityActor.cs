@@ -85,10 +85,10 @@ internal class EntityActor : Entity {
     }
 
     protected override void Dispose(bool disposing) {
-        this.Stats.Dispose();
-        foreach ( Modifier modifier in this.Modifiers ) {
-            modifier.Dispose();
+        if ( this._disposed ) {
+            return;
         }
+        this.Stats.Dispose();
         this.Inventory.Dispose();
         this.Attack.Dispose();
         base.Dispose(disposing);

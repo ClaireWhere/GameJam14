@@ -20,8 +20,9 @@ internal class Entity : IDisposable {
 
         this.Destination = Vector2.Zero;
         this.IsTraveling = false;
+        this._disposed = false;
     }
-
+    public bool _disposed;
     public Vector2 Acceleration { get; set; }
     public CollisionSource Collision { get; set; }
     public Vector2 Destination { get; set; }
@@ -91,6 +92,7 @@ internal class Entity : IDisposable {
     }
 
     public virtual void Kill() {
+        this.Dispose();
     }
 
     public void Move(GameTime gameTime) {
@@ -144,8 +146,12 @@ internal class Entity : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
+        if ( this._disposed ) {
+            return;
+        }
         this.Sprite.Dispose();
         this.Collision.Dispose();
         this.Dispose();
+        this._disposed = true;
     }
 }

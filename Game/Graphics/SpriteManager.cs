@@ -8,7 +8,9 @@ internal class SpriteManager : IDisposable {
     public SpriteManager() {
         this._spriteBatch = Game2.Instance().SpriteBatch;
         this._effect = this.GetDefaultEffect();
+        this._disposed = false;
     }
+    private bool _disposed;
 
     public void Begin(Camera camera) {
         if ( camera == null ) {
@@ -102,9 +104,13 @@ internal class SpriteManager : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
+        if ( this._disposed ) {
+            return;
+        }
         this._effect.Dispose();
         this._spriteBatch.Dispose();
         this.Dispose();
+        this._disposed = true;
     }
 
     private BasicEffect _effect;

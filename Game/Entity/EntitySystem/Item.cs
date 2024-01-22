@@ -8,6 +8,7 @@ internal class Item : IDisposable {
         Name = name;
         Description = description;
         Price = price;
+        this._disposed = false;
     }
 
     public Item(ItemType type, Stats stats, string name, string description) {
@@ -16,6 +17,7 @@ internal class Item : IDisposable {
         Name = name;
         Description = description;
         Price = 0;
+        this._disposed = false;
     }
 
     public enum ItemType {
@@ -37,7 +39,12 @@ internal class Item : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
+        if ( this._disposed ) {
+            return;
+        }
         this.Stats.Dispose();
         this.Dispose();
+        this._disposed = true;
     }
+    public bool _disposed;
 }

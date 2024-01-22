@@ -9,14 +9,16 @@ internal class Inventory : IDisposable {
     public Inventory() {
         Money = 0;
         Items = new List<Item>();
+        this._disposed = false;
     }
 
     [JsonConstructor]
     public Inventory(int money, List<Item> items) {
         Money = money;
         Items = items;
+        this._disposed = false;
     }
-
+    public bool _disposed;
     public List<Item> Items { get; private set; }
     public int Money { get; private set; }
     public Stats TotalStats {
@@ -53,10 +55,11 @@ internal class Inventory : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
-        foreach ( Item item in this.Items ) {
-            item.Dispose();
+        if ( this._disposed ) {
+            return;
         }
         this.Dispose();
+        this._disposed = true;
     }
 
     private Stats CalcTotalStats() {

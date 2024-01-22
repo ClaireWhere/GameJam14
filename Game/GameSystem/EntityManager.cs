@@ -18,8 +18,9 @@ internal class EntityManager : IDisposable {
         this._entities = new List<Entity.Entity>();
         this._entityQueue = new List<Entity.Entity>();
         _spriteManager = new SpriteManager();
+        this._disposed = false;
     }
-
+    private bool _disposed;
     public void AddEntity(Entity.Entity entity) {
         _entityQueue.Add(entity);
     }
@@ -94,10 +95,14 @@ internal class EntityManager : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
+        if ( this._disposed ) {
+            return;
+        }
         this._entities.Clear();
         this._entityQueue.Clear();
         this._spriteManager.Dispose();
         this.Dispose();
+        this._disposed = true;
     }
 
     private readonly List<Entity.Entity> _entities;

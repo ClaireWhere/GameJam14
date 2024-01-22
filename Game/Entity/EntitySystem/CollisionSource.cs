@@ -20,7 +20,9 @@ public class CollisionSource : IDisposable {
     public CollisionSource(CollisionType type, List<Shape.Shape> hitbox) {
         Type = type;
         Hitbox = hitbox;
+        this._disposed = false;
     }
+    private bool _disposed;
 
     /// <summary>
     ///   A list of shapes that represent the area of collision of this object.
@@ -97,9 +99,10 @@ public class CollisionSource : IDisposable {
     }
 
     protected virtual void Dispose(bool disposing) {
-        foreach ( Shape.Shape shape in this.Hitbox ) {
-            shape.Dispose();
+        if ( this._disposed ) {
+            return;
         }
         this.Dispose();
+        this._disposed = true;
     }
 }
