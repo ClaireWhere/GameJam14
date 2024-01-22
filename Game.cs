@@ -49,6 +49,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         IsMouseVisible = true;
         this._isSaving = false;
         this._isPaused = false;
+        this._currentSave = null;
     }
 
     /// <summary>
@@ -106,8 +107,8 @@ internal class Game2 : Microsoft.Xna.Framework.Game
         if (Input.IsKeyPressed(Keys.Escape)) {
             _isPaused = !_isPaused;
         }
-
-        if (Input.IsKeyPressed(Keys.F1)) {
+#if DEBUG
+        if ( Input.IsKeyPressed(Keys.F1)) {
             _ = this.Save();
         }
 
@@ -115,9 +116,46 @@ internal class Game2 : Microsoft.Xna.Framework.Game
             _ = this.LoadSave();
         }
 
-        if (!_isPaused && !_isSaving) {
+        if (Input.IsKeyPressed(Keys.F3)) {
+            this._entityManager.Reset();
+            this._entityManager.AddEntity(Player.Instance);
+        }
+
+        if (Input.IsKeyDown(Keys.Up)) {
+            Debug.WriteLine("Moving camera up");
+            this._camera.ZoomIn();
+        }
+        if (Input.IsKeyDown(Keys.Down)) {
+            this._camera.ZoomOut();
+        }
+
+        if (Input.IsKeyPressed(Keys.F6)) {
+            Debug.WriteLine(
+                "Player position: " + this._entityManager.Player().Position + "\n" +
+                "Player velocity: " + this._entityManager.Player().Velocity + "\n" +
+                "Player acceleration: " + this._entityManager.Player().Acceleration + "\n" +
+                "Player destination: " + this._entityManager.Player().Destination + "\n" +
+                "Player is traveling: " + this._entityManager.Player().IsTraveling + "\n" +
+                "Player is moving: " + this._entityManager.Player().IsMoving + "\n"
+            );
+
+            this._camera.GetExtents(out Vector2 topLeft, out Vector2 bottomRight, out Vector2 center);
+
+            Debug.WriteLine(
+                "Camera position: " + this._camera.Position + "\n" +
+                "Camera zoom: " + this._camera.Zoom + "\n" +
+                "Camera extents: " + topLeft + ", " + bottomRight + "\n" +
+                "Camera center: " + center + "\n"
+            );
+        }
+        if (Input.IsKeyPressed(Keys.F7)) {
+            this._entityManager.Player().TeleportTo(new Vector2(this._screen.Width/2, this._screen.Height/2));
+        }
+#endif
+
+        if ( !_isPaused && !_isSaving) {
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) ) {
-                Console.WriteLine("Space pressed");
+                Debug.WriteLine("Space pressed");
                 this.Draw(gameTime);
             }
 
