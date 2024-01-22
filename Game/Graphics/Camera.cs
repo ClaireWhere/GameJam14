@@ -51,6 +51,12 @@ internal class Camera {
     }
 
     public void MoveTo(Vector2 position) {
+        const float c_delta = 1f;
+
+        if (Vector2.Distance(this.Position, position) < c_delta) {
+            return;
+        }
+
         this.position = position;
     }
 
