@@ -158,6 +158,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
 
             // Update everything here
             this._entityManager.Update(gameTime);
+            this._camera.MoveTo(_entityManager.Player().Position);
         }
 
         if ( GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) )
