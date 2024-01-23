@@ -43,7 +43,7 @@ jobs:
 
     # Execute all unit tests in the solution
     - name: Execute Tests
-      run: dotnet test --no-build --verbosity normal
+      run: msbuild $env:Solution_Name /t:Test /p:Configuration=$env:Configuration
 
       # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
@@ -51,7 +51,5 @@ jobs:
       env:
         Configuration: ${{ matrix.configuration }}
         
-    
-    - name: Build
-      run: dotnet build --no-restore
-    
+    - name: Build the application
+      run: msbuild $env:Solution_Name /t:Build /p:Configuration=$env:Configuration
