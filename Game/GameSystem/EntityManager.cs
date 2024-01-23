@@ -28,6 +28,19 @@ internal class EntityManager : IDisposable {
 
     public void RemoveEntity(Entity.Entity entity) {
         _removeQueue.Add(entity);
+    public void CheckCollision(Entity.Entity entity)
+    {
+        foreach (Entity.Entity otherEntity in _entities)
+        {
+            if (entity == otherEntity)
+            {
+                continue;
+            }
+            if (entity.CheckCollision(otherEntity))
+            {
+
+            }
+        }
     }
 
     public void Dispose() {
