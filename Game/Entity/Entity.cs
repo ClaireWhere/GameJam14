@@ -36,6 +36,18 @@ internal class Entity : IDisposable {
         return this.Collision.CollidesWith(entity.Collision);
     }
 
+    public float StunDuration { get; set; }
+    private float _stunTimer { get; set; }
+    public bool IsStunned { get { return _stunTimer > 0f; } }
+
+    public void Stun(float duration) {
+        if ( duration < 0f ) {
+            throw new ArgumentOutOfRangeException(nameof(duration), "duration must be greater than 0");
+        }
+        this.StunDuration = duration;
+        this._stunTimer = 0f;
+    }
+
     /// <summary>
     ///   Sets the trajectory of the entity to the given destination with the given speed and
     ///   (optionally) acceleration.
@@ -96,6 +108,10 @@ internal class Entity : IDisposable {
     }
 
     public void Move(GameTime gameTime) {
+        if ( this.IsStunned ) {
+            return;
+        }
+
         if ( !this.IsMoving ) {
             return;
         }
@@ -142,7 +158,19 @@ internal class Entity : IDisposable {
     ///   The game time.
     /// </param>
     public virtual void Update(GameTime gameTime) {
+        this.UpdateStun(gameTime);
         this.Move(gameTime);
+    }
+
+    private void UpdateStun(GameTime gameTime) {
+        if ( !this.IsStunned ) {
+            return;
+        }
+        this._stunTimer += (float) gameTime.ElapsedGameTime.TotalSeconds;
+        if ( this._stunTimer >= this.StunDuration ) {
+            this._stunTimer = 0f;
+            this.StunDuration = 0f;
+        }
     }
 
     protected virtual void Dispose(bool disposing) {
