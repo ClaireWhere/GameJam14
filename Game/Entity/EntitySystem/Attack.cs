@@ -36,6 +36,10 @@ internal class Attack : IDisposable {
     public double AttackTimer { get; set; }
     public double CooldownTimer { get; set; }
     public bool IsAttacking { get; set; }
+    public float SlowMultiplier { get; set; }
+    public float SlowDuration { get; set; }
+    public float StunDuration { get; set; }
+
     public AttackType Type { get; set; }
     public bool CanAttack() {
         return CooldownTimer >= AttackCooldown && !IsAttacking;
