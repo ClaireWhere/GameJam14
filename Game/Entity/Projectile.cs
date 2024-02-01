@@ -22,6 +22,7 @@ internal class Projectile : Entity {
         this.TimeAlive = 0;
         this.Death = deathEffect;
         this.DirectedMove(angle, speed);
+        this.Health = 1;
     }
 
     public Projectile(int id, Vector2 position, float speed, Vector2 angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect, float slowAmount, float slowDuration)
@@ -52,8 +53,10 @@ internal class Projectile : Entity {
 
     public DeathEffect Death { get; set; }
     public int Power { get; set; }
+    public int Health { get; set; }
     public double TimeAlive { get; set; }
     public double TimeToLive { get; set; }
+    public bool IsAlive { get { return this.Health > 0; } }
     public override void Kill() {
         switch ( this.Death ) {
         case DeathEffect.None:
@@ -71,6 +74,10 @@ internal class Projectile : Entity {
     public override void Update(GameTime gameTime) {
         base.Update(gameTime);
         this.UpdateTimeAlive(gameTime.ElapsedGameTime.TotalSeconds);
+        if (!this.IsAlive) {
+            Debug.WriteLine(this.GetType().Name + " Entity is not alive");
+            this.Kill();
+        }
     }
 
     public void UpdateTimeAlive(double deltaTime) {
@@ -80,6 +87,14 @@ internal class Projectile : Entity {
         if ( this.TimeAlive >= this.TimeToLive ) {
             this.Kill();
             this.TimeAlive = -1f;
+        }
+    }
+
+    public void TakeDamage(int damage) {
+        Debug.WriteLine(this.GetType().Name + " Took " + damage + " damage");
+        this.Health -= damage;
+        if ( this.Health < 0 ) {
+            this.Health = 0;
         }
     }
 }
