@@ -20,12 +20,23 @@ public class LineSegment : Shape {
     public LineSegment(Vector2 start, Vector2 end) {
         this.Start = start;
         this.End = end;
+		this.Position = Vector2.Zero;
+		this.Scale = 1;
     }
 
     /// <summary>
     ///   Gets the destination vector of the line segment.
     /// </summary>
-    public Vector2 End { get; }
+    public Vector2 End {
+		get {
+			return this._end + this.Position;
+		}
+		set {
+			this._end = value;
+		}
+	}
+
+	private Vector2 _end;
 
     /// <summary>
     ///   Gets the length of the line segment.
@@ -53,7 +64,16 @@ public class LineSegment : Shape {
     /// <summary>
     ///   Gets the source vector of the line segment.
     /// </summary>
-    public Vector2 Start { get; }
+    public Vector2 Start {
+		get {
+			return this._start + this.Position;
+		}
+		set {
+			this._start = value;
+		}
+	}
+
+	private Vector2 _start;
 
     /// <summary>
     ///   Checks whether specified point falls on the line segment.

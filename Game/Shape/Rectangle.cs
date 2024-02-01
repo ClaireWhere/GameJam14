@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ public class Rectangle : Shape {
         Source = source;
         Width = width;
         Height = height;
+		Position = Vector2.Zero;
+		Scale = 1;
     }
 
     /// <summary>
@@ -35,7 +38,7 @@ public class Rectangle : Shape {
     /// </summary>
     public float Bottom {
         get {
-            return ScaledSource.Y + ScaledHeight;
+			return ScaledSource.Y + ScaledHeight;
         }
     }
 
@@ -85,7 +88,16 @@ public class Rectangle : Shape {
     /// <summary>
     ///   Top left corner
     /// </summary>
-    public Vector2 Source { get; }
+    public Vector2 Source {
+		get {
+			return this._source + this.Position;
+		}
+		set {
+			this._source = value;
+		}
+	}
+
+	private Vector2 _source;
 
     /// <summary>
     ///   Gets the top (Y-coordinate) of the rectangle.

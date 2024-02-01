@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 using System;
 using System.Collections.Generic;
@@ -81,4 +82,6 @@ public abstract class Shape : IDisposable {
         }
         this._disposed = true;
     }
+
+	public Vector2 Position { get; set; }
 }
