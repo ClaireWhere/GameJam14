@@ -22,6 +22,9 @@ internal class Projectile : Entity {
         this.TimeAlive = 0;
         this.Death = deathEffect;
         this.DirectedMove(angle, speed);
+        this.StunTime = 0;
+        this.SlowAmount = 1f;
+        this.SlowTime = 0;
         this.Health = 1;
     }
 
@@ -57,6 +60,10 @@ internal class Projectile : Entity {
     public double TimeAlive { get; set; }
     public double TimeToLive { get; set; }
     public bool IsAlive { get { return this.Health > 0; } }
+    public float SlowAmount { get; set; }
+    public float SlowTime { get; set; }
+    public float StunTime { get; set; }
+
     public override void Kill() {
         switch ( this.Death ) {
         case DeathEffect.None:
