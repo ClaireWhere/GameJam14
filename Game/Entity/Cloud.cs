@@ -12,14 +12,38 @@ namespace GameJam14.Game.Entity;
 internal class Cloud : Entity {
     // int id, Vector2 position, Vector2 velocity, Vector2 acceleration, CollisionSource collision,
     // Sprite sprite
-    public Cloud(int id, Vector2 position, Sprite sprite, float expansionSpeed, float expansionAcceleration, float maxExpansion, int damage, double damageDegradation)
+    public Cloud(int id, Vector2 position, Sprite sprite, CollisionSource.CollisionEffect collisionEffect, float expansionSpeed, float expansionAcceleration, float maxExpansion, int damage, double damageDegradation)
             : base(
                 id: id,
                 position: position,
                 collision: new CollisionSource(
-                    type: new CollisionType(CollisionType.SolidType.NonSolid,
-                        CollisionType.LightType.None,
-                        CollisionType.EntityType.Other, false, false),
+                    type: new CollisionType(
+                        solidType: CollisionType.SolidType.NonSolid,
+                        lightType: CollisionType.LightType.None,
+                        entityType: CollisionType.EntityType.Other, false, false),
+                    collisionEffect: collisionEffect,
+                    hitbox: new List<Shape.Shape>() { new Shape.Circle(position, sprite.Texture.Width) }),
+                sprite: sprite
+            ) {
+        this.ExpansionSpeed = expansionSpeed;
+        this.ExpansionAcceleration = expansionAcceleration;
+        this.Expansion = 0f;
+        this.MaxExpansion = maxExpansion;
+        this.Damage = damage;
+        this.DamageDegradation = damageDegradation;
+        this.HitboxRadius = sprite.Texture.Width;
+    }
+
+    public Cloud(int id, Vector2 position, Sprite sprite, List<CollisionSource.CollisionEffect> collisionEffects, float expansionSpeed, float expansionAcceleration, float maxExpansion, int damage, double damageDegradation)
+            : base(
+                id: id,
+                position: position,
+                collision: new CollisionSource(
+                    type: new CollisionType(
+                        solidType: CollisionType.SolidType.NonSolid,
+                        lightType: CollisionType.LightType.None,
+                        entityType: CollisionType.EntityType.Other, false, false),
+                    collisionEffects: collisionEffects,
                     hitbox: new List<Shape.Shape>() { new Shape.Circle(position, sprite.Texture.Width) }),
                 sprite: sprite
             ) {

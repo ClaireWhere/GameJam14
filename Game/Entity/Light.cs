@@ -19,6 +19,7 @@ internal class Light : Entity {
                         playerCollision: false,
                         enemyCollision: false
                     ),
+                    collisionEffect: CollisionSource.CollisionEffect.None,
                     hitbox: new List<Shape.Shape>() { new Shape.Circle(center: position, radius: 1) }),
                 sprite: sprite
             ) {

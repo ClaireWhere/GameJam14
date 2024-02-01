@@ -80,6 +80,7 @@ internal class Player : EntityActor {
                     playerCollision: false,
                     enemyCollision: false
                 ),
+                collisionEffect: CollisionSource.CollisionEffect.None,
                 hitbox: new List<Shape.Shape>() { new Shape.Rectangle(Vector2.Zero, Data.SpriteData.PlayerSprite.Texture.Width, Data.SpriteData.PlayerSprite.Texture.Height) }
             ),
         sprite: Data.SpriteData.PlayerSprite,

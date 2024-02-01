@@ -12,7 +12,8 @@ internal class Projectile : Entity {
                 position,
                 new CollisionSource(
                     type: new CollisionType(CollisionType.SolidType.NonSolid, CollisionType.LightType.None, CollisionType.EntityType.Other, hitsPlayer, hitsEnemy),
-                    hitbox: new List<Shape.Shape>() { new Shape.Rectangle(position, sprite.Texture.Width, sprite.Texture.Height) }
+                    collisionEffect: CollisionSource.CollisionEffect.Damage,
+                    hitbox: new List<Shape.Shape>() { new Shape.Rectangle(new Vector2(0, 0), sprite.Texture.Width, sprite.Texture.Height) }
                 ),
                 sprite
             ) {
@@ -21,6 +22,22 @@ internal class Projectile : Entity {
         this.TimeAlive = 0;
         this.Death = deathEffect;
         this.DirectedMove(angle, speed);
+    }
+
+    public Projectile(int id, Vector2 position, float speed, Vector2 angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect, float slowAmount, float slowDuration)
+        : base(
+            id,
+            position,
+            new CollisionSource(new CollisionType(CollisionType.SolidType.NonSolid, CollisionType.LightType.None, CollisionType.EntityType.Other, hitsPlayer, hitsEnemy), CollisionSource.CollisionEffect.Damage, new List<Shape.Shape>() { new Shape.Rectangle(position, sprite.Texture.Width, sprite.Texture.Height) }), sprite) {
+        this.Power = power;
+        this.TimeToLive = timeToLive;
+        this.TimeAlive = 0;
+        this.Death = deathEffect;
+        this.DirectedMove(angle, speed);
+        this.StunTime = 0;
+        this.SlowAmount = slowAmount;
+        this.SlowTime = slowDuration;
+        this.Health = 1;
     }
 
     /// <summary>

@@ -9,6 +9,17 @@ namespace GameJam14.Game.Entity.EntitySystem;
 ///   Handles collisions between different types of objects and shapes.
 /// </summary>
 public class CollisionSource : IDisposable {
+    public enum CollisionEffect {
+        Damage,
+        PreventMovement,
+        DestroyLight,
+        Heal,
+        Kill,
+        Stun,
+        Slow,
+        None
+    }
+
     /// <summary>
     ///   Initializes a new instance of the <see cref="CollisionSource" /> class.
     /// </summary>
@@ -18,9 +29,17 @@ public class CollisionSource : IDisposable {
     /// <param name="hitbox">
     ///   The area of collision of the object.
     /// </param>
-    public CollisionSource(CollisionType type, List<Shape.Shape> hitbox) {
-        Type = type;
-        Hitbox = hitbox;
+    public CollisionSource(CollisionType type, CollisionEffect collisionEffect, List<Shape.Shape> hitbox) {
+        this.Type = type;
+        this.Effects = new List<CollisionEffect>() { collisionEffect };
+        this.Hitbox = hitbox;
+        this._disposed = false;
+    }
+
+    public CollisionSource(CollisionType type, List<CollisionEffect> collisionEffects, List<Shape.Shape> hitbox) {
+        this.Type = type;
+        this.Effects = collisionEffects;
+        this.Hitbox = hitbox;
         this._disposed = false;
     }
     private bool _disposed;
@@ -34,6 +53,7 @@ public class CollisionSource : IDisposable {
     ///   Gets or sets the type of the collision.
     /// </summary>
     public CollisionType Type { get; protected set; }
+    public List<CollisionEffect> Effects { get; protected set; }
 
     /// <summary>
     ///   Checks whether a collision can occur between this source and another.
@@ -104,5 +124,9 @@ public class CollisionSource : IDisposable {
             return;
         }
         this._disposed = true;
+    }
+
+    public bool HasEffect(CollisionEffect effect) {
+        return Effects.Contains(effect);
     }
 }

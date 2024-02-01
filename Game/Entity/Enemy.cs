@@ -20,6 +20,7 @@ internal class Enemy : EntityActor {
             collision:
                 new CollisionSource(
                     type: new CollisionType(CollisionType.SolidType.Solid, CollisionType.LightType.None, CollisionType.EntityType.Enemy, true, false),
+                    collisionEffect: CollisionSource.CollisionEffect.Damage,
                     hitbox: hitbox
                 ),
             sprite: sprite,
@@ -109,6 +110,7 @@ internal class Enemy : EntityActor {
             id: 0,
             position: this.Position,
             sprite: Data.SpriteData.CloudSprite,
+			collisionEffect: CollisionSource.CollisionEffect.DestroyLight,
             expansionSpeed: 10,
             expansionAcceleration: 0,
             maxExpansion: 100,
