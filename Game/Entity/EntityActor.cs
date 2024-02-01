@@ -22,9 +22,12 @@ internal class EntityActor : Entity {
         this.Heal();
     }
 
+    static float InvincibilityDuration = 0.5f;
+
     public Attack Attack { get; private set; }
     public Stats BaseStats { get; private set; }
     public int Health { get; private set; }
+    public float InvincibilityTimer { get; set; }
     public Inventory Inventory { get; private set; }
     public bool IsAlive { get { return this.Health > 0; } }
     public bool IsDamaged { get { return this.Health < this.Stats.Health; } }
@@ -76,6 +79,7 @@ internal class EntityActor : Entity {
         if ( this.InvincibilityTimer > 0f ) {
             return;
         }
+        this.InvincibilityTimer = InvincibilityDuration;
         this.Health -= amount;
         if ( this.Health < 0 ) {
             this.Health = 0;
@@ -83,9 +87,20 @@ internal class EntityActor : Entity {
     }
 
     public override void Update(GameTime gameTime) {
+        this.UpdateInvincibility(gameTime);
         this.UpdateModifiers(gameTime);
         this.Attack.Update(gameTime.ElapsedGameTime.TotalSeconds);
         base.Update(gameTime);
+    }
+
+    private void UpdateInvincibility(GameTime gameTime) {
+        if (this.InvincibilityTimer <= 0f) {
+            return;
+        }
+        this.InvincibilityTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if (this.InvincibilityTimer < 0f) {
+            this.InvincibilityTimer = 0f;
+        }
     }
 
     public void UpdateInstance(string name, Stats baseStats, Inventory inventory) {
