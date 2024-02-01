@@ -72,6 +72,16 @@ internal class EntityActor : Entity {
         }
     }
 
+    public void TakeDamage(int amount) {
+        if ( this.InvincibilityTimer > 0f ) {
+            return;
+        }
+        this.Health -= amount;
+        if ( this.Health < 0 ) {
+            this.Health = 0;
+        }
+    }
+
     public override void Update(GameTime gameTime) {
         this.UpdateModifiers(gameTime);
         this.Attack.Update(gameTime.ElapsedGameTime.TotalSeconds);
