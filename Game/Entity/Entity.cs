@@ -153,6 +153,7 @@ internal class Entity : IDisposable {
     }
 
     public virtual void Kill() {
+        Debug.WriteLine("Killing " + this.GetType().Name + " Entity");
         this.Dispose();
     }
 
