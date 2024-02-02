@@ -17,7 +17,7 @@ public class CollisionType {
      * Darkness: Collides with Light
      * None: Only collides with other compatible None types
      *
-     * Each CollisionType has a PlayerCollision and EnemyCollision, which determines how it interacts with entities. A collision may have both, one, or neither of these.
+     * Each CollisionType has a PlayerCollision and EnemyCollision, which determines how it interacts with EntityActors. A collision may have both, one, or neither of these.
      * ----
      * PlayerCollision: Is able to collide with Player entities
      * EntityCollision: Is able to collide with Enemy entities
