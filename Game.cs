@@ -115,8 +115,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
 
         if ( Input.IsKeyPressed(Keys.F3) ) {
             this._entityManager.Reset();
-            this._entityManager.AddEntity(Player.Instance);
-        }
+			this._entityManager.AddEntity(Player.Instance);
+			this._entityManager.AddEntity(EntityData.Tree);
+		}
 
         if ( Input.IsKeyDown(Keys.Up) ) {
             Debug.WriteLine("Moving camera up");
