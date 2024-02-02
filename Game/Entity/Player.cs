@@ -98,10 +98,10 @@ internal class Player : EntityActor {
     }
 
     private void Shoot() {
-		Vector2 backportCenter = new Vector2(Game2.Instance().Graphics.PreferredBackBufferWidth / 2, Game2.Instance().Graphics.PreferredBackBufferHeight / 2);
-		Vector2 center = this.Position - Game2.Instance().Camera.Position + backportCenter;
-		Vector2 angle = Input.MousePosition - center;
-		angle.Normalize();
+        Vector2 backportCenter = new Vector2(Game2.Instance().Graphics.PreferredBackBufferWidth / 2, Game2.Instance().Graphics.PreferredBackBufferHeight / 2);
+        Vector2 center = this.Position - Game2.Instance().Camera.Position + backportCenter;
+        Vector2 angle = Input.MousePosition - center;
+        angle.Normalize();
 
         Projectile projectile = new Projectile(
             id: 0,

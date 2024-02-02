@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 internal class Cloud : Entity {
@@ -69,7 +70,7 @@ internal class Cloud : Entity {
     }
 
     public void HandleCollision(Light light) {
-        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.DestroyLight )) {
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.DestroyLight) ) {
             Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") killed entity " + light.Id + "(" + light.GetType().Name + ")");
             light.Kill();
         } else {

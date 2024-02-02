@@ -20,23 +20,23 @@ public class Circle : Shape {
     public Circle(Vector2 center, float radius) {
         this.Center = center;
         this.Radius = radius;
-		this.Position = Vector2.Zero;
-		this.Scale = 1;
+        this.Position = Vector2.Zero;
+        this.Scale = 1;
     }
 
     /// <summary>
     ///   Gets the center of the circle.
     /// </summary>
     public Vector2 Center {
-		get {
-			return this._center + this.Position;
-		}
-		set {
-			this._center = value;
-		}
-	}
+        get {
+            return this._center + this.Position;
+        }
+        set {
+            this._center = value;
+        }
+    }
 
-	private Vector2 _center;
+    private Vector2 _center;
 
     /// <summary>
     ///   Gets the radius of the circle.

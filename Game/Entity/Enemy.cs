@@ -105,7 +105,7 @@ internal class Enemy : EntityActor {
             id: 0,
             position: this.Position,
             sprite: Data.SpriteData.CloudSprite,
-			collisionEffect: CollisionSource.CollisionEffect.DestroyLight,
+            collisionEffect: CollisionSource.CollisionEffect.DestroyLight,
             expansionSpeed: 10,
             expansionAcceleration: 0,
             maxExpansion: 100,

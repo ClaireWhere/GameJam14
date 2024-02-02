@@ -126,6 +126,6 @@ public class CollisionSource : IDisposable {
     }
 
     public bool HasEffect(CollisionEffect effect) {
-        return Effects.Contains(effect);
+        return this.Effects.Contains(effect);
     }
 }

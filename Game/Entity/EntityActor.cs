@@ -4,6 +4,7 @@ using GameJam14.Game.Graphics;
 using Microsoft.Xna.Framework;
 
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 internal class EntityActor : Entity {
@@ -41,7 +42,7 @@ internal class EntityActor : Entity {
         base.HandleCollision(entity);
     }
 
-    static float InvincibilityDuration = 0.5f;
+    private static float InvincibilityDuration = 0.5f;
 
     public Attack Attack { get; private set; }
     public Stats BaseStats { get; private set; }
@@ -101,17 +102,6 @@ internal class EntityActor : Entity {
         }
     }
 
-    public void TakeDamage(int amount) {
-        if ( this.InvincibilityTimer > 0f ) {
-            return;
-        }
-        this.InvincibilityTimer = InvincibilityDuration;
-        this.Health -= amount;
-        if ( this.Health < 0 ) {
-            this.Health = 0;
-        }
-    }
-
     public override void Update(GameTime gameTime) {
         this.UpdateInvincibility(gameTime);
         this.UpdateModifiers(gameTime);
@@ -120,11 +110,11 @@ internal class EntityActor : Entity {
     }
 
     private void UpdateInvincibility(GameTime gameTime) {
-        if (this.InvincibilityTimer <= 0f) {
+        if ( this.InvincibilityTimer <= 0f ) {
             return;
         }
         this.InvincibilityTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (this.InvincibilityTimer < 0f) {
+        if ( this.InvincibilityTimer < 0f ) {
             this.InvincibilityTimer = 0f;
         }
     }

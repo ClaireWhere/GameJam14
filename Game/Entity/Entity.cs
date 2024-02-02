@@ -30,20 +30,20 @@ internal class Entity : IDisposable {
     public bool IsMoving { get { return this.Velocity != Vector2.Zero || this.Acceleration != Vector2.Zero; } }
     public bool IsTraveling { get; set; }
     public Vector2 Position {
-		get {
-			return this._position;
-		}
-		set {
-			this._position = value;
-			if ( this.Collision == null ) {
-				return;
-			}
-			foreach ( Shape.Shape shape in this.Collision.Hitbox ) {
-				shape.Position = value;
-			}
-		}
-	}
-	private Vector2 _position;
+        get {
+            return this._position;
+        }
+        set {
+            this._position = value;
+            if ( this.Collision == null ) {
+                return;
+            }
+            foreach ( Shape.Shape shape in this.Collision.Hitbox ) {
+                shape.Position = value;
+            }
+        }
+    }
+    private Vector2 _position;
     public Sprite Sprite { get; set; }
     public Vector2 Velocity { get; set; }
     public bool CheckCollision(Entity entity) {
@@ -55,13 +55,13 @@ internal class Entity : IDisposable {
     /// </summary>
     /// <param name="entity">The entity.</param>
     public virtual void HandleCollision(Entity entity) {
-        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Kill)) {
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Kill) ) {
             Debug.WriteLine("Entity " + this.Id + " was killed by entity " + entity.Id);
             entity.Kill();
         }
 
         // TODO: Handle directional "stop moving" effect - currently, this will make the entity stuck
-        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.PreventMovement)) {
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.PreventMovement) ) {
             entity.StopMoving();
         }
     }
@@ -69,18 +69,18 @@ internal class Entity : IDisposable {
     public float SlowMultiplier { get; set; }
     public float SlowDuration { get; set; }
     private float _slowTimer { get; set; }
-    private bool IsSlowed { get { return _slowTimer > 0f; } }
+    private bool IsSlowed { get { return this._slowTimer > 0f; } }
 
     public float StunDuration { get; set; }
     private float _stunTimer { get; set; }
-    public bool IsStunned { get { return _stunTimer > 0f; } }
+    public bool IsStunned { get { return this._stunTimer > 0f; } }
 
 
     public void Slow(float duration, float amount) {
-        if ( amount < 0f || amount > 1f) {
+        if ( amount < 0f || amount > 1f ) {
             throw new ArgumentOutOfRangeException(nameof(amount), "amount must be between 0 and 1");
         }
-        if (duration < 0f) {
+        if ( duration < 0f ) {
             throw new ArgumentOutOfRangeException(nameof(duration), "duration must be greater than 0");
         }
 
@@ -177,13 +177,13 @@ internal class Entity : IDisposable {
             }
         }
         this.Position = projectedPosition;
-        this.Velocity += this.Acceleration * (float) gameTime.ElapsedGameTime.TotalSeconds;
+        this.Velocity += this.Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
 
     public Vector2 ProjectPosition(GameTime gameTime) {
-        Vector2 vComponent = this.Velocity * (float) gameTime.ElapsedGameTime.TotalSeconds;
-        Vector2 aComponent = this.Acceleration * (float) Math.Pow(gameTime.ElapsedGameTime.TotalSeconds, 2) / 2;
-        if (this.IsSlowed) {
+        Vector2 vComponent = this.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        Vector2 aComponent = this.Acceleration * (float)Math.Pow(gameTime.ElapsedGameTime.TotalSeconds, 2) / 2;
+        if ( this.IsSlowed ) {
             vComponent *= this.SlowMultiplier;
             aComponent *= this.SlowMultiplier;
         }
@@ -230,7 +230,7 @@ internal class Entity : IDisposable {
         if ( !this.IsSlowed ) {
             return;
         }
-        this._slowTimer += (float) gameTime.ElapsedGameTime.TotalSeconds;
+        this._slowTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if ( this._slowTimer >= this.SlowDuration ) {
             this._slowTimer = 0f;
             this.SlowMultiplier = 1f;
@@ -242,7 +242,7 @@ internal class Entity : IDisposable {
         if ( !this.IsStunned ) {
             return;
         }
-        this._stunTimer += (float) gameTime.ElapsedGameTime.TotalSeconds;
+        this._stunTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if ( this._stunTimer >= this.StunDuration ) {
             this._stunTimer = 0f;
             this.StunDuration = 0f;

@@ -19,11 +19,11 @@ public class Rectangle : Shape {
     ///   The height.
     /// </param>
     public Rectangle(Vector2 source, float width, float height) {
-        Source = source;
-        Width = width;
-        Height = height;
-		Position = Vector2.Zero;
-		Scale = 1;
+        this.Source = source;
+        this.Width = width;
+        this.Height = height;
+        this.Position = Vector2.Zero;
+        this.Scale = 1;
     }
 
     /// <summary>
@@ -82,15 +82,15 @@ public class Rectangle : Shape {
     ///   Top left corner
     /// </summary>
     public Vector2 Source {
-		get {
-			return this._source + this.Position;
-		}
-		set {
-			this._source = value;
-		}
-	}
+        get {
+            return this._source + this.Position;
+        }
+        set {
+            this._source = value;
+        }
+    }
 
-	private Vector2 _source;
+    private Vector2 _source;
 
     /// <summary>
     ///   Gets the top (Y-coordinate) of the rectangle.

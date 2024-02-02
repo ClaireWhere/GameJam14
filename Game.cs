@@ -39,9 +39,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
     ///   Initializes a new instance of the <see cref="Game" /> class.
     /// </summary>
     private Game2() {
-        Graphics = new GraphicsDeviceManager(this);
-        Content.RootDirectory = "Content";
-        IsMouseVisible = true;
+        this.Graphics = new GraphicsDeviceManager(this);
+        this.Content.RootDirectory = "Content";
+        this.IsMouseVisible = true;
         this._isSaving = false;
         this._isPaused = false;
         this._currentSave = null;
@@ -54,10 +54,10 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         this.Graphics.PreferredBackBufferWidth = 1920;
         this.Graphics.PreferredBackBufferHeight = 1080;
         this.Graphics.ApplyChanges();
-        Window.AllowUserResizing = true;
-        Window.ClientSizeChanged += (sender, args) => {
-            this.Graphics.PreferredBackBufferWidth = Window.ClientBounds.Width;
-            this.Graphics.PreferredBackBufferHeight = Window.ClientBounds.Height;
+        this.Window.AllowUserResizing = true;
+        this.Window.ClientSizeChanged += (sender, args) => {
+            this.Graphics.PreferredBackBufferWidth = this.Window.ClientBounds.Width;
+            this.Graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
             this.Graphics.ApplyChanges();
         };
 
@@ -110,9 +110,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
 
         if ( Input.IsKeyPressed(Keys.F3) ) {
             this._entityManager.Reset();
-			this._entityManager.AddEntity(Player.Instance);
-			this._entityManager.AddEntity(EntityData.Tree);
-		}
+            this._entityManager.AddEntity(Player.Instance);
+            this._entityManager.AddEntity(EntityData.Tree);
+        }
 
         if ( Input.IsKeyDown(Keys.Up) ) {
             Debug.WriteLine("Moving camera up");
@@ -154,7 +154,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
 
             // Update everything here
             this._entityManager.Update(gameTime);
-            this.Camera.MoveTo(_entityManager.Player().Position);
+            this.Camera.MoveTo(this._entityManager.Player().Position);
         }
 
         if ( GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) ) {
@@ -211,12 +211,12 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
     /// </summary>
     protected override void Draw(GameTime gameTime) {
         this.Screen.Set();
-        GraphicsDevice.Clear(Color.DarkSlateGray);
+        this.GraphicsDevice.Clear(Color.DarkSlateGray);
 
-        _entityManager.Draw(this.Camera);
+        this._entityManager.Draw(this.Camera);
 
         this.Screen.Unset();
-        this.Screen.Present(_spriteBatch);
+        this.Screen.Present(this._spriteBatch);
 
         base.Draw(gameTime);
     }
