@@ -1,5 +1,6 @@
 ﻿
 using GameJam14;
+using GameJam14.Game;
 
-using Game2 game = Game2.Instance();
+using var game = Game2.Instance();
 game.Run();
