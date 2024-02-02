@@ -36,6 +36,22 @@ internal class Entity : IDisposable {
         return this.Collision.CollidesWith(entity.Collision);
     }
 
+    /// <summary>
+    /// Handles the collision between this and another entity considering this entity as the one being collided with (e.g., if this is a player and the other entity is a projectile, this method will handle the collision as if the player hit the projectile - rather than the projectile hitting the player).
+    /// </summary>
+    /// <param name="entity">The entity.</param>
+    public virtual void HandleCollision(Entity entity) {
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Kill)) {
+            Debug.WriteLine("Entity " + this.Id + " was killed by entity " + entity.Id);
+            entity.Kill();
+        }
+
+        // TODO: Handle directional "stop moving" effect - currently, this will make the entity stuck
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.PreventMovement)) {
+            entity.StopMoving();
+        }
+    }
+
     public float SlowMultiplier { get; set; }
     public float SlowDuration { get; set; }
     private float _slowTimer { get; set; }

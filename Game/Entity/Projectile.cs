@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
@@ -52,6 +53,41 @@ internal class Projectile : Entity {
         Default,
         Explode,
         None
+    }
+
+    public void HandleCollision(Projectile projectile) {
+        if (this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage)) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") damaged entity " + projectile.Id + "(" + projectile.GetType().Name + ")");
+            projectile.TakeDamage(this.Power);
+        } else {
+            base.HandleCollision(projectile);
+        }
+    }
+
+    public void HandleCollision(Light light) {
+        if (this.Collision.HasEffect(CollisionSource.CollisionEffect.DestroyLight)) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") killed entity " + light.Id + "(" + light.GetType().Name + ")");
+            light.Kill();
+        }
+        base.HandleCollision(light);
+    }
+
+    public void HandleCollision(EntityActor entity) {
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage )) {
+            Debug.WriteLine("Entity " + this.Id + "(" + entity.GetType().Name + ") damaged entity " + entity.Id + "(" + entity.GetType().Name + ")");
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was killed by colliding with entity " + entity.Id + "(" + entity.GetType().Name + ")");
+            entity.TakeDamage(this.Power);
+            this.Kill();
+        }
+        if (this.Collision.HasEffect(CollisionSource.CollisionEffect.Slow )) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") slowed entity " + entity.Id + "(" + entity.GetType().Name + ")");
+            entity.Slow(this.SlowTime, this.SlowAmount);
+        }
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Stun) ) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") stunned entity " + entity.Id + "(" + entity.GetType().Name + ")");
+            entity.Stun(this.StunTime);
+        }
+        base.HandleCollision(entity);
     }
 
     public DeathEffect Death { get; set; }

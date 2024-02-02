@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
@@ -66,6 +67,21 @@ internal class Cloud : Entity {
     public override void Update(GameTime gameTime) {
         base.Update(gameTime);
         this.UpdateExpansion(gameTime.ElapsedGameTime.TotalSeconds);
+    }
+
+    public void HandleCollision(Light light) {
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.DestroyLight )) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") killed entity " + light.Id + "(" + light.GetType().Name + ")");
+            light.Kill();
+        } else {
+            base.HandleCollision(light);
+        }
+    }
+    public void HandleCollision(EntityActor entity) {
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage) ) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") killed entity " + entity.Id + "(" + entity.GetType().Name + ")");
+            entity.TakeDamage((int)Math.Floor(this.Damage * this.DamageDegradation));
+        }
     }
 
     public void UpdateExpansion(double deltaTime) {

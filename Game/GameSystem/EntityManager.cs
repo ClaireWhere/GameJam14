@@ -28,17 +28,27 @@ internal class EntityManager : IDisposable {
 
     public void RemoveEntity(Entity.Entity entity) {
         _removeQueue.Add(entity);
-    public void CheckCollision(Entity.Entity entity)
-    {
-        foreach (Entity.Entity otherEntity in _entities)
-        {
-            if (entity == otherEntity)
-            {
+    }
+
+    private void HandleCollisions() {
+        bool[] handled = new bool[this._entities.Count];
+        for ( int i = 0; i < this._entities.Count; i++ ) {
+            if ( handled[i] ) {
                 continue;
             }
-            if (entity.CheckCollision(otherEntity))
-            {
-
+            handled[i] = true;  // important to set to true here so we don't check the same entity with itself
+            Entity.Entity entity = this._entities[i];
+            for ( int j = i + 1; j < this._entities.Count; j++ ) {
+                if ( handled[j] ) {
+                    continue;
+                }
+                handled[j] = true;
+                Entity.Entity otherEntity = this._entities[j];
+                if ( entity.CheckCollision(otherEntity) ) {
+                    Debug.WriteLine("Collision detected between " + entity.Id + " and " + otherEntity.Id);
+                    entity.HandleCollision(otherEntity);
+                    otherEntity.HandleCollision(entity);
+                }
             }
         }
     }
@@ -84,9 +94,10 @@ internal class EntityManager : IDisposable {
             entity.Update(gameTime);
         }
         this.UpdateTargets();
+        this.HandleCollisions();
     }
 
-    public void UpdateTargets() {
+    private void UpdateTargets() {
         foreach ( Enemy enemy in Enemies() ) {
             if ( enemy.IsTargetInRange() ) {
                 continue;

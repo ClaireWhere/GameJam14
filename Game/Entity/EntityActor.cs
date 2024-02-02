@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
@@ -20,6 +21,25 @@ internal class EntityActor : Entity {
         this.Attack = attack;
         this.Modifiers = new List<Modifier>();
         this.Heal();
+    }
+
+    public void HandleCollision(EntityActor entity) {
+        base.HandleCollision(entity);
+
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage) ) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was damaged by entity " + entity.Id + "(" + entity.GetType().Name + ")");
+            entity.TakeDamage(this.Attack.AttackDamage);
+        }
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Slow) ) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was slowed by entity " + entity.Id + "(" + entity.GetType().Name + ")");
+            entity.Slow(this.Attack.SlowDuration, this.Attack.SlowMultiplier);
+        }
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Stun) ) {
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was stunned by entity " + entity.Id + "(" + entity.GetType().Name + ")");
+            entity.Stun(this.Attack.StunDuration);
+        }
+
+        base.HandleCollision(entity);
     }
 
     static float InvincibilityDuration = 0.5f;
