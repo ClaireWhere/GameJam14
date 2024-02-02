@@ -3,20 +3,20 @@
 namespace GameJam14.Game.Entity.EntitySystem;
 internal class Item : IDisposable {
     public Item(ItemType type, Stats stats, string name, string description, int price) {
-        Type = type;
-        Stats = stats;
-        Name = name;
-        Description = description;
-        Price = price;
+        this.Type = type;
+        this.Stats = stats;
+        this.Name = name;
+        this.Description = description;
+        this.Price = price;
         this._disposed = false;
     }
 
     public Item(ItemType type, Stats stats, string name, string description) {
-        Type = type;
-        Stats = stats;
-        Name = name;
-        Description = description;
-        Price = 0;
+        this.Type = type;
+        this.Stats = stats;
+        this.Name = name;
+        this.Description = description;
+        this.Price = 0;
         this._disposed = false;
     }
 

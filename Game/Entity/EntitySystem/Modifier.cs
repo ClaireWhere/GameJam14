@@ -3,9 +3,9 @@
 namespace GameJam14.Game.Entity.EntitySystem;
 internal class Modifier : IDisposable {
     public Modifier(Stats stats, float duration) {
-        Stats = stats;
-        Duration = duration;
-        TimeRemaining = duration;
+        this.Stats = stats;
+        this.Duration = duration;
+        this.TimeRemaining = duration;
         this._disposed = false;
     }
 
@@ -16,11 +16,11 @@ internal class Modifier : IDisposable {
     }
 
     public bool IsExpired() {
-        return TimeRemaining <= 0;
+        return this.TimeRemaining <= 0;
     }
 
     public void Update(float deltaTime) {
-        TimeRemaining -= deltaTime;
+        this.TimeRemaining -= deltaTime;
     }
 
     protected virtual void Dispose(bool disposing) {

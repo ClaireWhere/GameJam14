@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace GameJam14.Game;
+namespace GameJam14.Game.Entity.EntitySystem;
 internal class Stats : IDisposable {
-    [JsonConstructorAttribute]
+    [JsonConstructor]
     public Stats(int health, int attack, int defense, int idleSpeed, int runSpeed) {
-        Health = health;
-        Attack = attack;
-        Defense = defense;
-        IdleSpeed = idleSpeed;
-        RunSpeed = runSpeed;
+        this.Health = health;
+        this.Attack = attack;
+        this.Defense = defense;
+        this.IdleSpeed = idleSpeed;
+        this.RunSpeed = runSpeed;
         this._disposed = false;
     }
 
     public Stats() {
-        Health = 0;
-        Attack = 0;
-        Defense = 0;
-        IdleSpeed = 0;
-        RunSpeed = 0;
+        this.Health = 0;
+        this.Attack = 0;
+        this.Defense = 0;
+        this.IdleSpeed = 0;
+        this.RunSpeed = 0;
         this._disposed = false;
     }
 

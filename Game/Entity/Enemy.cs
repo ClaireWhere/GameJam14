@@ -1,12 +1,12 @@
 ﻿// Ignore Spelling: hitbox
 
-using System;
-using System.Collections.Generic;
-
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
+
+using System;
+using System.Collections.Generic;
 
 using static GameJam14.Game.Entity.EntitySystem.Attack;
 
@@ -33,17 +33,12 @@ internal class Enemy : EntityActor {
     public Entity CurrentTarget { get; set; }
     public Target Target { get; set; }
     public bool IsTargetInDistance() {
-        if ( this.CurrentTarget == null ) {
-            return false;
-        }
-        return this.Target.TargetDistance >= Vector2.Distance(this.CurrentTarget.Position, this.Position);
+        return this.CurrentTarget != null
+&& this.Target.TargetDistance >= Vector2.Distance(this.CurrentTarget.Position, this.Position);
     }
 
     public bool IsTargetInRange() {
-        if ( this.CurrentTarget == null ) {
-            return false;
-        }
-        return this.Target.TargetRange >= Vector2.Distance(this.CurrentTarget.Position, this.Position);
+        return this.CurrentTarget != null && this.Target.TargetRange >= Vector2.Distance(this.CurrentTarget.Position, this.Position);
     }
 
     public void MoveRandomIdle() {

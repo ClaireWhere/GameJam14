@@ -7,15 +7,15 @@ using System.Text.Json.Serialization;
 namespace GameJam14.Game.Entity.EntitySystem;
 internal class Inventory : IDisposable {
     public Inventory() {
-        Money = 0;
-        Items = new List<Item>();
+        this.Money = 0;
+        this.Items = new List<Item>();
         this._disposed = false;
     }
 
     [JsonConstructor]
     public Inventory(int money, List<Item> items) {
-        Money = money;
-        Items = items;
+        this.Money = money;
+        this.Items = items;
         this._disposed = false;
     }
     public bool _disposed;
@@ -23,12 +23,12 @@ internal class Inventory : IDisposable {
     public int Money { get; private set; }
     public Stats TotalStats {
         get {
-            return CalcTotalStats();
+            return this.CalcTotalStats();
         }
     }
 
     public void AddItem(Item item) {
-        Items.Add(item);
+        this.Items.Add(item);
     }
 
     public void Dispose() {
@@ -37,20 +37,20 @@ internal class Inventory : IDisposable {
     }
 
     public bool HasFunds(int amount) {
-        return Money >= amount;
+        return this.Money >= amount;
     }
 
     public void ReceivePaycheck(int amount) {
-        Money += amount;
+        this.Money += amount;
     }
 
     public void RemoveItem(Item item) {
-        Items.Remove(item);
+        this.Items.Remove(item);
     }
 
     public void SpendMoney(int amount) {
-        if ( HasFunds(amount) ) {
-            Money -= amount;
+        if ( this.HasFunds(amount) ) {
+            this.Money -= amount;
         }
     }
 
@@ -63,7 +63,7 @@ internal class Inventory : IDisposable {
 
     private Stats CalcTotalStats() {
         Stats total = new Stats();
-        foreach ( Item item in Items ) {
+        foreach ( Item item in this.Items ) {
             total.Add(item.Stats);
         }
         return total;

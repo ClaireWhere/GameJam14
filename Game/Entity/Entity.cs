@@ -1,12 +1,12 @@
 ﻿// Ignore Spelling: Teleport
 
-using System;
-using System.Diagnostics;
-
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
+
+using System;
+using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 internal class Entity : IDisposable {
@@ -75,8 +75,8 @@ internal class Entity : IDisposable {
     ///   The acceleration.
     /// </param>
     public void DirectedMove(double angle, float speed, float acceleration = 0f) {
-        this.Velocity = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle)) * speed;
-        this.Acceleration = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle)) * acceleration;
+        this.Velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * speed;
+        this.Acceleration = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * acceleration;
         this.IsTraveling = false;
     }
 
@@ -99,7 +99,7 @@ internal class Entity : IDisposable {
         if ( !this.IsMoving ) {
             return;
         }
-        Vector2 projectedPosition = this.Position + ( this.Velocity * (float) gameTime.ElapsedGameTime.TotalSeconds ) + ( this.Acceleration * (float) Math.Pow(gameTime.ElapsedGameTime.TotalSeconds, 2) / 2 );
+        Vector2 projectedPosition = this.Position + ( this.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds ) + ( this.Acceleration * (float)Math.Pow(gameTime.ElapsedGameTime.TotalSeconds, 2) / 2 );
         Debug.WriteLine("Projected position: " + projectedPosition);
         if ( this.IsTraveling ) {
             // Check if the entity is going to reach or pass its destination
@@ -111,7 +111,7 @@ internal class Entity : IDisposable {
             }
         }
         this.Position = projectedPosition;
-        this.Velocity += this.Acceleration * (float) gameTime.ElapsedGameTime.TotalSeconds;
+        this.Velocity += this.Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
 
     public void StopMoving() {
