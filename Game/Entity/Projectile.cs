@@ -128,6 +128,7 @@ internal class Projectile : Entity {
             this.TimeAlive += deltaTime;
         }
         if ( this.TimeAlive >= this.TimeToLive ) {
+            Debug.WriteLine(this.GetType().Name + " Entity has expired after " + this.TimeAlive + "s of " + this.TimeToLive + "s");
             this.Kill();
             this.TimeAlive = -1f;
         }
