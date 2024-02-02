@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameJam14.Game.Graphics;
 internal class TextureBundle : IDisposable {
@@ -16,14 +16,14 @@ internal class TextureBundle : IDisposable {
     ///   The initial state.
     /// </param>
     public TextureBundle(Dictionary<TextureType, Texture2D> textures, TextureType? initialState = null) {
-        _textures = textures;
-        _currentState = initialState ?? textures.Keys.First();
-        _disposed = false;
+        this._textures = textures;
+        this._currentState = initialState ?? textures.Keys.First();
+        this._disposed = false;
     }
 
     public TextureType CurrentState {
         get {
-            return _currentState;
+            return this._currentState;
         }
     }
 
@@ -32,7 +32,7 @@ internal class TextureBundle : IDisposable {
     /// </summary>
     public Texture2D Texture {
         get {
-            return _textures[_currentState];
+            return this._textures[this._currentState];
         }
     }
 
@@ -42,8 +42,8 @@ internal class TextureBundle : IDisposable {
     }
 
     public void SetState(TextureType state) {
-        if ( HasTexture(state) ) {
-            _currentState = state;
+        if ( this.HasTexture(state) ) {
+            this._currentState = state;
         }
     }
 
@@ -57,15 +57,15 @@ internal class TextureBundle : IDisposable {
     ///   The texture.
     /// </param>
     public void SetTexture(TextureType type, Texture2D texture) {
-        if ( HasTexture(type) ) {
-            _textures[type] = texture;
+        if ( this.HasTexture(type) ) {
+            this._textures[type] = texture;
         } else {
-            _textures.Add(type, texture);
+            this._textures.Add(type, texture);
         }
     }
 
     protected virtual void Dispose(bool disposing) {
-        if (this._disposed) {
+        if ( this._disposed ) {
             return;
         }
         this._disposed = true;
@@ -82,7 +82,7 @@ internal class TextureBundle : IDisposable {
     private Dictionary<TextureType, Texture2D> _textures { get; }
 
     private bool HasTexture(TextureType type) {
-        return _textures.ContainsKey(type);
+        return this._textures.ContainsKey(type);
     }
     private bool _disposed;
 }

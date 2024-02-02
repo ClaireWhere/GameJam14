@@ -8,10 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GameJam14;
@@ -32,13 +29,11 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
 
     private static Game2 s_Instance;
     public static Game2 Instance() {
-        if ( s_Instance == null ) {
-            s_Instance = new Game2();
-        }
+        s_Instance ??= new Game2();
         return s_Instance;
     }
 
-    public SpriteBatch SpriteBatch { get { return this._spriteBatch; } }
+    public SpriteBatch SpriteBatch { get; private set; }
 
     /// <summary>
     ///   Initializes a new instance of the <see cref="Game" /> class.
@@ -66,7 +61,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
             this.Graphics.ApplyChanges();
         };
 
-        this._spriteBatch = new SpriteBatch(GraphicsDevice);
+        this.SpriteBatch = new SpriteBatch(this.GraphicsDevice);
         this._entityManager = new EntityManager();
 
         this.Screen = new Screen(1920, 1080);
@@ -102,7 +97,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         Input.Update();
 
         if ( Input.IsKeyPressed(Keys.Escape) ) {
-            _isPaused = !_isPaused;
+            this._isPaused = !this._isPaused;
         }
 #if DEBUG
         if ( Input.IsKeyPressed(Keys.F1) ) {
@@ -151,7 +146,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         }
 #endif
 
-        if ( !_isPaused && !_isSaving ) {
+        if ( !this._isPaused && !this._isSaving ) {
             if ( Keyboard.GetState().IsKeyDown(Keys.Space) ) {
                 Debug.WriteLine("Space pressed");
                 this.Draw(gameTime);
@@ -162,8 +157,9 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
             this.Camera.MoveTo(_entityManager.Player().Position);
         }
 
-        if ( GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) )
+        if ( GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) ) {
             base.Update(gameTime);
+        }
     }
 
     public void AddEntity(Entity entity) {

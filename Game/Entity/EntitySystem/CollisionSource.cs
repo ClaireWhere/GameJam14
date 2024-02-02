@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 
 namespace GameJam14.Game.Entity.EntitySystem;
 /// <summary>
@@ -65,7 +64,7 @@ public class CollisionSource : IDisposable {
     ///   True if the two sources are able to collide, false otherwise.
     /// </returns>
     public bool CanCollideWith(CollisionSource other) {
-        return Type.Collides(other.Type);
+        return this.Type.Collides(other.Type);
     }
 
     /// <summary>
@@ -79,12 +78,12 @@ public class CollisionSource : IDisposable {
     ///   between the hitboxes of the collision sources, false otherwise.
     /// </returns>
     public bool CollidesWith(CollisionSource other) {
-        if ( !CanCollideWith(other) ) {
+        if ( !this.CanCollideWith(other) ) {
             return false;
         }
 
-        for ( int i = 0; i < Hitbox.Count; i++ ) {
-            Shape.Shape shape = Hitbox[i];
+        for ( int i = 0; i < this.Hitbox.Count; i++ ) {
+            Shape.Shape shape = this.Hitbox[i];
             if ( other.CollidesWith(shape) ) {
                 return true;
             }
@@ -104,8 +103,8 @@ public class CollisionSource : IDisposable {
     ///   hitbox, false otherwise.
     /// </returns>
     public bool CollidesWith(Shape.Shape hitbox) {
-        for ( int i = 0; i < Hitbox.Count; i++ ) {
-            Shape.Shape shape = Hitbox[i];
+        for ( int i = 0; i < this.Hitbox.Count; i++ ) {
+            Shape.Shape shape = this.Hitbox[i];
             if ( shape.Intersects(hitbox) ) {
                 return true;
             }

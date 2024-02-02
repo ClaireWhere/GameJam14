@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam14.Game.Shape;
 
@@ -43,7 +43,7 @@ public class LineSegment : Shape {
     /// </summary>
     public float Length {
         get {
-            return Vector2.Distance(Start, End);
+            return Vector2.Distance(this.Start, this.End);
         }
     }
 
@@ -115,11 +115,9 @@ public class LineSegment : Shape {
         // if denominator is 0, the lines are parallel, so they do not intersect. If the numerator
         // is also 0, the lines are collinear (return the center).
         if ( denominator == 0 ) {
-            if ( intersectThisNumerator == 0 && intersectOtherNumerator == 0 ) {
-                return new Vector2(this.Start.X + ( ( this.ScaledEnd.X - this.Start.X ) / 2 ), this.Start.Y + ( ( this.ScaledEnd.Y - this.Start.Y ) / 2 ));
-            } else {
-                return Vector2.Zero;
-            }
+            return intersectThisNumerator == 0 && intersectOtherNumerator == 0
+                ? new Vector2(this.Start.X + ( ( this.ScaledEnd.X - this.Start.X ) / 2 ), this.Start.Y + ( ( this.ScaledEnd.Y - this.Start.Y ) / 2 ))
+                : Vector2.Zero;
         }
 
         // The distance along the "this" line at which the intersection occurs
@@ -127,11 +125,9 @@ public class LineSegment : Shape {
         // The distance along the "other" line at which the intersection occurs
         float intersectOther = intersectOtherNumerator / denominator;
 
-        if ( intersectThis >= 0 && intersectThis <= 1 && intersectOther >= 0 && intersectOther <= 1 ) {
-            return new Vector2(this.Start.X + ( ( this.ScaledEnd.X - this.Start.X ) * intersectThis ), this.Start.Y + ( ( this.ScaledEnd.Y - this.Start.Y ) * intersectThis ));
-        } else {
-            return Vector2.Zero;
-        }
+        return intersectThis >= 0 && intersectThis <= 1 && intersectOther >= 0 && intersectOther <= 1
+            ? new Vector2(this.Start.X + ( ( this.ScaledEnd.X - this.Start.X ) * intersectThis ), this.Start.Y + ( ( this.ScaledEnd.Y - this.Start.Y ) * intersectThis ))
+            : Vector2.Zero;
     }
 
     public override bool Intersects(Shape shape) {

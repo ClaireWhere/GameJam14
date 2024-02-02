@@ -1,12 +1,12 @@
 ﻿// Ignore Spelling: Teleport
 
-using System;
-using System.Diagnostics;
-
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
+
+using System;
+using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 internal class Entity : IDisposable {
@@ -136,8 +136,8 @@ internal class Entity : IDisposable {
     ///   The acceleration.
     /// </param>
     public void DirectedMove(double angle, float speed, float acceleration = 0f) {
-        this.Velocity = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle)) * speed;
-        this.Acceleration = new Vector2((float) Math.Cos(angle), (float) Math.Sin(angle)) * acceleration;
+        this.Velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * speed;
+        this.Acceleration = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle)) * acceleration;
         this.IsTraveling = false;
     }
 

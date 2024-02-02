@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
+
+using System.Collections.Generic;
 
 namespace GameJam14.Game.Entity;
 internal class EntityActor : Entity {
@@ -88,10 +87,17 @@ internal class EntityActor : Entity {
     }
 
     public void SetHealth(int health) {
-        if ( health > this.Stats.Health ) {
-            this.Health = this.Stats.Health;
-        } else {
-            this.Health = health;
+        this.Health = health > this.Stats.Health ? this.Stats.Health : health;
+    }
+
+    public void TakeDamage(int amount) {
+        if ( this.InvincibilityTimer > 0f ) {
+            return;
+        }
+        this.InvincibilityTimer = InvincibilityDuration;
+        this.Health -= amount;
+        if ( this.Health < 0 ) {
+            this.Health = 0;
         }
     }
 
@@ -141,7 +147,7 @@ internal class EntityActor : Entity {
 
     private void UpdateModifiers(GameTime gameTime) {
         foreach ( Modifier modifier in this.Modifiers ) {
-            modifier.Update((float) gameTime.ElapsedGameTime.TotalSeconds);
+            modifier.Update((float)gameTime.ElapsedGameTime.TotalSeconds);
             if ( modifier.IsExpired() ) {
                 this.Modifiers.Remove(modifier);
             }

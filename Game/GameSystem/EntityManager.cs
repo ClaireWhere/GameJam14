@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-
-using GameJam14.Game.Entity;
+﻿using GameJam14.Game.Entity;
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
+
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace GameJam14.Game.GameSystem;
 internal class EntityManager : IDisposable {
@@ -18,16 +18,39 @@ internal class EntityManager : IDisposable {
         this._entities = new List<Entity.Entity>();
         this._entityQueue = new List<Entity.Entity>();
         this._removeQueue = new List<Entity.Entity>();
-        _spriteManager = new SpriteManager();
+        this._spriteManager = new SpriteManager();
         this._disposed = false;
     }
     private bool _disposed;
     public void AddEntity(Entity.Entity entity) {
-        _entityQueue.Add(entity);
+        this._entityQueue.Add(entity);
     }
 
     public void RemoveEntity(Entity.Entity entity) {
-        _removeQueue.Add(entity);
+        this._removeQueue.Add(entity);
+    }
+
+    private void HandleCollisions() {
+        bool[] handled = new bool[this._entities.Count];
+        for ( int i = 0; i < this._entities.Count; i++ ) {
+            if ( handled[i] ) {
+                continue;
+            }
+            handled[i] = true;  // important to set to true here so we don't check the same entity with itself
+            Entity.Entity entity = this._entities[i];
+            for ( int j = i + 1; j < this._entities.Count; j++ ) {
+                if ( handled[j] ) {
+                    continue;
+                }
+                handled[j] = true;
+                Entity.Entity otherEntity = this._entities[j];
+                if ( entity.CheckCollision(otherEntity) ) {
+                    Debug.WriteLine("Collision detected between " + entity.Id + " and " + otherEntity.Id);
+                    entity.HandleCollision(otherEntity);
+                    otherEntity.HandleCollision(entity);
+                }
+            }
+        }
     }
 
     private void HandleCollisions() {
@@ -60,37 +83,37 @@ internal class EntityManager : IDisposable {
 
     public void Draw(Camera camera) {
         this._spriteManager.Begin(camera);
-        foreach ( Entity.Entity entity in _entities ) {
+        foreach ( Entity.Entity entity in this._entities ) {
             this._spriteManager.Draw(entity);
         }
         this._spriteManager.End();
     }
 
     public IEnumerable<Enemy> Enemies() {
-        return _entities.OfType<Enemy>();
+        return this._entities.OfType<Enemy>();
     }
 
     // TODO: Remove this method - id is unsafe
     public Entity.Entity GetEntity(int id) {
-        return _entities.Find(entity => entity.Id == id);
+        return this._entities.Find(entity => entity.Id == id);
     }
 
     public IEnumerable<Light> Lights() {
-        return _entities.OfType<Light>();
+        return this._entities.OfType<Light>();
     }
 
     public Player Player() {
-        return (Player) _entities.Find(entity => entity is Player);
+        return (Player)this._entities.Find(entity => entity is Player);
     }
 
     public void Reset() {
-        _entities.Clear();
-        _entityQueue.Clear();
+        this._entities.Clear();
+        this._entityQueue.Clear();
     }
 
     public void Update(GameTime gameTime) {
         this.ProcessEntityQueue();
-        foreach ( Entity.Entity entity in _entities ) {
+        foreach ( Entity.Entity entity in this._entities ) {
             entity.Update(gameTime);
         }
         this.UpdateTargets();
@@ -104,14 +127,14 @@ internal class EntityManager : IDisposable {
             }
             enemy.CurrentTarget = null;
             if ( enemy.Target.Type == Target.TargetType.Player ) {
-                float distance = Vector2.Distance(enemy.Position, Player().Position);
+                float distance = Vector2.Distance(enemy.Position, this.Player().Position);
                 if ( enemy.Target.TargetRange >= distance ) {
-                    enemy.CurrentTarget = Player();
+                    enemy.CurrentTarget = this.Player();
                     Debug.WriteLine("Targeting player");
                 }
             } else if ( enemy.Target.Type == Target.TargetType.Light ) {
                 float closestDistance = float.MaxValue;
-                foreach ( Light light in Lights() ) {
+                foreach ( Light light in this.Lights() ) {
                     float distance = Vector2.Distance(enemy.Position, light.Position);
                     if ( enemy.Target.TargetRange >= distance && distance < closestDistance ) {
                         closestDistance = distance;

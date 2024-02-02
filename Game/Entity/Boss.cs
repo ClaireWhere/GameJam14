@@ -1,11 +1,11 @@
 ﻿// Ignore Spelling: hitbox
 
-using System.Collections.Generic;
-
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
+
+using System.Collections.Generic;
 
 namespace GameJam14.Game.Entity;
 internal class Boss : Enemy {

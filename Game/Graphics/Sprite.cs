@@ -1,8 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using System;
+using System.Runtime.InteropServices;
 
 namespace GameJam14.Game.Graphics;
 internal class Sprite : IDisposable {
@@ -44,43 +44,15 @@ internal class Sprite : IDisposable {
             [Optional] SpriteEffects effects,
             [Optional] float layerDepth
         ) {
-        Textures = textures;
-        Position = position;
-        if ( rotation == default ) {
-            Rotation = 0;
-        } else {
-            Rotation = rotation;
-        }
-        if ( scale == default ) {
-            Scale = 1;
-        } else {
-            Scale = scale;
-        }
-        if ( origin == default ) {
-            Origin = Vector2.Zero;
-        } else {
-            Origin = origin;
-        }
-        if ( sourceRectangle == default ) {
-            SourceRectangle = new Rectangle(0, 0, Texture.Width, Texture.Height);
-        } else {
-            SourceRectangle = sourceRectangle;
-        }
-        if ( color == default ) {
-            Color = Color.White;
-        } else {
-            Color = color;
-        }
-        if ( effects == default ) {
-            Effects = SpriteEffects.None;
-        } else {
-            Effects = effects;
-        }
-        if ( layerDepth == default ) {
-            LayerDepth = 0;
-        } else {
-            LayerDepth = layerDepth;
-        }
+        this.Textures = textures;
+        this.Position = position;
+        this.Rotation = rotation == default ? 0 : rotation;
+        this.Scale = scale == default ? 1 : scale;
+        this.Origin = origin == default ? Vector2.Zero : origin;
+        this.SourceRectangle = sourceRectangle == default ? new Rectangle(0, 0, this.Texture.Width, this.Texture.Height) : sourceRectangle;
+        this.Color = color == default ? Color.White : color;
+        this.Effects = effects == default ? SpriteEffects.None : effects;
+        this.LayerDepth = layerDepth == default ? 0 : layerDepth;
         this._disposed = true;
     }
 
@@ -122,13 +94,13 @@ internal class Sprite : IDisposable {
 
     public Texture2D Texture {
         get {
-            return Textures.Texture;
+            return this.Textures.Texture;
         }
     }
 
     public TextureType TextureType {
         get {
-            return Textures.CurrentState;
+            return this.Textures.CurrentState;
         }
     }
 
@@ -138,10 +110,10 @@ internal class Sprite : IDisposable {
     }
 
     public void SetTexture(TextureType type) {
-        if ( Textures.CurrentState == type ) {
+        if ( this.Textures.CurrentState == type ) {
             return;
         }
-        Textures.SetState(type);
+        this.Textures.SetState(type);
     }
 
     protected virtual void Dispose(bool disposing) {

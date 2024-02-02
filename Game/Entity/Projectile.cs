@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
+
+using System.Collections.Generic;
 
 namespace GameJam14.Game.Entity;
 internal class Projectile : Entity {
@@ -102,15 +101,15 @@ internal class Projectile : Entity {
 
     public override void Kill() {
         switch ( this.Death ) {
-        case DeathEffect.None:
-            break;
-        case DeathEffect.Default:
-            base.Kill();
-            break;
-        case DeathEffect.Explode:
-            // create a new Cloud attack entity at this position
-            base.Kill();
-            break;
+            case DeathEffect.None:
+                break;
+            case DeathEffect.Default:
+                base.Kill();
+                break;
+            case DeathEffect.Explode:
+                // create a new Cloud attack entity at this position
+                base.Kill();
+                break;
         }
     }
 

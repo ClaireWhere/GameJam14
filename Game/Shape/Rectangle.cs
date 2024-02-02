@@ -1,12 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GameJam14.Game.Shape;
 
 /// <summary>
@@ -38,7 +31,7 @@ public class Rectangle : Shape {
     /// </summary>
     public float Bottom {
         get {
-			return ScaledSource.Y + ScaledHeight;
+            return this.ScaledSource.Y + this.ScaledHeight;
         }
     }
 
@@ -52,7 +45,7 @@ public class Rectangle : Shape {
     /// </summary>
     public float Left {
         get {
-            return ScaledSource.X;
+            return this.ScaledSource.X;
         }
     }
 
@@ -61,7 +54,7 @@ public class Rectangle : Shape {
     /// </summary>
     public float Right {
         get {
-            return ScaledSource.X + ScaledWidth;
+            return this.ScaledSource.X + this.ScaledWidth;
         }
     }
 
@@ -104,7 +97,7 @@ public class Rectangle : Shape {
     /// </summary>
     public float Top {
         get {
-            return ScaledSource.Y;
+            return this.ScaledSource.Y;
         }
     }
 

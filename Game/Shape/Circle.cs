@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 
-using Microsoft.Xna.Framework;
+using System;
 
 namespace GameJam14.Game.Shape;
 
@@ -89,8 +89,8 @@ public class Circle : Shape {
     ///   True if the line is within or on the bounds of the circle, False otherwise.
     /// </returns>
     public override bool Intersects(LineSegment line) {
-        float closestX = (float) Math.Min(Math.Pow(this.Center.X - line.Start.X, 2), Math.Pow(this.Center.X - line.ScaledEnd.X, 2));
-        float closestY = (float) Math.Min(Math.Pow(this.Center.Y - line.Start.Y, 2), Math.Pow(this.Center.Y - line.ScaledEnd.Y, 2));
+        float closestX = (float)Math.Min(Math.Pow(this.Center.X - line.Start.X, 2), Math.Pow(this.Center.X - line.ScaledEnd.X, 2));
+        float closestY = (float)Math.Min(Math.Pow(this.Center.Y - line.Start.Y, 2), Math.Pow(this.Center.Y - line.ScaledEnd.Y, 2));
 
         return Vector2.Distance(this.Center, new Vector2(closestX, closestY)) <= this.ScaledRadius;
     }
