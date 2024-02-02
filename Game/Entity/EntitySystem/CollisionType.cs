@@ -55,22 +55,22 @@ public class CollisionType {
     ///   If true, this collision type has enemy collision.
     /// </param>
     public CollisionType(SolidType solidType, LightType lightType, EntityType entityType = EntityType.Other, bool playerCollision = false, bool enemyCollision = false) {
-        _solidType = solidType;
-        _lightType = lightType;
-        _entityType = entityType;
-        _playerCollision = playerCollision;
-        _enemyCollision = enemyCollision;
+        this._solidType = solidType;
+        this._lightType = lightType;
+        this._entityType = entityType;
+        this._playerCollision = playerCollision;
+        this._enemyCollision = enemyCollision;
     }
 
     /// <summary>
     ///   Initializes a new instance of the <see cref="CollisionType" /> class with no collision.
     /// </summary>
     public CollisionType() {
-        _solidType = SolidType.None;
-        _lightType = LightType.None;
-        _entityType = EntityType.Other;
-        _playerCollision = false;
-        _enemyCollision = false;
+        this._solidType = SolidType.None;
+        this._lightType = LightType.None;
+        this._entityType = EntityType.Other;
+        this._playerCollision = false;
+        this._enemyCollision = false;
     }
 
     /// <summary>
@@ -103,42 +103,40 @@ public class CollisionType {
     }
 
     public bool CheckEntityCollision(CollisionType collision) {
-        return _playerCollision && collision.IsPlayer()
-            || _enemyCollision && collision.IsEnemy()
-            || collision._playerCollision && IsPlayer()
-            || collision._enemyCollision && IsEnemy();
+        return ( this._playerCollision && collision.IsPlayer() )
+            || ( this._enemyCollision && collision.IsEnemy() )
+            || ( collision._playerCollision && this.IsPlayer() )
+            || ( collision._enemyCollision && this.IsEnemy() );
     }
 
     public bool CheckLightCollision(CollisionType collision) {
-        if ( NoLightCollision() || collision.NoLightCollision() ) {
-            return _lightType == collision._lightType;
-        } else {
-            return IsLight() && collision.IsDarkness() || IsDarkness() && collision.IsLight();
-        }
+        return this.NoLightCollision() || collision.NoLightCollision()
+            ? this._lightType == collision._lightType
+            : ( this.IsLight() && collision.IsDarkness() ) || ( this.IsDarkness() && collision.IsLight() );
     }
 
     public bool CheckSolidCollision(CollisionType collision) {
-        if ( NoSolidCollision() || collision.NoSolidCollision() ) {
+        if ( this.NoSolidCollision() || collision.NoSolidCollision() ) {
             return false;
         }
 
         // Check wall collision
-        if ( IsWall() || collision.IsWall() ) {
+        if ( this.IsWall() || collision.IsWall() ) {
             return true;
         }
 
         // Check blockade collision
-        if ( IsBlockade() || collision.IsBlockade() ) {
-            return IsSolid() || collision.IsSolid();
+        if ( this.IsBlockade() || collision.IsBlockade() ) {
+            return this.IsSolid() || collision.IsSolid();
         }
 
         // Check solid/non-solid collision
-        if ( IsSolid() && collision.IsSolid() ) {
+        if ( this.IsSolid() && collision.IsSolid() ) {
             return false;
         }
 
-        if ( IsNonSolid() && collision.IsNonSolid() ) {
-            return CheckLightCollision(collision) || CheckEntityCollision(collision);
+        if ( this.IsNonSolid() && collision.IsNonSolid() ) {
+            return this.CheckLightCollision(collision) || this.CheckEntityCollision(collision);
         }
 
         // Otherwise, one is a solid and one is a non-solid, which is a collision
@@ -146,7 +144,7 @@ public class CollisionType {
     }
 
     public bool Collides(CollisionType collision) {
-        return CheckSolidCollision(collision);
+        return this.CheckSolidCollision(collision);
     }
 
     /// <summary>
@@ -156,7 +154,7 @@ public class CollisionType {
     ///   True if the collision type is a blockade, false otherwise
     /// </returns>
     public bool IsBlockade() {
-        return _solidType == SolidType.Blockade;
+        return this._solidType == SolidType.Blockade;
     }
 
     /// <summary>
@@ -166,7 +164,7 @@ public class CollisionType {
     ///   True if the collision type represents darkness.
     /// </returns>
     public bool IsDarkness() {
-        return _lightType == LightType.Darkness;
+        return this._lightType == LightType.Darkness;
     }
 
     /// <summary>
@@ -176,7 +174,7 @@ public class CollisionType {
     ///   True if the collision type represents an enemy, false otherwise
     /// </returns>
     public bool IsEnemy() {
-        return _entityType == EntityType.Enemy;
+        return this._entityType == EntityType.Enemy;
     }
 
     /// <summary>
@@ -186,7 +184,7 @@ public class CollisionType {
     ///   True if the collision type represents light.
     /// </returns>
     public bool IsLight() {
-        return _lightType == LightType.Light;
+        return this._lightType == LightType.Light;
     }
 
     /// <summary>
@@ -196,7 +194,7 @@ public class CollisionType {
     ///   True if the collision type is non-solid, false otherwise
     /// </returns>
     public bool IsNonSolid() {
-        return _solidType == SolidType.NonSolid;
+        return this._solidType == SolidType.NonSolid;
     }
 
     /// <summary>
@@ -206,7 +204,7 @@ public class CollisionType {
     ///   True if the collision type represents a player, false otherwise
     /// </returns>
     public bool IsPlayer() {
-        return _entityType == EntityType.Player;
+        return this._entityType == EntityType.Player;
     }
 
     /// <summary>
@@ -216,7 +214,7 @@ public class CollisionType {
     ///   True if the collision type is solid, false otherwise
     /// </returns>
     public bool IsSolid() {
-        return _solidType == SolidType.Solid;
+        return this._solidType == SolidType.Solid;
     }
 
     /// <summary>
@@ -226,7 +224,7 @@ public class CollisionType {
     ///   True if the collision type is a wall, false otherwise
     /// </returns>
     public bool IsWall() {
-        return _solidType == SolidType.Wall;
+        return this._solidType == SolidType.Wall;
     }
 
     /// <summary>
@@ -236,7 +234,7 @@ public class CollisionType {
     ///   True if the collision type does not represent any kind of light.
     /// </returns>
     public bool NoLightCollision() {
-        return _lightType == LightType.None;
+        return this._lightType == LightType.None;
     }
 
     /// <summary>
@@ -246,7 +244,7 @@ public class CollisionType {
     ///   True if the collision type has no solid collision, false otherwise
     /// </returns>
     public bool NoSolidCollision() {
-        return _solidType == SolidType.None;
+        return this._solidType == SolidType.None;
     }
 
     private readonly bool _enemyCollision;

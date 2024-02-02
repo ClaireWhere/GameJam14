@@ -1,7 +1,7 @@
-﻿using System;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using System;
 
 namespace GameJam14.Game.Graphics;
 internal class SpriteManager : IDisposable {
@@ -114,18 +114,19 @@ internal class SpriteManager : IDisposable {
     private readonly BasicEffect _effect;
     private readonly SpriteBatch _spriteBatch;
     private BasicEffect GetDefaultEffect() {
-        BasicEffect effect = new BasicEffect(Game2.Instance().GraphicsDevice);
-        effect.VertexColorEnabled = true;
-        effect.LightingEnabled = false;
-        //effect.LightingEnabled = true;
-        //effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f);
-        //effect.DirectionalLight0.Direction = new Vector3(0, 0, -1);
-        //effect.DirectionalLight0.SpecularColor = new Vector3(0, 0, 0);
-        effect.FogEnabled = false;
-        effect.TextureEnabled = true;
-        effect.World = Matrix.Identity;
-        effect.View = Matrix.Identity;
-        effect.Projection = Matrix.Identity;
+        BasicEffect effect = new BasicEffect(Game2.Instance().GraphicsDevice) {
+            VertexColorEnabled = true,
+            LightingEnabled = false,
+            //effect.LightingEnabled = true;
+            //effect.DirectionalLight0.DiffuseColor = new Vector3(1f, 1f, 1f);
+            //effect.DirectionalLight0.Direction = new Vector3(0, 0, -1);
+            //effect.DirectionalLight0.SpecularColor = new Vector3(0, 0, 0);
+            FogEnabled = false,
+            TextureEnabled = true,
+            World = Matrix.Identity,
+            View = Matrix.Identity,
+            Projection = Matrix.Identity
+        };
         return effect;
     }
 }

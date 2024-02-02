@@ -5,20 +5,20 @@ using System;
 namespace GameJam14.Game.Entity.EntitySystem;
 internal class Attack : IDisposable {
     public Attack(float attackRange, float attackDistance, double attackSpeed, double attackCooldown, int attackDamage) {
-        AttackRange = attackRange;
-        AttackDistance = attackDistance;
-        AttackSpeed = attackSpeed;
-        AttackCooldown = attackCooldown;
-        AttackDamage = attackDamage;
+        this.AttackRange = attackRange;
+        this.AttackDistance = attackDistance;
+        this.AttackSpeed = attackSpeed;
+        this.AttackCooldown = attackCooldown;
+        this.AttackDamage = attackDamage;
         this._disposed = false;
     }
 
     public Attack() {
-        AttackRange = 0.0f;
-        AttackDistance = 0.0f;
-        AttackSpeed = 0.0;
-        AttackCooldown = 0.0;
-        AttackDamage = 0;
+        this.AttackRange = 0.0f;
+        this.AttackDistance = 0.0f;
+        this.AttackSpeed = 0.0;
+        this.AttackCooldown = 0.0;
+        this.AttackDamage = 0;
     }
 
     public enum AttackType {
@@ -38,7 +38,7 @@ internal class Attack : IDisposable {
     public bool IsAttacking { get; set; }
     public AttackType Type { get; set; }
     public bool CanAttack() {
-        return CooldownTimer >= AttackCooldown && !IsAttacking;
+        return this.CooldownTimer >= this.AttackCooldown && !this.IsAttacking;
     }
 
     public void Dispose() {
@@ -47,55 +47,55 @@ internal class Attack : IDisposable {
     }
 
     public void FinishAttack() {
-        if ( IsAttacking ) {
-            ResetCooldownTimer();
-            AttackTimer = AttackSpeed;
-            IsAttacking = false;
+        if ( this.IsAttacking ) {
+            this.ResetCooldownTimer();
+            this.AttackTimer = this.AttackSpeed;
+            this.IsAttacking = false;
         }
     }
 
     public void ResetAttackTimer() {
-        AttackTimer = 0.0;
+        this.AttackTimer = 0.0;
     }
 
     public void ResetCooldownTimer() {
-        CooldownTimer = 0.0;
+        this.CooldownTimer = 0.0;
     }
 
     public void StartAttack() {
-        if ( CanAttack() ) {
-            ResetAttackTimer();
-            IsAttacking = true;
+        if ( this.CanAttack() ) {
+            this.ResetAttackTimer();
+            this.IsAttacking = true;
         }
     }
 
     public void Update(double deltaTime) {
-        if ( IsAttacking ) {
-            if ( AttackTimer >= AttackSpeed ) {
-                FinishAttack();
+        if ( this.IsAttacking ) {
+            if ( this.AttackTimer >= this.AttackSpeed ) {
+                this.FinishAttack();
             } else {
-                UpdateAttackTimer(deltaTime);
+                this.UpdateAttackTimer(deltaTime);
             }
         }
-        UpdateCooldownTimer(deltaTime);
+        this.UpdateCooldownTimer(deltaTime);
     }
 
     public void UpdateAttackTimer(double deltaTime) {
-        if ( AttackTimer < AttackSpeed ) {
-            if ( AttackTimer + deltaTime > AttackSpeed ) {
-                AttackTimer = AttackSpeed;
+        if ( this.AttackTimer < this.AttackSpeed ) {
+            if ( this.AttackTimer + deltaTime > this.AttackSpeed ) {
+                this.AttackTimer = this.AttackSpeed;
             } else {
-                AttackTimer += deltaTime;
+                this.AttackTimer += deltaTime;
             }
         }
     }
 
     public void UpdateCooldownTimer(double deltaTime) {
-        if ( CooldownTimer < AttackCooldown ) {
-            if ( CooldownTimer + deltaTime > AttackCooldown ) {
-                CooldownTimer = AttackCooldown;
+        if ( this.CooldownTimer < this.AttackCooldown ) {
+            if ( this.CooldownTimer + deltaTime > this.AttackCooldown ) {
+                this.CooldownTimer = this.AttackCooldown;
             } else {
-                CooldownTimer += deltaTime;
+                this.CooldownTimer += deltaTime;
             }
         }
     }

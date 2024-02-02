@@ -1,12 +1,12 @@
 ﻿// Ignore Spelling: Hitbox
 
-using System;
-using System.Collections.Generic;
-
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
+
+using System;
+using System.Collections.Generic;
 
 namespace GameJam14.Game.Entity;
 internal class Cloud : Entity {
@@ -46,8 +46,8 @@ internal class Cloud : Entity {
 
     public void UpdateExpansion(double deltaTime) {
         if ( this.Expansion < this.MaxExpansion ) {
-            this.Expansion += ( this.ExpansionSpeed * (float) deltaTime ) + ( this.ExpansionAcceleration * (float) Math.Pow(deltaTime, 2) / 2 );
-            this.ExpansionSpeed += this.ExpansionAcceleration * (float) deltaTime;
+            this.Expansion += ( this.ExpansionSpeed * (float)deltaTime ) + ( this.ExpansionAcceleration * (float)Math.Pow(deltaTime, 2) / 2 );
+            this.ExpansionSpeed += this.ExpansionAcceleration * (float)deltaTime;
 
             // Update hit box and sprite based on expansion
             this.Collision.Hitbox[0].Scale = this.Expansion;

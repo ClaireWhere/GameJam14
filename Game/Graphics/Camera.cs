@@ -1,17 +1,17 @@
 ﻿// Ignore Spelling: Calc
 
+using Microsoft.Xna.Framework;
+
 using System;
 using System.Diagnostics;
-
-using Microsoft.Xna.Framework;
 
 namespace GameJam14.Game.Graphics;
 internal class Camera {
     public static readonly float maxZoom = 2000.0f;
     public static readonly float minZoom = 0.1f;
     public Camera(Screen screen) {
-        this.aspectRatio = screen.Width / (float) screen.Height;
-        this.fieldOfView = (float) ( Math.PI / 2.0f );
+        this.aspectRatio = screen.Width / (float)screen.Height;
+        this.fieldOfView = (float)( Math.PI / 2.0f );
 
         this.position = Vector2.Zero;
         this._baseZoom = this.CalcZoomFromHeight(screen.Height);
@@ -31,13 +31,13 @@ internal class Camera {
             "Height: " + height + "\n" +
             "Field of View: " + this.fieldOfView + "\n" +
             "Tan: " + MathF.Tan(this.fieldOfView / 2.0f) + "\n" +
-            "Zoom: " + height / ( 2.0f * MathF.Tan(this.fieldOfView / 2.0f) )
+            "Zoom: " + ( height / ( 2.0f * MathF.Tan(this.fieldOfView / 2.0f) ) )
         );
         return height / ( 2.0f * MathF.Tan(this.fieldOfView / 2.0f) );
     }
 
     public void GetExtents(out Vector2 topLeft, out Vector2 bottomRight, out Vector2 center) {
-        float tanTheta = (float) Math.Tan(this.fieldOfView / 2.0f);
+        float tanTheta = (float)Math.Tan(this.fieldOfView / 2.0f);
         float halfHeight = this._zoom * tanTheta;
         float halfWidth = halfHeight * this.aspectRatio;
 
@@ -53,7 +53,7 @@ internal class Camera {
     public void MoveTo(Vector2 position) {
         const float c_delta = 1f;
 
-        if (Vector2.Distance(this.Position, position) < c_delta) {
+        if ( Vector2.Distance(this.Position, position) < c_delta ) {
             return;
         }
 
@@ -87,8 +87,8 @@ internal class Camera {
 
     public void UpdateProjectionMatrix() {
         this.projection = Matrix.CreatePerspectiveFieldOfView(
-            fieldOfView: fieldOfView,
-            aspectRatio: aspectRatio,
+            fieldOfView: this.fieldOfView,
+            aspectRatio: this.aspectRatio,
             nearPlaneDistance: minZoom,
             farPlaneDistance: maxZoom
         );
@@ -103,11 +103,11 @@ internal class Camera {
     }
 
     public void ZoomIn() {
-        MoveZoom(-this._incrementZoom);
+        this.MoveZoom(-this._incrementZoom);
     }
 
     public void ZoomOut() {
-        MoveZoom(this._incrementZoom);
+        this.MoveZoom(this._incrementZoom);
     }
 
     private float _baseZoom { get; set; }

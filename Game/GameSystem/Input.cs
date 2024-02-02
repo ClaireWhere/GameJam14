@@ -38,7 +38,9 @@ internal static class Input {
         };
     }
 
-    public static bool IsKeyDown(Keys key) => _keyboardState.IsKeyDown(key);
+    public static bool IsKeyDown(Keys key) {
+        return _keyboardState.IsKeyDown(key);
+    }
 
     public static bool IsKeyPressed(Keys key) {
         return _keyboardState.IsKeyDown(key) && _previousKeyboardState.IsKeyUp(key);
@@ -48,7 +50,9 @@ internal static class Input {
         return _keyboardState.IsKeyUp(key) && _previousKeyboardState.IsKeyDown(key);
     }
 
-    public static bool IsKeyUp(Keys key) => _keyboardState.IsKeyUp(key);
+    public static bool IsKeyUp(Keys key) {
+        return _keyboardState.IsKeyUp(key);
+    }
 
     public static void Update() {
         _previousKeyboardState = _keyboardState;

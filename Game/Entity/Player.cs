@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-
-using GameJam14.Game.Entity.EntitySystem;
+﻿using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.GameSystem;
+using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+
+using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 

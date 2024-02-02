@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-
-using GameJam14.Game.Graphics;
+﻿using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using System.Collections.Generic;
 
 namespace GameJam14.Game.Data;
 

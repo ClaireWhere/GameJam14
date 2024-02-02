@@ -1,8 +1,8 @@
-﻿using System;
-using System.Linq;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+
+using System;
+using System.Linq;
 
 namespace GameJam14.Game.Graphics;
 internal class Screen : IDisposable {
@@ -11,14 +11,10 @@ internal class Screen : IDisposable {
 
     private static readonly int _max_width = 7680;
     private static readonly int _max_height = 4320;
-
-    private readonly int _width;
-    private readonly int _height;
-
     private bool _disposed;
 
-    public int Width { get { return this._width; } }
-    public int Height { get { return this._height; } }
+    public int Width { get; }
+    public int Height { get; }
 
     private readonly RenderTarget2D _renderTarget;
 
@@ -30,9 +26,9 @@ internal class Screen : IDisposable {
             throw new ArgumentOutOfRangeException(nameof(height), height, $"Height must be between {_min_height} and {_max_height}");
         }
 
-        this._width = width;
-        this._height = height;
-        this._renderTarget = new RenderTarget2D(Game2.Instance().GraphicsDevice, _width, _height);
+        this.Width = width;
+        this.Height = height;
+        this._renderTarget = new RenderTarget2D(Game2.Instance().GraphicsDevice, this.Width, this.Height);
         this._disposed = false;
     }
 
@@ -69,8 +65,8 @@ internal class Screen : IDisposable {
 
     private Rectangle CalculateDestinationRectangle() {
         Rectangle bounds = Game2.Instance().GraphicsDevice.PresentationParameters.Bounds;
-        float aspectRatio = (float) bounds.Width / (float) bounds.Height;
-        float targetAspectRatio = (float) _width / (float) _height;
+        float aspectRatio = bounds.Width / (float)bounds.Height;
+        float targetAspectRatio = this.Width / (float)this.Height;
 
         int targetX = 0;
         int targetY = 0;
@@ -78,11 +74,11 @@ internal class Screen : IDisposable {
         int targetHeight = bounds.Height;
 
         if ( aspectRatio > targetAspectRatio ) {
-            targetWidth = (int) ( (float) bounds.Height * targetAspectRatio );
-            targetX = (int) ( ( bounds.Width - targetWidth ) / 2f );
+            targetWidth = (int)( bounds.Height * targetAspectRatio );
+            targetX = (int)( ( bounds.Width - targetWidth ) / 2f );
         } else if ( aspectRatio < targetAspectRatio ) {
-            targetHeight = (int) ( (float) bounds.Width / targetAspectRatio );
-            targetY = (int) ( ( bounds.Height - targetHeight ) / 2f );
+            targetHeight = (int)( bounds.Width / targetAspectRatio );
+            targetY = (int)( ( bounds.Height - targetHeight ) / 2f );
         }
         return new Rectangle(targetX, targetY, targetWidth, targetHeight);
     }
