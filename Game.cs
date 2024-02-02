@@ -14,10 +14,9 @@ using System.Threading.Tasks;
 namespace GameJam14;
 internal class Game2 : Microsoft.Xna.Framework.Game {
     public GraphicsDeviceManager Graphics;
-    private SpriteBatch _spriteBatch;
 
-    public Screen Screen;
-    public Camera Camera;
+    public Screen Screen { get; private set; }
+    public Camera Camera { get; private set; }
 
     private EntityManager _entityManager;
     private SaveManager _saveManager;
@@ -216,7 +215,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         this._entityManager.Draw(this.Camera);
 
         this.Screen.Unset();
-        this.Screen.Present(this._spriteBatch);
+        this.Screen.Present(this.SpriteBatch);
 
         base.Draw(gameTime);
     }
