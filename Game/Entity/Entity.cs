@@ -193,6 +193,8 @@ internal class Entity : IDisposable {
     public void StopMoving() {
         this.Velocity = Vector2.Zero;
         this.Acceleration = Vector2.Zero;
+        this.IsTraveling = false;
+        this.Destination = Vector2.Zero;
     }
 
     public void StopTraveling() {
