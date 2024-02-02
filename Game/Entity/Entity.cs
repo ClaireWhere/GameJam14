@@ -29,7 +29,21 @@ internal class Entity : IDisposable {
     public int Id { get; set; }
     public bool IsMoving { get { return this.Velocity != Vector2.Zero || this.Acceleration != Vector2.Zero; } }
     public bool IsTraveling { get; set; }
-    public Vector2 Position { get; set; }
+    public Vector2 Position {
+		get {
+			return this._position;
+		}
+		set {
+			this._position = value;
+			if ( this.Collision == null ) {
+				return;
+			}
+			foreach ( Shape.Shape shape in this.Collision.Hitbox ) {
+				shape.Position = value;
+			}
+		}
+	}
+	private Vector2 _position;
     public Sprite Sprite { get; set; }
     public Vector2 Velocity { get; set; }
     public bool CheckCollision(Entity entity) {
