@@ -16,12 +16,20 @@ internal static class EntityData {
     public static Enemy Tree {
         get {
             return new Enemy(
-                    id: 1,
+                id: 1,
                 name: "Tree",
-                position: new Vector2(20, 20),
-                hitbox: new List<Shape.Shape> {
-            new Shape.Rectangle(new Vector2(20, 20), SpriteData.TreeSprite.Texture.Width, SpriteData.TreeSprite.Texture.Height)
-                },
+                position: new Vector2(200, 200),
+                hitbox: new HitBox(
+                    shape: new Shape.Rectangle(
+                        source: Vector2.Zero,
+                        width: SpriteData.TreeSprite.Texture.Width * SpriteData.TreeSprite.Scale,
+                        height: SpriteData.TreeSprite.Texture.Height * SpriteData.TreeSprite.Scale
+                    ),
+                    offset: new Vector2(
+                        x: SpriteData.TreeSprite.Texture.Width * SpriteData.TreeSprite.Scale / 2,
+                        y: SpriteData.TreeSprite.Texture.Height * SpriteData.TreeSprite.Scale / 2
+                    )
+                ),
                 sprite: SpriteData.TreeSprite,
                 baseStats: StatData.GetEnemyStats(EnemyData.EnemyType.Tree),
                 inventory: new Inventory(),

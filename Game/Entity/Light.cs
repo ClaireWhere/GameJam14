@@ -20,12 +20,13 @@ internal class Light : Entity {
                         enemyCollision: false
                     ),
                     collisionEffect: CollisionSource.CollisionEffect.None,
-                    hitbox: new List<Shape.Shape>() { new Shape.Circle(center: position, radius: 1) }),
+                    hitbox: new HitBox(new Shape.Circle(position, 1))
+                ),
                 sprite: sprite
             ) {
         this.Size = size;
         this.Sprite.Scale = size / this.Sprite.Texture.Width;
-        this.Collision.Hitbox[0].Scale = size;
+        this.Collision.Hitboxes[0].Shape.Scale = size;
     }
 
     public float Size { get; set; }

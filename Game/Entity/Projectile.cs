@@ -14,7 +14,7 @@ internal class Projectile : Entity {
                 new CollisionSource(
                     type: new CollisionType(CollisionType.SolidType.NonSolid, CollisionType.LightType.None, CollisionType.EntityType.Other, hitsPlayer, hitsEnemy),
                     collisionEffect: CollisionSource.CollisionEffect.Damage,
-                    hitbox: new List<Shape.Shape>() { new Shape.Rectangle(new Vector2(0, 0), sprite.Texture.Width, sprite.Texture.Height) }
+                    hitbox: new HitBox(new Shape.Circle(Vector2.Zero, sprite.Texture.Width * sprite.Scale))
                 ),
                 sprite
             ) {
@@ -33,7 +33,18 @@ internal class Projectile : Entity {
         : base(
             id,
             position,
-            new CollisionSource(new CollisionType(CollisionType.SolidType.NonSolid, CollisionType.LightType.None, CollisionType.EntityType.Other, hitsPlayer, hitsEnemy), CollisionSource.CollisionEffect.Damage, new List<Shape.Shape>() { new Shape.Rectangle(position, sprite.Texture.Width, sprite.Texture.Height) }), sprite) {
+            collision: new CollisionSource(
+                type: new CollisionType(
+                    solidType: CollisionType.SolidType.NonSolid,
+                    lightType: CollisionType.LightType.None,
+                    playerCollision: hitsPlayer,
+                    enemyCollision: hitsEnemy
+                ),
+                collisionEffect: CollisionSource.CollisionEffect.Damage,
+                hitbox: new HitBox(new Shape.Circle(Vector2.Zero, sprite.Texture.Width * sprite.Scale) )
+            ),
+            sprite
+        ) {
         this.Power = power;
         this.TimeToLive = timeToLive;
         this.TimeAlive = 0;

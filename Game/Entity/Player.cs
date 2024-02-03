@@ -82,7 +82,17 @@ internal class Player : EntityActor {
                     enemyCollision: false
                 ),
                 collisionEffect: CollisionSource.CollisionEffect.None,
-                hitbox: new List<Shape.Shape>() { new Shape.Rectangle(Vector2.Zero, Data.SpriteData.PlayerSprite.Texture.Width, Data.SpriteData.PlayerSprite.Texture.Height) }
+                hitbox: new HitBox(
+                    shape: new Shape.Rectangle(
+                        source: Vector2.Zero,
+                        width: Data.SpriteData.PlayerSprite.Texture.Width * Data.SpriteData.PlayerSprite.Scale,
+                        height: Data.SpriteData.PlayerSprite.Texture.Height * Data.SpriteData.PlayerSprite.Scale
+                    ),
+                    offset: new Vector2(
+                        x: Data.SpriteData.PlayerSprite.Texture.Width * Data.SpriteData.PlayerSprite.Scale / 2,
+                        y: Data.SpriteData.PlayerSprite.Texture.Height * Data.SpriteData.PlayerSprite.Scale / 2
+                    )
+                )
             ),
         sprite: Data.SpriteData.PlayerSprite,
         baseStats: Data.StatData.PlayerStats,

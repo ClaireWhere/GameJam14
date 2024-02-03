@@ -25,28 +25,39 @@ public class CollisionSource : IDisposable {
     /// <param name="type">
     ///   The type of the collision.
     /// </param>
-    /// <param name="hitbox">
+    /// <param name="hitboxes">
     ///   The area of collision of the object.
     /// </param>
-    public CollisionSource(CollisionType type, CollisionEffect collisionEffect, List<Shape.Shape> hitbox) {
+    public CollisionSource(CollisionType type, CollisionEffect collisionEffect, List<HitBox> hitboxes) {
         this.Type = type;
         this.Effects = new List<CollisionEffect>() { collisionEffect };
-        this.Hitbox = hitbox;
+        this.Hitboxes = hitboxes;
         this._disposed = false;
     }
 
-    public CollisionSource(CollisionType type, List<CollisionEffect> collisionEffects, List<Shape.Shape> hitbox) {
+    public CollisionSource(CollisionType type, CollisionEffect collisionEffect, HitBox hitbox) {
+        this.Type = type;
+        this.Effects = new List<CollisionEffect>() { collisionEffect };
+        this.Hitboxes = new List<HitBox>() { hitbox };
+        this._disposed = false;
+    }
+
+    public CollisionSource(CollisionType type, List<CollisionEffect> collisionEffects, List<HitBox> hitboxes) {
         this.Type = type;
         this.Effects = collisionEffects;
-        this.Hitbox = hitbox;
+        this.Hitboxes = hitboxes;
         this._disposed = false;
     }
+    public CollisionSource(CollisionType type, List<CollisionEffect> collisionEffects, HitBox hitbox) {
+        this.Type = type;
+        this.Effects = collisionEffects;
+        this.Hitboxes = new List<HitBox>() { hitbox };
+        this._disposed = false;
+    }
+
     private bool _disposed;
 
-    /// <summary>
-    ///   A list of shapes that represent the area of collision of this object.
-    /// </summary>
-    public List<Shape.Shape> Hitbox { get; protected set; }
+    public List<HitBox> Hitboxes { get; set; }
 
     /// <summary>
     ///   Gets or sets the type of the collision.
@@ -82,9 +93,9 @@ public class CollisionSource : IDisposable {
             return false;
         }
 
-        for ( int i = 0; i < this.Hitbox.Count; i++ ) {
-            Shape.Shape shape = this.Hitbox[i];
-            if ( other.CollidesWith(shape) ) {
+        for ( int i = 0; i < this.Hitboxes.Count; i++ ) {
+            HitBox hitbox = this.Hitboxes[i];
+            if ( other.CollidesWith(hitbox) ) {
                 return true;
             }
         }
@@ -95,17 +106,17 @@ public class CollisionSource : IDisposable {
     /// <summary>
     ///   Checks collision between the hitboxes of this source and a shape.
     /// </summary>
-    /// <param name="hitbox">
+    /// <param name="otherHitbox">
     ///   The shape of the hitbox to check collision with.
     /// </param>
     /// <returns>
     ///   True if at least one collision occurs between the shape and this collision source's
     ///   hitbox, false otherwise.
     /// </returns>
-    public bool CollidesWith(Shape.Shape hitbox) {
-        for ( int i = 0; i < this.Hitbox.Count; i++ ) {
-            Shape.Shape shape = this.Hitbox[i];
-            if ( shape.Intersects(hitbox) ) {
+    public bool CollidesWith(HitBox otherHitbox) {
+        for ( int i = 0; i < this.Hitboxes.Count; i++ ) {
+            HitBox hitbox = this.Hitboxes[i];
+            if ( hitbox.Shape.Intersects(otherHitbox.Shape) ) {
                 return true;
             }
         }
