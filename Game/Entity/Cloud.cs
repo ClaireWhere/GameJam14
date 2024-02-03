@@ -71,18 +71,20 @@ internal class Cloud : Entity {
         this.UpdateExpansion(gameTime.ElapsedGameTime.TotalSeconds);
     }
 
-    public void HandleCollision(Light light) {
+    public override void HandleCollision(Light light) {
+        Debug.WriteLine("\tCloud -> Light Collision...");
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.DestroyLight) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") killed entity " + light.Id + "(" + light.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") killed entity (" + light.GetType().Name + ")");
             light.Kill();
         } else {
             base.HandleCollision(light);
         }
     }
-    public void HandleCollision(EntityActor entity) {
+    public override void HandleCollision(EntityActor actor) {
+        Debug.WriteLine("\tCloud -> EntityActor Collision...");
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") killed entity " + entity.Id + "(" + entity.GetType().Name + ")");
-            entity.TakeDamage((int)Math.Floor(this.Damage * this.DamageDegradation));
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") killed entity (" + actor.GetType().Name + ")");
+            actor.TakeDamage((int)Math.Floor(this.Damage * this.DamageDegradation));
         }
     }
 
@@ -92,7 +94,7 @@ internal class Cloud : Entity {
             this.ExpansionSpeed += this.ExpansionAcceleration * (float)deltaTime;
 
             // Update hit box and sprite based on expansion
-            this.Collision.Hitbox[0].Scale = this.Expansion;
+            this.Collision.Hitboxes[0].Shape.Scale = this.Expansion;
             this.Sprite.Scale = this.Expansion;
         }
         if ( this.Expansion >= this.MaxExpansion ) {

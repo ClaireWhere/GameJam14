@@ -167,4 +167,9 @@ public class LineSegment : Shape {
     public override bool Intersects(Circle circle) {
         return circle.Intersects(this);
     }
+
+    public override string ToString() {
+        return "<LineSegment> -> " + base.ToString() + " | Start: " + this.Start.ToString() + " | End: " + this.End.ToString();
+    }
+
 }

@@ -1,5 +1,7 @@
 ﻿// Ignore Spelling: hitbox hitboxes
 
+using Microsoft.Xna.Framework;
+
 using System;
 using System.Collections.Generic;
 
@@ -138,5 +140,11 @@ public class CollisionSource : IDisposable {
 
     public bool HasEffect(CollisionEffect effect) {
         return this.Effects.Contains(effect);
+    }
+
+    public void UpdateScale(float scale) {
+        foreach ( HitBox hitbox in this.Hitboxes ) {
+            hitbox.UpdateScale(scale);
+        }
     }
 }

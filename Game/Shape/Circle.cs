@@ -110,4 +110,9 @@ public class Circle : Shape {
 
         return Vector2.Distance(this.Position, new Vector2(checkX, checkY)) <= this.Radius;
     }
+
+    public override string ToString() {
+        return "<Circle> -> " + base.ToString() + " | Center: " + this.Position.ToString() + " | Radius: " + this.Radius;
+    }
+
 }

@@ -34,15 +34,22 @@ internal class Entity : IDisposable {
             return this._position;
         }
         set {
-            this._position = value;
-            if ( this.Collision == null ) {
-                return;
-            }
-            foreach ( Shape.Shape shape in this.Collision.Hitbox ) {
-                shape.Position = value;
-            }
+            this.SetPosition(value);
         }
     }
+
+    private void SetPosition(Vector2 position) {
+        this._position = position;
+
+        if (this.Collision == null) {
+            return;
+        }
+
+        foreach ( HitBox hitbox in this.Collision.Hitboxes ) {
+            hitbox.SetPosition(position);
+        }
+    }
+
     private Vector2 _position;
     public Sprite Sprite { get; set; }
     public Vector2 Velocity { get; set; }
@@ -55,8 +62,9 @@ internal class Entity : IDisposable {
     /// </summary>
     /// <param name="entity">The entity.</param>
     public virtual void HandleCollision(Entity entity) {
+        Debug.WriteLine("\tBase Collision...");
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Kill) ) {
-            Debug.WriteLine("Entity " + this.Id + " was killed by entity " + entity.Id);
+            Debug.WriteLine("Entity " + this.GetType().Name + " was killed by entity " + entity.GetType().Name);
             entity.Kill();
         }
 
@@ -64,6 +72,19 @@ internal class Entity : IDisposable {
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.PreventMovement) ) {
             entity.StopMoving();
         }
+    }
+
+    public virtual void HandleCollision(EntityActor actor) {
+        this.HandleCollision((Entity) actor);
+    }
+    public virtual void HandleCollision(Projectile projectile) {
+        this.HandleCollision((Entity) projectile);
+    }
+    public virtual void HandleCollision(Light light) {
+        this.HandleCollision((Entity) light);
+    }
+    public virtual void HandleCollision(Cloud cloud) {
+        this.HandleCollision((Entity) cloud);
     }
 
     public float SlowMultiplier { get; set; }
@@ -257,5 +278,10 @@ internal class Entity : IDisposable {
         this.Collision.Dispose();
         Game2.Instance().RemoveEntity(this);
         this._disposed = true;
+    }
+
+    public void UpdateScale(float scale) {
+        this.Sprite.Scale = scale;
+        this.Collision.UpdateScale(scale);
     }
 }

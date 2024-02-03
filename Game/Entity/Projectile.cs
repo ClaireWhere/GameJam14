@@ -8,11 +8,17 @@ using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 internal class Projectile : Entity {
-    public Projectile(int id, Vector2 position, float speed, Vector2 angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect)
+    public Projectile(int id, Vector2 position, float speed, Vector2 angle, Sprite sprite, CollisionType.EntityType entityType, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect)
             : base(id,
                 position,
-                new CollisionSource(
-                    type: new CollisionType(CollisionType.SolidType.NonSolid, CollisionType.LightType.None, CollisionType.EntityType.Other, hitsPlayer, hitsEnemy),
+                collision: new CollisionSource(
+                    type: new CollisionType(
+                        solidType: CollisionType.SolidType.NonSolid,
+                        lightType: CollisionType.LightType.None,
+                        entityType: entityType,
+                        playerCollision: hitsPlayer,
+                        enemyCollision: hitsEnemy
+                    ),
                     collisionEffect: CollisionSource.CollisionEffect.Damage,
                     hitbox: new HitBox(new Shape.Circle(Vector2.Zero, sprite.Texture.Width * sprite.Scale))
                 ),
@@ -29,7 +35,7 @@ internal class Projectile : Entity {
         this.Health = 1;
     }
 
-    public Projectile(int id, Vector2 position, float speed, Vector2 angle, Sprite sprite, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect, float slowAmount, float slowDuration)
+    public Projectile(int id, Vector2 position, float speed, Vector2 angle, Sprite sprite, CollisionType.EntityType entityType, bool hitsPlayer, bool hitsEnemy, int power, double timeToLive, DeathEffect deathEffect, float slowAmount, float slowDuration)
         : base(
             id,
             position,
@@ -37,6 +43,7 @@ internal class Projectile : Entity {
                 type: new CollisionType(
                     solidType: CollisionType.SolidType.NonSolid,
                     lightType: CollisionType.LightType.None,
+                    entityType: entityType,
                     playerCollision: hitsPlayer,
                     enemyCollision: hitsEnemy
                 ),
@@ -66,39 +73,43 @@ internal class Projectile : Entity {
         None
     }
 
-    public void HandleCollision(Projectile projectile) {
+    public override void HandleCollision(Projectile projectile) {
+        Debug.WriteLine("\tProjectile -> Projectile Collision...");
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") damaged entity " + projectile.Id + "(" + projectile.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") damaged entity (" + projectile.GetType().Name + ")");
             projectile.TakeDamage(this.Power);
         } else {
             base.HandleCollision(projectile);
         }
     }
 
-    public void HandleCollision(Light light) {
+    public override void HandleCollision(Light light) {
+        Debug.WriteLine("\tProjectile -> Light Collision...");
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.DestroyLight) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") killed entity " + light.Id + "(" + light.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") killed entity (" + light.GetType().Name + ")");
             light.Kill();
         }
         base.HandleCollision(light);
     }
 
-    public void HandleCollision(EntityActor entity) {
+    public override void HandleCollision(EntityActor actor) {
+        Debug.WriteLine("\tProjectile -> EntityActor Collision...");
+        Debug.WriteLine("Entity (" + this.GetType().Name + ") collided with entity (" + actor.GetType().Name + ")");
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + entity.GetType().Name + ") damaged entity " + entity.Id + "(" + entity.GetType().Name + ")");
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was killed by colliding with entity " + entity.Id + "(" + entity.GetType().Name + ")");
-            entity.TakeDamage(this.Power);
+            Debug.WriteLine("Entity (" + actor.GetType().Name + ") damaged entity (" + actor.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") was killed by colliding with entity (" + actor.GetType().Name + ")");
+            actor.TakeDamage(this.Power);
             this.Kill();
         }
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Slow) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") slowed entity " + entity.Id + "(" + entity.GetType().Name + ")");
-            entity.Slow(this.SlowTime, this.SlowAmount);
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") slowed entity (" + actor.GetType().Name + ")");
+            actor.Slow(this.SlowTime, this.SlowAmount);
         }
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Stun) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") stunned entity " + entity.Id + "(" + entity.GetType().Name + ")");
-            entity.Stun(this.StunTime);
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") stunned entity (" + actor.GetType().Name + ")");
+            actor.Stun(this.StunTime);
         }
-        base.HandleCollision(entity);
+        base.HandleCollision(actor);
     }
 
     public DeathEffect Death { get; set; }

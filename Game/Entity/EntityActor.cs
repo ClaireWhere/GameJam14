@@ -23,23 +23,23 @@ internal class EntityActor : Entity {
         this.Heal();
     }
 
-    public void HandleCollision(EntityActor entity) {
-        base.HandleCollision(entity);
+    public override void HandleCollision(EntityActor actor) {
+        Debug.WriteLine("\tEntityActor -> EntityActor Collision...");
 
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was damaged by entity " + entity.Id + "(" + entity.GetType().Name + ")");
-            entity.TakeDamage(this.Attack.AttackDamage);
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was damaged by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            actor.TakeDamage(this.Attack.AttackDamage);
         }
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Slow) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was slowed by entity " + entity.Id + "(" + entity.GetType().Name + ")");
-            entity.Slow(this.Attack.SlowDuration, this.Attack.SlowMultiplier);
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was slowed by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            actor.Slow(this.Attack.SlowDuration, this.Attack.SlowMultiplier);
         }
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Stun) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was stunned by entity " + entity.Id + "(" + entity.GetType().Name + ")");
-            entity.Stun(this.Attack.StunDuration);
+            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was stunned by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            actor.Stun(this.Attack.StunDuration);
         }
 
-        base.HandleCollision(entity);
+        base.HandleCollision(actor);
     }
 
     private static float InvincibilityDuration = 0.5f;

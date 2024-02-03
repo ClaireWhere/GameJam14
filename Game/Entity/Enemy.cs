@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: hitbox
+﻿// Ignore Spelling: hitbox, hitboxes
 
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
@@ -110,6 +110,7 @@ internal class Enemy : EntityActor {
             speed: 100,
             angle: angle,
             sprite: Data.SpriteData.ProjectileSprite,
+            entityType: CollisionType.EntityType.Enemy,
             hitsPlayer: true,
             hitsEnemy: false,
             power: this.Attack.AttackDamage,

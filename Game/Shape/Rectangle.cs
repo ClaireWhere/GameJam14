@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 
+using System;
+
 namespace GameJam14.Game.Shape;
 
 /// <summary>
@@ -148,5 +150,9 @@ public class Rectangle : Shape {
     /// </returns>
     public override bool Intersects(Circle circle) {
         return circle.Intersects(this);
+    }
+
+    public override string ToString() {
+        return "<Rectangle> -> " + base.ToString() + " | Width: " + this.Width + " | Height: " + this.Height;
     }
 }
