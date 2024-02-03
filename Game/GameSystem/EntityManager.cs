@@ -31,21 +31,14 @@ internal class EntityManager : IDisposable {
     }
 
     private void HandleCollisions() {
-        bool[] handled = new bool[this._entities.Count];
+        Entity.Entity entity;
+        Entity.Entity otherEntity;
         for ( int i = 0; i < this._entities.Count; i++ ) {
-            if ( handled[i] ) {
-                continue;
-            }
-            handled[i] = true;  // important to set to true here so we don't check the same entity with itself
-            Entity.Entity entity = this._entities[i];
-            for ( int j = i + 1; j < this._entities.Count; j++ ) {
-                if ( handled[j] ) {
-                    continue;
-                }
-                handled[j] = true;
-                Entity.Entity otherEntity = this._entities[j];
+            entity = this._entities[i];
+            for ( int j = i+1; j < this._entities.Count; j++ ) {
+                otherEntity = this._entities[j];
                 if ( entity.CheckCollision(otherEntity) ) {
-                    Debug.WriteLine("Collision detected between " + entity.Id + " and " + otherEntity.Id);
+                    Debug.WriteLine("Collision detected between " + entity.GetType().Name + " and " + otherEntity.GetType().Name);
                     entity.HandleCollision(otherEntity);
                     otherEntity.HandleCollision(entity);
                 }
