@@ -29,7 +29,7 @@ public class LineSegment : Shape {
     /// </summary>
     public Vector2 End {
         get {
-            return this._end + this.Position;
+            return ( this._end * this.Scale ) + this.Position;
         }
         set {
             this._end = value;
@@ -47,26 +47,12 @@ public class LineSegment : Shape {
         }
     }
 
-    public Vector2 ScaledEnd {
-        get {
-            float diffX = this.End.X - this.Start.X;
-            float diffY = this.End.Y - this.Start.Y;
-            return new Vector2(this.Start.X + ( diffX * this.Scale ), this.Start.Y + ( diffY * this.Scale ));
-        }
-    }
-
-    public float ScaledLength {
-        get {
-            return this.Length * this.Scale;
-        }
-    }
-
     /// <summary>
     ///   Gets the source vector of the line segment.
     /// </summary>
     public Vector2 Start {
         get {
-            return this._start + this.Position;
+            return ( this._start * this.Scale ) + this.Position;
         }
         set {
             this._start = value;
@@ -86,18 +72,18 @@ public class LineSegment : Shape {
     /// </returns>
     public override bool Contains(Vector2 point) {
         // If the point is on the line, it must be contained on the X axis
-        if ( ( point.X < this.Start.X ) == ( point.X < this.ScaledEnd.X ) ) {
+        if ( ( point.X < this.Start.X ) == ( point.X < this.End.X ) ) {
             return false;
         }
         // If the point is on the line, it must be contained on the Y axis
-        if ( ( point.Y < this.Start.Y ) == ( point.Y < this.ScaledEnd.Y ) ) {
+        if ( ( point.Y < this.Start.Y ) == ( point.Y < this.End.Y ) ) {
             return false;
         }
 
         // If the point is on the line, it must have the same slope to one end point as the line
         // segment itself. Here, we compare the slope from the point to the Start of the line
         // segment, but it could be End as well, since the line segment is straight.
-        return ( this.Start.Y - point.Y ) * ( this.ScaledEnd.X - this.Start.X ) == ( this.ScaledEnd.Y - this.Start.Y ) * ( this.Start.X - point.X );
+        return ( this.Start.Y - point.Y ) * ( this.End.X - this.Start.X ) == ( this.End.Y - this.Start.Y ) * ( this.Start.X - point.X );
     }
 
     public Vector2 GetIntersection(LineSegment line) {
@@ -107,16 +93,16 @@ public class LineSegment : Shape {
         // (x4-x3)(y3-y1) - (y4-y3)(x3-x1) (x4-x3)(y2-y1) - (y4-y3)(x2-x1)
 
         // (x2-x1)(y3-y1) - (y2-y1)(x3-x1) (x4-x3)(y2-y) - (y4-y3)(x2-x1)
-        float denominator = ( ( line.ScaledEnd.X - line.Start.X ) * ( this.ScaledEnd.Y - this.Start.Y ) ) - ( ( line.ScaledEnd.Y - line.Start.Y ) * ( this.ScaledEnd.X - this.Start.X ) );
+        float denominator = ( ( line.End.X - line.Start.X ) * ( this.End.Y - this.Start.Y ) ) - ( ( line.End.Y - line.Start.Y ) * ( this.End.X - this.Start.X ) );
 
-        float intersectThisNumerator = ( ( line.ScaledEnd.X - line.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( line.Start.Y - line.ScaledEnd.Y ) * ( line.Start.X - this.Start.X ) );
-        float intersectOtherNumerator = ( ( this.ScaledEnd.X - this.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( this.ScaledEnd.Y - this.Start.Y ) * ( line.Start.X - this.Start.X ) );
+        float intersectThisNumerator = ( ( line.End.X - line.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( line.Start.Y - line.End.Y ) * ( line.Start.X - this.Start.X ) );
+        float intersectOtherNumerator = ( ( this.End.X - this.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( this.End.Y - this.Start.Y ) * ( line.Start.X - this.Start.X ) );
 
         // if denominator is 0, the lines are parallel, so they do not intersect. If the numerator
         // is also 0, the lines are collinear (return the center).
         if ( denominator == 0 ) {
             return intersectThisNumerator == 0 && intersectOtherNumerator == 0
-                ? new Vector2(this.Start.X + ( ( this.ScaledEnd.X - this.Start.X ) / 2 ), this.Start.Y + ( ( this.ScaledEnd.Y - this.Start.Y ) / 2 ))
+                ? new Vector2(this.Start.X + ( ( this.End.X - this.Start.X ) / 2 ), this.Start.Y + ( ( this.End.Y - this.Start.Y ) / 2 ))
                 : Vector2.Zero;
         }
 
@@ -126,7 +112,7 @@ public class LineSegment : Shape {
         float intersectOther = intersectOtherNumerator / denominator;
 
         return intersectThis >= 0 && intersectThis <= 1 && intersectOther >= 0 && intersectOther <= 1
-            ? new Vector2(this.Start.X + ( ( this.ScaledEnd.X - this.Start.X ) * intersectThis ), this.Start.Y + ( ( this.ScaledEnd.Y - this.Start.Y ) * intersectThis ))
+            ? new Vector2(this.Start.X + ( ( this.End.X - this.Start.X ) * intersectThis ), this.Start.Y + ( ( this.End.Y - this.Start.Y ) * intersectThis ))
             : Vector2.Zero;
     }
 
@@ -144,9 +130,9 @@ public class LineSegment : Shape {
     ///   True if the line segments intersect or are collinear, false otherwise
     /// </returns>
     public override bool Intersects(LineSegment line) {
-        float denominator = ( ( line.ScaledEnd.X - line.Start.X ) * ( this.ScaledEnd.Y - this.Start.Y ) ) - ( ( line.ScaledEnd.Y - line.Start.Y ) * ( this.ScaledEnd.X - this.Start.X ) );
+        float denominator = ( ( line.End.X - line.Start.X ) * ( this.End.Y - this.Start.Y ) ) - ( ( line.End.Y - line.Start.Y ) * ( this.End.X - this.Start.X ) );
 
-        float intersectThisNumerator = ( ( line.ScaledEnd.X - line.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( line.Start.Y - line.ScaledEnd.Y ) * ( line.Start.X - this.Start.X ) );
+        float intersectThisNumerator = ( ( line.End.X - line.Start.X ) * ( line.Start.Y - this.Start.Y ) ) - ( ( line.Start.Y - line.End.Y ) * ( line.Start.X - this.Start.X ) );
 
         return ( denominator < 0 ) == ( intersectThisNumerator < 0 ) && Math.Abs(denominator) >= Math.Abs(intersectThisNumerator);
     }
