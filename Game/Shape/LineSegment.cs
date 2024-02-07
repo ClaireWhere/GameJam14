@@ -22,7 +22,19 @@ public class LineSegment : Shape {
         this.End = end;
         this.Position = Vector2.Zero;
         this.Scale = scale;
+    }
+
+    public LineSegment(float length, float angle) {
+        this.Start = Vector2.Zero;
+        this.End = new Vector2(length, 0);
+        this.Position = Vector2.Zero;
         this.Scale = 1;
+        this.Rotate(angle);
+    }
+
+    public void Rotate(float angle) {
+        this.Start = Vector2.Transform(this.Start, Matrix.CreateRotationZ(angle));
+        this.End = Vector2.Transform(this.End, Matrix.CreateRotationZ(angle));
     }
 
     /// <summary>
