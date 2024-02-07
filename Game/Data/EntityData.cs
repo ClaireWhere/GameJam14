@@ -3,8 +3,6 @@ using GameJam14.Game.Entity.EntitySystem;
 
 using Microsoft.Xna.Framework;
 
-using System.Collections.Generic;
-
 namespace GameJam14.Game.Data;
 internal static class EntityData {
     public static Player Player {
@@ -22,12 +20,13 @@ internal static class EntityData {
                 hitbox: new HitBox(
                     shape: new Shape.Rectangle(
                         source: Vector2.Zero,
-                        width: SpriteData.TreeSprite.Texture.Width * SpriteData.TreeSprite.Scale,
-                        height: SpriteData.TreeSprite.Texture.Height * SpriteData.TreeSprite.Scale
+                        width: SpriteData.TreeSprite.Texture.Width,
+                        height: SpriteData.TreeSprite.Texture.Height,
+                        scale: SpriteData.TreeSprite.Scale
                     ),
                     offset: new Vector2(
-                        x: SpriteData.TreeSprite.Texture.Width * SpriteData.TreeSprite.Scale / 2,
-                        y: SpriteData.TreeSprite.Texture.Height * SpriteData.TreeSprite.Scale / 2
+                        x: SpriteData.TreeSprite.Texture.Width / 2,
+                        y: SpriteData.TreeSprite.Texture.Height / 2
                     )
                 ),
                 sprite: SpriteData.TreeSprite,

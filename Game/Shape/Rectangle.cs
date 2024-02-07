@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 
-using System;
-
 namespace GameJam14.Game.Shape;
 
 /// <summary>
@@ -20,11 +18,11 @@ public class Rectangle : Shape {
     /// <param name="height">
     ///   The height.
     /// </param>
-    public Rectangle(Vector2 source, float width, float height) {
+    public Rectangle(Vector2 source, float width, float height, float scale = 1f) {
         this.Position = source;
         this.Width = width;
         this.Height = height;
-        this.Scale = 1;
+        this.Scale = scale;
     }
 
     /// <summary>

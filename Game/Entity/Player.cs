@@ -5,12 +5,11 @@ using GameJam14.Game.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 
-internal class Player : EntityActor {
+internal sealed class Player : EntityActor {
     public static Player Instance {
         get {
             return s_Instance ??= new Player();
@@ -85,12 +84,13 @@ internal class Player : EntityActor {
                 hitbox: new HitBox(
                     shape: new Shape.Rectangle(
                         source: Vector2.Zero,
-                        width: Data.SpriteData.PlayerSprite.Texture.Width * Data.SpriteData.PlayerSprite.Scale,
-                        height: Data.SpriteData.PlayerSprite.Texture.Height * Data.SpriteData.PlayerSprite.Scale
+                        width: Data.SpriteData.PlayerSprite.Texture.Width,
+                        height: Data.SpriteData.PlayerSprite.Texture.Height,
+                        scale: Data.SpriteData.PlayerSprite.Scale
                     ),
                     offset: new Vector2(
-                        x: Data.SpriteData.PlayerSprite.Texture.Width * Data.SpriteData.PlayerSprite.Scale / 2,
-                        y: Data.SpriteData.PlayerSprite.Texture.Height * Data.SpriteData.PlayerSprite.Scale / 2
+                        x: Data.SpriteData.PlayerSprite.Texture.Width / 2,
+                        y: Data.SpriteData.PlayerSprite.Texture.Height / 2
                     )
                 )
             ),

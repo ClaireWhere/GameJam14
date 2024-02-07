@@ -3,7 +3,6 @@ using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
 
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
@@ -48,7 +47,7 @@ internal class Projectile : Entity {
                     enemyCollision: hitsEnemy
                 ),
                 collisionEffect: CollisionSource.CollisionEffect.Damage,
-                hitbox: new HitBox(new Shape.Circle(Vector2.Zero, sprite.Texture.Width * sprite.Scale) )
+                hitbox: new HitBox(new Shape.Circle(Vector2.Zero, sprite.Texture.Width, sprite.Scale))
             ),
             sprite
         ) {

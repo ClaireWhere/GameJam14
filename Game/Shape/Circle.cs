@@ -17,10 +17,10 @@ public class Circle : Shape {
     /// <param name="radius">
     ///   The radius.
     /// </param>
-    public Circle(Vector2 center, float radius) {
+    public Circle(Vector2 center, float radius, float scale = 1f) {
         this.Position = center;
         this.Radius = radius;
-        this.Scale = 1;
+        this.Scale = scale;
     }
 
     /// <summary>

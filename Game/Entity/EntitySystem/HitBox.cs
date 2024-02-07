@@ -2,16 +2,18 @@
 
 using Microsoft.Xna.Framework;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GameJam14.Game.Entity.EntitySystem;
 public class HitBox {
     public Shape.Shape Shape { get; set; }
-    public Vector2 Offset { get; set; }
+    public Vector2 Offset {
+        get {
+            return this._offset;
+        }
+        set {
+            this._offset = value * this.Shape.Scale;
+        }
+    }
+    private Vector2 _offset;
 
     public HitBox(Shape.Shape shape, Vector2 offset) {
         this.Shape = shape;
@@ -37,6 +39,5 @@ public class HitBox {
 
     public void UpdateScale(float scale) {
         this.Shape.Scale = scale;
-        this.Offset *= scale;
     }
 }

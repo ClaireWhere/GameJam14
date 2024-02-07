@@ -23,7 +23,7 @@ internal class Cloud : Entity {
                         lightType: CollisionType.LightType.None,
                         entityType: CollisionType.EntityType.Other, false, false),
                     collisionEffect: collisionEffect,
-                    hitbox: new HitBox(new Shape.Circle(position, sprite.Texture.Width * sprite.Scale))
+                    hitbox: new HitBox(new Shape.Circle(position, sprite.Texture.Width, sprite.Scale))
                 ),
                 sprite: sprite
             ) {
@@ -46,7 +46,7 @@ internal class Cloud : Entity {
                         lightType: CollisionType.LightType.None,
                         entityType: CollisionType.EntityType.Other, false, false),
                     collisionEffects: collisionEffects,
-                    hitbox: new HitBox(new Shape.Circle(position, sprite.Texture.Width * sprite.Scale))
+                    hitbox: new HitBox(new Shape.Circle(position, sprite.Texture.Width, sprite.Scale))
                 ),
                 sprite: sprite
             ) {

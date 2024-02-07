@@ -17,10 +17,11 @@ public class LineSegment : Shape {
     /// <param name="end">
     ///   The end (destination) vector of the line segment.
     /// </param>
-    public LineSegment(Vector2 start, Vector2 end) {
+    public LineSegment(Vector2 start, Vector2 end, float scale = 1f) {
         this.Start = start;
         this.End = end;
         this.Position = Vector2.Zero;
+        this.Scale = scale;
         this.Scale = 1;
     }
 

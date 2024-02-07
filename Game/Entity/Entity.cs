@@ -21,6 +21,7 @@ internal class Entity : IDisposable {
         this.Destination = Vector2.Zero;
         this.IsTraveling = false;
         this._disposed = false;
+        this.UpdateScale();
     }
     public bool _disposed;
     public Vector2 Acceleration { get; set; }
@@ -41,7 +42,7 @@ internal class Entity : IDisposable {
     private void SetPosition(Vector2 position) {
         this._position = position;
 
-        if (this.Collision == null) {
+        if ( this.Collision == null ) {
             return;
         }
 
@@ -75,16 +76,16 @@ internal class Entity : IDisposable {
     }
 
     public virtual void HandleCollision(EntityActor actor) {
-        this.HandleCollision((Entity) actor);
+        this.HandleCollision((Entity)actor);
     }
     public virtual void HandleCollision(Projectile projectile) {
-        this.HandleCollision((Entity) projectile);
+        this.HandleCollision((Entity)projectile);
     }
     public virtual void HandleCollision(Light light) {
-        this.HandleCollision((Entity) light);
+        this.HandleCollision((Entity)light);
     }
     public virtual void HandleCollision(Cloud cloud) {
-        this.HandleCollision((Entity) cloud);
+        this.HandleCollision((Entity)cloud);
     }
 
     public float SlowMultiplier { get; set; }
@@ -280,8 +281,7 @@ internal class Entity : IDisposable {
         this._disposed = true;
     }
 
-    public void UpdateScale(float scale) {
-        this.Sprite.Scale = scale;
-        this.Collision.UpdateScale(scale);
+    public void UpdateScale() {
+        this.Collision.UpdateScale(this.Sprite.Scale);
     }
 }
