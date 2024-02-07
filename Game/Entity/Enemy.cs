@@ -110,7 +110,7 @@ internal class Enemy : EntityActor {
             speed: 100,
             angle: angle,
             sprite: Data.SpriteData.ProjectileSprite,
-            entityType: CollisionType.EntityType.Enemy,
+            entityType: CollisionType.EntityType.Other,
             hitsPlayer: true,
             hitsEnemy: false,
             power: this.Attack.AttackDamage,

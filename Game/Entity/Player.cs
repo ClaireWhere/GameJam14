@@ -119,7 +119,7 @@ internal class Player : EntityActor {
             speed: 1000,
             angle: angle,
             sprite: Data.SpriteData.ProjectileSprite,
-            entityType: CollisionType.EntityType.Player,
+            entityType: CollisionType.EntityType.Other,
             hitsPlayer: false,
             hitsEnemy: true,
             power: this.Attack.AttackDamage,

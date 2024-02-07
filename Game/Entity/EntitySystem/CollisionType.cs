@@ -103,7 +103,8 @@ public class CollisionType {
     }
 
     public bool CheckEntityCollision(CollisionType collision) {
-        return ( this._playerCollision && collision.IsPlayer() )
+        return ( this._entityType == collision._entityType && this._entityType == EntityType.Other )
+            || ( this._playerCollision && collision.IsPlayer() )
             || ( this._enemyCollision && collision.IsEnemy() )
             || ( collision._playerCollision && this.IsPlayer() )
             || ( collision._enemyCollision && this.IsEnemy() );
@@ -144,7 +145,7 @@ public class CollisionType {
     }
 
     public bool Collides(CollisionType collision) {
-        return this.CheckSolidCollision(collision);
+        return this.CheckSolidCollision(collision) && this.CheckEntityCollision(collision) && this.CheckLightCollision(collision);
     }
 
     /// <summary>
