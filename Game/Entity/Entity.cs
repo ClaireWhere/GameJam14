@@ -97,7 +97,6 @@ internal class Entity : IDisposable {
     private float _stunTimer { get; set; }
     public bool IsStunned { get { return this._stunTimer > 0f; } }
 
-
     public void Slow(float duration, float amount) {
         if ( amount < 0f || amount > 1f ) {
             throw new ArgumentOutOfRangeException(nameof(amount), "amount must be between 0 and 1");

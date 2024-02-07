@@ -114,5 +114,4 @@ public class Circle : Shape {
     public override string ToString() {
         return "<Circle> -> " + base.ToString() + " | Center: " + this.Position.ToString() + " | Radius: " + this.Radius;
     }
-
 }

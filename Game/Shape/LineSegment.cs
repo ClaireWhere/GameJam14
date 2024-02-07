@@ -184,5 +184,4 @@ public class LineSegment : Shape {
     public override string ToString() {
         return "<LineSegment> -> " + base.ToString() + " | Start: " + this.Start.ToString() + " | End: " + this.End.ToString();
     }
-
 }
