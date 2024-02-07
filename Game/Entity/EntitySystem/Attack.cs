@@ -81,6 +81,7 @@ internal class Attack : IDisposable {
                 this.UpdateAttackTimer(deltaTime);
             }
         }
+
         this.UpdateCooldownTimer(deltaTime);
     }
 
@@ -108,6 +109,7 @@ internal class Attack : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._disposed = true;
     }
     private bool _disposed;

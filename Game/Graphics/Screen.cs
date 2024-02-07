@@ -22,6 +22,7 @@ internal class Screen : IDisposable {
         if ( width < _min_width || width > _max_width ) {
             throw new ArgumentOutOfRangeException(nameof(width), width, $"Width must be between {_min_width} and {_max_width}");
         }
+
         if ( height < _min_height || height > _max_height ) {
             throw new ArgumentOutOfRangeException(nameof(height), height, $"Height must be between {_min_height} and {_max_height}");
         }
@@ -36,6 +37,7 @@ internal class Screen : IDisposable {
         if ( this.IsSet() ) {
             return;
         }
+
         Game2.Instance().GraphicsDevice.SetRenderTarget(this._renderTarget);
     }
 
@@ -80,6 +82,7 @@ internal class Screen : IDisposable {
             targetHeight = (int)( bounds.Width / targetAspectRatio );
             targetY = (int)( ( bounds.Height - targetHeight ) / 2f );
         }
+
         return new Rectangle(targetX, targetY, targetWidth, targetHeight);
     }
 
@@ -92,6 +95,7 @@ internal class Screen : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._renderTarget.Dispose();
         this._disposed = true;
     }

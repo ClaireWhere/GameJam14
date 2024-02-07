@@ -35,7 +35,7 @@ internal class EntityManager : IDisposable {
         Entity.Entity otherEntity;
         for ( int i = 0; i < this._entities.Count; i++ ) {
             entity = this._entities[i];
-            for ( int j = i+1; j < this._entities.Count; j++ ) {
+            for ( int j = i + 1; j < this._entities.Count; j++ ) {
                 otherEntity = this._entities[j];
                 if ( entity.CheckCollision(otherEntity) ) {
                     Debug.WriteLine("Collision detected between " + entity.GetType().Name + " and " + otherEntity.GetType().Name);
@@ -56,6 +56,7 @@ internal class EntityManager : IDisposable {
         foreach ( Entity.Entity entity in this._entities ) {
             this._spriteManager.Draw(entity);
         }
+
         this._spriteManager.End();
     }
 
@@ -86,6 +87,7 @@ internal class EntityManager : IDisposable {
         foreach ( Entity.Entity entity in this._entities ) {
             entity.Update(gameTime);
         }
+
         this.UpdateTargets();
         this.HandleCollisions();
     }
@@ -95,6 +97,7 @@ internal class EntityManager : IDisposable {
             if ( enemy.IsTargetInRange() ) {
                 continue;
             }
+
             enemy.CurrentTarget = null;
             if ( enemy.Target.Type == Target.TargetType.Player ) {
                 float distance = Vector2.Distance(enemy.Position, this.Player().Position);
@@ -119,6 +122,7 @@ internal class EntityManager : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._spriteManager.Dispose();
         this._disposed = true;
     }
@@ -132,6 +136,7 @@ internal class EntityManager : IDisposable {
         foreach ( Entity.Entity entity in this._removeQueue ) {
             this._entities.Remove(entity);
         }
+
         this._entityQueue.Clear();
     }
 }

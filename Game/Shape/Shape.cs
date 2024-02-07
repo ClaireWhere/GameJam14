@@ -75,6 +75,7 @@ public abstract class Shape : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._disposed = true;
     }
 

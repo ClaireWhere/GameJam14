@@ -93,6 +93,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         if ( this._isSaving ) {
             return;
         }
+
         Input.Update();
 
         if ( Input.IsKeyPressed(Keys.Escape) ) {
@@ -117,6 +118,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
             Debug.WriteLine("Moving camera up");
             this.Camera.ZoomIn();
         }
+
         if ( Input.IsKeyDown(Keys.Down) ) {
             this.Camera.ZoomOut();
         }
@@ -140,6 +142,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
                 "Camera center: " + center + "\n"
             );
         }
+
         if ( Input.IsKeyPressed(Keys.F7) ) {
             this._entityManager.Player().TeleportTo(new Vector2(this.Screen.Width / 2, this.Screen.Height / 2));
         }
@@ -172,6 +175,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         if ( this._isSaving ) {
             return;
         }
+
         this._isSaving = true;
         try {
             this._currentSave.Update(this._entityManager.Player(), 0);
@@ -180,6 +184,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         } catch ( Exception e ) {
             Debug.WriteLine($"Error saving: {e}");
         }
+
         this._isSaving = false;
     }
 
@@ -187,6 +192,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         if ( this._isSaving ) {
             return;
         }
+
         this._isSaving = true;
         try {
             SaveManager.ErrorState state = await this._saveManager.Load();
@@ -202,6 +208,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         } catch ( Exception e ) {
             Debug.WriteLine($"Error loading save: {e}");
         }
+
         this._isSaving = false;
     }
 

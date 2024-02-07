@@ -42,6 +42,7 @@ internal class Item : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this.Stats.Dispose();
         this._disposed = true;
     }

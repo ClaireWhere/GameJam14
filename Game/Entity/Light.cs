@@ -3,8 +3,6 @@ using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
 
-using System.Collections.Generic;
-
 namespace GameJam14.Game.Entity;
 internal class Light : Entity {
     public Light(int id, Vector2 position, Sprite sprite, float size)

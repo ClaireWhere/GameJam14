@@ -88,6 +88,7 @@ internal class Projectile : Entity {
             Debug.WriteLine("Entity (" + this.GetType().Name + ") killed entity (" + light.GetType().Name + ")");
             light.Kill();
         }
+
         base.HandleCollision(light);
     }
 
@@ -100,14 +101,17 @@ internal class Projectile : Entity {
             actor.TakeDamage(this.Power);
             this.Kill();
         }
+
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Slow) ) {
             Debug.WriteLine("Entity (" + this.GetType().Name + ") slowed entity (" + actor.GetType().Name + ")");
             actor.Slow(this.SlowTime, this.SlowAmount);
         }
+
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Stun) ) {
             Debug.WriteLine("Entity (" + this.GetType().Name + ") stunned entity (" + actor.GetType().Name + ")");
             actor.Stun(this.StunTime);
         }
+
         base.HandleCollision(actor);
     }
 
@@ -148,6 +152,7 @@ internal class Projectile : Entity {
         if ( this.TimeAlive != -1f && this.TimeAlive < this.TimeToLive ) {
             this.TimeAlive += deltaTime;
         }
+
         if ( this.TimeAlive >= this.TimeToLive ) {
             Debug.WriteLine(this.GetType().Name + " Entity has expired after " + this.TimeAlive + "s of " + this.TimeToLive + "s");
             this.Kill();

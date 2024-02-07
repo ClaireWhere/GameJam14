@@ -49,12 +49,15 @@ internal sealed class Player : EntityActor {
         if ( Input.IsKeyDown(Keys.W) ) {
             angle.Y--;
         }
+
         if ( Input.IsKeyDown(Keys.A) ) {
             angle.X--;
         }
+
         if ( Input.IsKeyDown(Keys.S) ) {
             angle.Y++;
         }
+
         if ( Input.IsKeyDown(Keys.D) ) {
             angle.X++;
         }

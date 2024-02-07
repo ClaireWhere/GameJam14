@@ -65,12 +65,14 @@ internal class Enemy : EntityActor {
         if ( this.IsMoving ) {
             return;
         }
+
         int xMagnitude = this._random.Next(-1, 2);
         int yMagnitude = this._random.Next(-1, 2);
         float distance = this._random.Next(5, 10);
         if ( xMagnitude == 0 && yMagnitude == 0 ) {
             return;
         }
+
         this.DestinationMove(
             destination: new Vector2(this.Position.X + ( xMagnitude * distance ), this.Position.Y + ( yMagnitude * distance )),
             speed: this.Stats.IdleSpeed
@@ -95,6 +97,7 @@ internal class Enemy : EntityActor {
         if ( this._disposed ) {
             return;
         }
+
         this.CurrentTarget.Dispose();
         base.Dispose(disposing);
     }

@@ -133,6 +133,7 @@ public class CollisionSource : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._disposed = true;
     }
 

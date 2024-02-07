@@ -30,10 +30,12 @@ internal class EntityActor : Entity {
             Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was damaged by entity " + actor.Id + "(" + actor.GetType().Name + ")");
             actor.TakeDamage(this.Attack.AttackDamage);
         }
+
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Slow) ) {
             Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was slowed by entity " + actor.Id + "(" + actor.GetType().Name + ")");
             actor.Slow(this.Attack.SlowDuration, this.Attack.SlowMultiplier);
         }
+
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Stun) ) {
             Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was stunned by entity " + actor.Id + "(" + actor.GetType().Name + ")");
             actor.Stun(this.Attack.StunDuration);
@@ -60,6 +62,7 @@ internal class EntityActor : Entity {
             foreach ( Modifier modifier in this.Modifiers ) {
                 total.Add(modifier.Stats);
             }
+
             return total;
         }
     }
@@ -95,6 +98,7 @@ internal class EntityActor : Entity {
         if ( this.InvincibilityTimer > 0f ) {
             return;
         }
+
         this.InvincibilityTimer = InvincibilityDuration;
         this.Health -= amount;
         if ( this.Health < 0 ) {
@@ -113,6 +117,7 @@ internal class EntityActor : Entity {
         if ( this.InvincibilityTimer <= 0f ) {
             return;
         }
+
         this.InvincibilityTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
         if ( this.InvincibilityTimer < 0f ) {
             this.InvincibilityTimer = 0f;
@@ -129,6 +134,7 @@ internal class EntityActor : Entity {
         if ( this._disposed ) {
             return;
         }
+
         this.Stats.Dispose();
         this.Inventory.Dispose();
         this.Attack.Dispose();

@@ -102,6 +102,7 @@ internal class Entity : IDisposable {
         if ( amount < 0f || amount > 1f ) {
             throw new ArgumentOutOfRangeException(nameof(amount), "amount must be between 0 and 1");
         }
+
         if ( duration < 0f ) {
             throw new ArgumentOutOfRangeException(nameof(duration), "duration must be greater than 0");
         }
@@ -115,6 +116,7 @@ internal class Entity : IDisposable {
         if ( duration < 0f ) {
             throw new ArgumentOutOfRangeException(nameof(duration), "duration must be greater than 0");
         }
+
         this.StunDuration = duration;
         this._stunTimer = 0f;
     }
@@ -187,6 +189,7 @@ internal class Entity : IDisposable {
         if ( !this.IsMoving ) {
             return;
         }
+
         Vector2 projectedPosition = this.ProjectPosition(gameTime);
         // Debug.WriteLine("Projected position: " + projectedPosition);
         if ( this.IsTraveling ) {
@@ -198,6 +201,7 @@ internal class Entity : IDisposable {
                 return;
             }
         }
+
         this.Position = projectedPosition;
         this.Velocity += this.Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
     }
@@ -252,6 +256,7 @@ internal class Entity : IDisposable {
         if ( !this.IsSlowed ) {
             return;
         }
+
         this._slowTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if ( this._slowTimer >= this.SlowDuration ) {
             this._slowTimer = 0f;
@@ -264,6 +269,7 @@ internal class Entity : IDisposable {
         if ( !this.IsStunned ) {
             return;
         }
+
         this._stunTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if ( this._stunTimer >= this.StunDuration ) {
             this._stunTimer = 0f;
@@ -275,6 +281,7 @@ internal class Entity : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this.Sprite.Dispose();
         this.Collision.Dispose();
         Game2.Instance().RemoveEntity(this);

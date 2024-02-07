@@ -97,6 +97,7 @@ internal class Cloud : Entity {
             this.Collision.Hitboxes[0].Shape.Scale = this.Expansion;
             this.Sprite.Scale = this.Expansion;
         }
+
         if ( this.Expansion >= this.MaxExpansion ) {
             this.Kill();
         }
