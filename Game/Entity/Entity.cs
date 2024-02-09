@@ -21,6 +21,7 @@ internal class Entity : IDisposable {
         this.Destination = Vector2.Zero;
         this.IsTraveling = false;
         this._disposed = false;
+        this.UpdateScale();
     }
     public bool _disposed;
     public Vector2 Acceleration { get; set; }
@@ -29,11 +30,94 @@ internal class Entity : IDisposable {
     public int Id { get; set; }
     public bool IsMoving { get { return this.Velocity != Vector2.Zero || this.Acceleration != Vector2.Zero; } }
     public bool IsTraveling { get; set; }
-    public Vector2 Position { get; set; }
+    public Vector2 Position {
+        get {
+            return this._position;
+        }
+        set {
+            this.SetPosition(value);
+        }
+    }
+
+    private void SetPosition(Vector2 position) {
+        this._position = position;
+
+        if ( this.Collision == null ) {
+            return;
+        }
+
+        foreach ( HitBox hitbox in this.Collision.Hitboxes ) {
+            hitbox.SetPosition(position);
+        }
+    }
+
+    private Vector2 _position;
     public Sprite Sprite { get; set; }
     public Vector2 Velocity { get; set; }
     public bool CheckCollision(Entity entity) {
         return this.Collision.CollidesWith(entity.Collision);
+    }
+
+    /// <summary>
+    /// Handles the collision between this and another entity considering this entity as the one being collided with (e.g., if this is a player and the other entity is a projectile, this method will handle the collision as if the player hit the projectile - rather than the projectile hitting the player).
+    /// </summary>
+    /// <param name="entity">The entity.</param>
+    public virtual void HandleCollision(Entity entity) {
+        Debug.WriteLine("\tBase Collision...");
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Kill) ) {
+            Debug.WriteLine("Entity " + this.GetType().Name + " was killed by entity " + entity.GetType().Name);
+            entity.Kill();
+        }
+
+        // TODO: Handle directional "stop moving" effect - currently, this will make the entity stuck
+        if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.PreventMovement) ) {
+            entity.StopMoving();
+        }
+    }
+
+    public virtual void HandleCollision(EntityActor actor) {
+        this.HandleCollision((Entity)actor);
+    }
+    public virtual void HandleCollision(Projectile projectile) {
+        this.HandleCollision((Entity)projectile);
+    }
+    public virtual void HandleCollision(Light light) {
+        this.HandleCollision((Entity)light);
+    }
+    public virtual void HandleCollision(Cloud cloud) {
+        this.HandleCollision((Entity)cloud);
+    }
+
+    public float SlowMultiplier { get; set; }
+    public float SlowDuration { get; set; }
+    private float _slowTimer { get; set; }
+    private bool IsSlowed { get { return this._slowTimer > 0f; } }
+
+    public float StunDuration { get; set; }
+    private float _stunTimer { get; set; }
+    public bool IsStunned { get { return this._stunTimer > 0f; } }
+
+    public void Slow(float duration, float amount) {
+        if ( amount < 0f || amount > 1f ) {
+            throw new ArgumentOutOfRangeException(nameof(amount), "amount must be between 0 and 1");
+        }
+
+        if ( duration < 0f ) {
+            throw new ArgumentOutOfRangeException(nameof(duration), "duration must be greater than 0");
+        }
+
+        this.SlowMultiplier = amount;
+        this.SlowDuration = duration;
+        this._slowTimer = 0f;
+    }
+
+    public void Stun(float duration) {
+        if ( duration < 0f ) {
+            throw new ArgumentOutOfRangeException(nameof(duration), "duration must be greater than 0");
+        }
+
+        this.StunDuration = duration;
+        this._stunTimer = 0f;
     }
 
     /// <summary>
@@ -92,15 +176,21 @@ internal class Entity : IDisposable {
     }
 
     public virtual void Kill() {
+        Debug.WriteLine("Killing " + this.GetType().Name + " Entity");
         this.Dispose();
     }
 
     public void Move(GameTime gameTime) {
+        if ( this.IsStunned ) {
+            return;
+        }
+
         if ( !this.IsMoving ) {
             return;
         }
-        Vector2 projectedPosition = this.Position + ( this.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds ) + ( this.Acceleration * (float)Math.Pow(gameTime.ElapsedGameTime.TotalSeconds, 2) / 2 );
-        Debug.WriteLine("Projected position: " + projectedPosition);
+
+        Vector2 projectedPosition = this.ProjectPosition(gameTime);
+        // Debug.WriteLine("Projected position: " + projectedPosition);
         if ( this.IsTraveling ) {
             // Check if the entity is going to reach or pass its destination
             Shape.LineSegment movementPath = new Shape.LineSegment(this.Position, projectedPosition);
@@ -110,13 +200,27 @@ internal class Entity : IDisposable {
                 return;
             }
         }
+
         this.Position = projectedPosition;
         this.Velocity += this.Acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+    }
+
+    public Vector2 ProjectPosition(GameTime gameTime) {
+        Vector2 vComponent = this.Velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
+        Vector2 aComponent = this.Acceleration * (float)Math.Pow(gameTime.ElapsedGameTime.TotalSeconds, 2) / 2;
+        if ( this.IsSlowed ) {
+            vComponent *= this.SlowMultiplier;
+            aComponent *= this.SlowMultiplier;
+        }
+
+        return this.Position + vComponent + aComponent;
     }
 
     public void StopMoving() {
         this.Velocity = Vector2.Zero;
         this.Acceleration = Vector2.Zero;
+        this.IsTraveling = false;
+        this.Destination = Vector2.Zero;
     }
 
     public void StopTraveling() {
@@ -142,16 +246,48 @@ internal class Entity : IDisposable {
     ///   The game time.
     /// </param>
     public virtual void Update(GameTime gameTime) {
+        this.UpdateSlow(gameTime);
+        this.UpdateStun(gameTime);
         this.Move(gameTime);
+    }
+
+    private void UpdateSlow(GameTime gameTime) {
+        if ( !this.IsSlowed ) {
+            return;
+        }
+
+        this._slowTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if ( this._slowTimer >= this.SlowDuration ) {
+            this._slowTimer = 0f;
+            this.SlowMultiplier = 1f;
+            this.SlowDuration = 0f;
+        }
+    }
+
+    private void UpdateStun(GameTime gameTime) {
+        if ( !this.IsStunned ) {
+            return;
+        }
+
+        this._stunTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        if ( this._stunTimer >= this.StunDuration ) {
+            this._stunTimer = 0f;
+            this.StunDuration = 0f;
+        }
     }
 
     protected virtual void Dispose(bool disposing) {
         if ( this._disposed ) {
             return;
         }
+
         this.Sprite.Dispose();
         this.Collision.Dispose();
         Game2.Instance().RemoveEntity(this);
         this._disposed = true;
+    }
+
+    public void UpdateScale() {
+        this.Collision.UpdateScale(this.Sprite.Scale);
     }
 }

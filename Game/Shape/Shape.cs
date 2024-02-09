@@ -75,6 +75,13 @@ public abstract class Shape : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._disposed = true;
     }
+
+    public override string ToString() {
+        return "<Shape> -> Scale: " + this.Scale + " | Position: " + this.Position.ToString();
+    }
+
+    public Vector2 Position { get; set; }
 }

@@ -62,6 +62,7 @@ internal class Stats : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._disposed = true;
     }
     private bool _disposed;

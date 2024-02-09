@@ -113,6 +113,7 @@ internal class Sprite : IDisposable {
         if ( this.Textures.CurrentState == type ) {
             return;
         }
+
         this.Textures.SetState(type);
     }
 
@@ -120,6 +121,7 @@ internal class Sprite : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this.Texture.Dispose();
         this.Textures.Dispose();
         this._disposed = true;

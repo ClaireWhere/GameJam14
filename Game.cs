@@ -13,9 +13,10 @@ using System.Threading.Tasks;
 
 namespace GameJam14;
 internal class Game2 : Microsoft.Xna.Framework.Game {
-    private GraphicsDeviceManager _graphics;
-    private Screen _screen;
-    private Camera _camera;
+    public GraphicsDeviceManager Graphics;
+
+    public Screen Screen { get; private set; }
+    public Camera Camera { get; private set; }
 
     private EntityManager _entityManager;
     private SaveManager _saveManager;
@@ -37,7 +38,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
     ///   Initializes a new instance of the <see cref="Game" /> class.
     /// </summary>
     private Game2() {
-        this._graphics = new GraphicsDeviceManager(this);
+        this.Graphics = new GraphicsDeviceManager(this);
         this.Content.RootDirectory = "Content";
         this.IsMouseVisible = true;
         this._isSaving = false;
@@ -49,21 +50,21 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
     ///   Initializes the Game.
     /// </summary>
     protected override void Initialize() {
-        this._graphics.PreferredBackBufferWidth = 1920;
-        this._graphics.PreferredBackBufferHeight = 1080;
-        this._graphics.ApplyChanges();
+        this.Graphics.PreferredBackBufferWidth = 1920;
+        this.Graphics.PreferredBackBufferHeight = 1080;
+        this.Graphics.ApplyChanges();
         this.Window.AllowUserResizing = true;
         this.Window.ClientSizeChanged += (sender, args) => {
-            this._graphics.PreferredBackBufferWidth = this.Window.ClientBounds.Width;
-            this._graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
-            this._graphics.ApplyChanges();
+            this.Graphics.PreferredBackBufferWidth = this.Window.ClientBounds.Width;
+            this.Graphics.PreferredBackBufferHeight = this.Window.ClientBounds.Height;
+            this.Graphics.ApplyChanges();
         };
 
         this.SpriteBatch = new SpriteBatch(this.GraphicsDevice);
         this._entityManager = new EntityManager();
 
-        this._screen = new Screen(1920, 1080);
-        this._camera = new Camera(this._screen);
+        this.Screen = new Screen(1920, 1080);
+        this.Camera = new Camera(this.Screen);
 
         base.Initialize();
     }
@@ -92,6 +93,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         if ( this._isSaving ) {
             return;
         }
+
         Input.Update();
 
         if ( Input.IsKeyPressed(Keys.Escape) ) {
@@ -109,14 +111,16 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         if ( Input.IsKeyPressed(Keys.F3) ) {
             this._entityManager.Reset();
             this._entityManager.AddEntity(Player.Instance);
+            this._entityManager.AddEntity(EntityData.Tree);
         }
 
         if ( Input.IsKeyDown(Keys.Up) ) {
             Debug.WriteLine("Moving camera up");
-            this._camera.ZoomIn();
+            this.Camera.ZoomIn();
         }
+
         if ( Input.IsKeyDown(Keys.Down) ) {
-            this._camera.ZoomOut();
+            this.Camera.ZoomOut();
         }
 
         if ( Input.IsKeyPressed(Keys.F6) ) {
@@ -129,17 +133,18 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
                 "Player is moving: " + this._entityManager.Player().IsMoving + "\n"
             );
 
-            this._camera.GetExtents(out Vector2 topLeft, out Vector2 bottomRight, out Vector2 center);
+            this.Camera.GetExtents(out Vector2 topLeft, out Vector2 bottomRight, out Vector2 center);
 
             Debug.WriteLine(
-                "Camera position: " + this._camera.Position + "\n" +
-                "Camera zoom: " + this._camera.Zoom + "\n" +
+                "Camera position: " + this.Camera.Position + "\n" +
+                "Camera zoom: " + this.Camera.Zoom + "\n" +
                 "Camera extents: " + topLeft + ", " + bottomRight + "\n" +
                 "Camera center: " + center + "\n"
             );
         }
+
         if ( Input.IsKeyPressed(Keys.F7) ) {
-            this._entityManager.Player().TeleportTo(new Vector2(this._screen.Width / 2, this._screen.Height / 2));
+            this._entityManager.Player().TeleportTo(new Vector2(this.Screen.Width / 2, this.Screen.Height / 2));
         }
 #endif
 
@@ -151,7 +156,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
 
             // Update everything here
             this._entityManager.Update(gameTime);
-            this._camera.MoveTo(this._entityManager.Player().Position);
+            this.Camera.MoveTo(this._entityManager.Player().Position);
         }
 
         if ( GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape) ) {
@@ -170,6 +175,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         if ( this._isSaving ) {
             return;
         }
+
         this._isSaving = true;
         try {
             this._currentSave.Update(this._entityManager.Player(), 0);
@@ -178,6 +184,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         } catch ( Exception e ) {
             Debug.WriteLine($"Error saving: {e}");
         }
+
         this._isSaving = false;
     }
 
@@ -185,6 +192,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         if ( this._isSaving ) {
             return;
         }
+
         this._isSaving = true;
         try {
             SaveManager.ErrorState state = await this._saveManager.Load();
@@ -200,6 +208,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
         } catch ( Exception e ) {
             Debug.WriteLine($"Error loading save: {e}");
         }
+
         this._isSaving = false;
     }
 
@@ -207,13 +216,13 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
     ///   Draws objects on screen
     /// </summary>
     protected override void Draw(GameTime gameTime) {
-        this._screen.Set();
+        this.Screen.Set();
         this.GraphicsDevice.Clear(Color.DarkSlateGray);
 
-        this._entityManager.Draw(this._camera);
+        this._entityManager.Draw(this.Camera);
 
-        this._screen.Unset();
-        this._screen.Present(this.SpriteBatch);
+        this.Screen.Unset();
+        this.Screen.Present(this.SpriteBatch);
 
         base.Draw(gameTime);
     }

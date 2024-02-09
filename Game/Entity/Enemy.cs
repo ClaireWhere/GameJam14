@@ -1,4 +1,4 @@
-﻿// Ignore Spelling: hitbox
+﻿// Ignore Spelling: hitbox, hitboxes
 
 using GameJam14.Game.Entity.EntitySystem;
 using GameJam14.Game.Graphics;
@@ -12,7 +12,7 @@ using static GameJam14.Game.Entity.EntitySystem.Attack;
 
 namespace GameJam14.Game.Entity;
 internal class Enemy : EntityActor {
-    public Enemy(int id, string name, Vector2 position, List<Shape.Shape> hitbox, Sprite sprite, Stats baseStats, Inventory inventory, Attack attack, Target target)
+    public Enemy(int id, string name, Vector2 position, List<HitBox> hitboxes, Sprite sprite, Stats baseStats, Inventory inventory, Attack attack, Target target)
         : base(
             id: id,
             name: name,
@@ -20,6 +20,26 @@ internal class Enemy : EntityActor {
             collision:
                 new CollisionSource(
                     type: new CollisionType(CollisionType.SolidType.Solid, CollisionType.LightType.None, CollisionType.EntityType.Enemy, true, false),
+                    collisionEffect: CollisionSource.CollisionEffect.Damage,
+                    hitboxes: hitboxes
+                ),
+            sprite: sprite,
+            baseStats: baseStats,
+            inventory: inventory,
+            attack: attack
+        ) {
+        this.Target = target;
+    }
+
+    public Enemy(int id, string name, Vector2 position, HitBox hitbox, Sprite sprite, Stats baseStats, Inventory inventory, Attack attack, Target target)
+        : base(
+            id: id,
+            name: name,
+            position: position,
+            collision:
+                new CollisionSource(
+                    type: new CollisionType(CollisionType.SolidType.Solid, CollisionType.LightType.None, CollisionType.EntityType.Enemy, true, false),
+                    collisionEffect: CollisionSource.CollisionEffect.Damage,
                     hitbox: hitbox
                 ),
             sprite: sprite,
@@ -45,12 +65,14 @@ internal class Enemy : EntityActor {
         if ( this.IsMoving ) {
             return;
         }
+
         int xMagnitude = this._random.Next(-1, 2);
         int yMagnitude = this._random.Next(-1, 2);
         float distance = this._random.Next(5, 10);
         if ( xMagnitude == 0 && yMagnitude == 0 ) {
             return;
         }
+
         this.DestinationMove(
             destination: new Vector2(this.Position.X + ( xMagnitude * distance ), this.Position.Y + ( yMagnitude * distance )),
             speed: this.Stats.IdleSpeed
@@ -75,6 +97,7 @@ internal class Enemy : EntityActor {
         if ( this._disposed ) {
             return;
         }
+
         this.CurrentTarget.Dispose();
         base.Dispose(disposing);
     }
@@ -90,6 +113,7 @@ internal class Enemy : EntityActor {
             speed: 100,
             angle: angle,
             sprite: Data.SpriteData.ProjectileSprite,
+            entityType: CollisionType.EntityType.Other,
             hitsPlayer: true,
             hitsEnemy: false,
             power: this.Attack.AttackDamage,
@@ -104,6 +128,7 @@ internal class Enemy : EntityActor {
             id: 0,
             position: this.Position,
             sprite: Data.SpriteData.CloudSprite,
+            collisionEffect: CollisionSource.CollisionEffect.DestroyLight,
             expansionSpeed: 10,
             expansionAcceleration: 0,
             maxExpansion: 100,

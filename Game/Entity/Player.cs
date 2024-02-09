@@ -5,12 +5,11 @@ using GameJam14.Game.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
 
-internal class Player : EntityActor {
+internal sealed class Player : EntityActor {
     public static Player Instance {
         get {
             return s_Instance ??= new Player();
@@ -50,12 +49,15 @@ internal class Player : EntityActor {
         if ( Input.IsKeyDown(Keys.W) ) {
             angle.Y--;
         }
+
         if ( Input.IsKeyDown(Keys.A) ) {
             angle.X--;
         }
+
         if ( Input.IsKeyDown(Keys.S) ) {
             angle.Y++;
         }
+
         if ( Input.IsKeyDown(Keys.D) ) {
             angle.X++;
         }
@@ -81,7 +83,19 @@ internal class Player : EntityActor {
                     playerCollision: false,
                     enemyCollision: false
                 ),
-                hitbox: new List<Shape.Shape>() { new Shape.Rectangle(Vector2.Zero, Data.SpriteData.PlayerSprite.Texture.Width, Data.SpriteData.PlayerSprite.Texture.Height) }
+                collisionEffect: CollisionSource.CollisionEffect.None,
+                hitbox: new HitBox(
+                    shape: new Shape.Rectangle(
+                        source: Vector2.Zero,
+                        width: Data.SpriteData.PlayerSprite.Texture.Width,
+                        height: Data.SpriteData.PlayerSprite.Texture.Height,
+                        scale: Data.SpriteData.PlayerSprite.Scale
+                    ),
+                    offset: new Vector2(
+                        x: Data.SpriteData.PlayerSprite.Texture.Width / 2,
+                        y: Data.SpriteData.PlayerSprite.Texture.Height / 2
+                    )
+                )
             ),
         sprite: Data.SpriteData.PlayerSprite,
         baseStats: Data.StatData.PlayerStats,
@@ -97,7 +111,9 @@ internal class Player : EntityActor {
     }
 
     private void Shoot() {
-        Vector2 angle = Input.MousePosition - this.Position;
+        Vector2 backportCenter = new Vector2(Game2.Instance().Graphics.PreferredBackBufferWidth / 2, Game2.Instance().Graphics.PreferredBackBufferHeight / 2);
+        Vector2 center = this.Position - Game2.Instance().Camera.Position + backportCenter;
+        Vector2 angle = Input.MousePosition - center;
         angle.Normalize();
 
         Projectile projectile = new Projectile(
@@ -106,6 +122,7 @@ internal class Player : EntityActor {
             speed: 1000,
             angle: angle,
             sprite: Data.SpriteData.ProjectileSprite,
+            entityType: CollisionType.EntityType.Other,
             hitsPlayer: false,
             hitsEnemy: true,
             power: this.Attack.AttackDamage,

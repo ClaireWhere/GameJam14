@@ -36,6 +36,10 @@ internal class Attack : IDisposable {
     public double AttackTimer { get; set; }
     public double CooldownTimer { get; set; }
     public bool IsAttacking { get; set; }
+    public float SlowMultiplier { get; set; }
+    public float SlowDuration { get; set; }
+    public float StunDuration { get; set; }
+
     public AttackType Type { get; set; }
     public bool CanAttack() {
         return this.CooldownTimer >= this.AttackCooldown && !this.IsAttacking;
@@ -77,6 +81,7 @@ internal class Attack : IDisposable {
                 this.UpdateAttackTimer(deltaTime);
             }
         }
+
         this.UpdateCooldownTimer(deltaTime);
     }
 
@@ -104,6 +109,7 @@ internal class Attack : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._disposed = true;
     }
     private bool _disposed;

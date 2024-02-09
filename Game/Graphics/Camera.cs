@@ -65,9 +65,11 @@ internal class Camera {
         if ( this._zoom < minZoom ) {
             this._zoom = minZoom;
         }
+
         if ( this._zoom > maxZoom ) {
             this._zoom = maxZoom;
         }
+
         Debug.WriteLine("Zoom: " + this._zoom);
     }
 
@@ -80,6 +82,7 @@ internal class Camera {
         if ( this._zoom < minZoom ) {
             this._zoom = minZoom;
         }
+
         if ( this._zoom > maxZoom ) {
             this._zoom = maxZoom;
         }

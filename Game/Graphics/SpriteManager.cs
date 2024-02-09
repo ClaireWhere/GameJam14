@@ -61,7 +61,8 @@ internal class SpriteManager : IDisposable {
     }
 
     public void Draw(Entity.Entity entity) {
-        Vector2 center = new Vector2(entity.Sprite.Texture.Width / 2, entity.Sprite.Texture.Height / 2);
+        Vector2 center = new Vector2(entity.Sprite.Scale * entity.Sprite.Texture.Width / 2, entity.Sprite.Scale * entity.Sprite.Texture.Height / 2);
+
         this._spriteBatch.Draw(
             texture: entity.Sprite.Texture,
             position: entity.Position - center,
@@ -106,6 +107,7 @@ internal class SpriteManager : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._effect.Dispose();
         this._spriteBatch.Dispose();
         this._disposed = true;

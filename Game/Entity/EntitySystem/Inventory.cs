@@ -58,6 +58,7 @@ internal class Inventory : IDisposable {
         if ( this._disposed ) {
             return;
         }
+
         this._disposed = true;
     }
 
@@ -66,6 +67,7 @@ internal class Inventory : IDisposable {
         foreach ( Item item in this.Items ) {
             total.Add(item.Stats);
         }
+
         return total;
     }
 }

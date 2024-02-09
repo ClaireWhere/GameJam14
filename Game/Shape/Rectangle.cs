@@ -18,10 +18,11 @@ public class Rectangle : Shape {
     /// <param name="height">
     ///   The height.
     /// </param>
-    public Rectangle(Vector2 source, float width, float height) {
-        this.Source = source;
+    public Rectangle(Vector2 source, float width, float height, float scale = 1f) {
+        this.Position = source;
         this.Width = width;
         this.Height = height;
+        this.Scale = scale;
     }
 
     /// <summary>
@@ -29,21 +30,30 @@ public class Rectangle : Shape {
     /// </summary>
     public float Bottom {
         get {
-            return this.ScaledSource.Y + this.ScaledHeight;
+            return this.Position.Y + this.Height;
         }
     }
 
     /// <summary>
-    ///   Gets the height of the rectangle.
+    ///   Gets the scaled height of the rectangle.
     /// </summary>
-    public float Height { get; }
+    public float Height {
+        get {
+            return this._height * this.Scale;
+        }
+        set {
+            this._height = value;
+        }
+    }
+
+    private float _height;
 
     /// <summary>
     ///   Gets the left (X-coordinate) of the rectangle.
     /// </summary>
     public float Left {
         get {
-            return this.ScaledSource.X;
+            return this.Position.X;
         }
     }
 
@@ -52,48 +62,31 @@ public class Rectangle : Shape {
     /// </summary>
     public float Right {
         get {
-            return this.ScaledSource.X + this.ScaledWidth;
+            return this.Position.X + this.Width;
         }
     }
-
-    public float ScaledHeight {
-        get {
-            return this.Height * this.Scale;
-        }
-    }
-
-    public Vector2 ScaledSource {
-        get {
-            float sourceX = this.Source.X - ( this.Width * this.Scale / 2 );
-            float sourceY = this.Source.Y - ( this.Height * this.Scale / 2 );
-            return new Vector2(sourceX, sourceY);
-        }
-    }
-
-    public float ScaledWidth {
-        get {
-            return this.Width * this.Scale;
-        }
-    }
-
-    /// <summary>
-    ///   Top left corner
-    /// </summary>
-    public Vector2 Source { get; }
 
     /// <summary>
     ///   Gets the top (Y-coordinate) of the rectangle.
     /// </summary>
     public float Top {
         get {
-            return this.ScaledSource.Y;
+            return this.Position.Y;
         }
     }
 
     /// <summary>
-    ///   Gets the width of the rectangle.
+    ///   Gets the scaled width of the rectangle.
     /// </summary>
-    public float Width { get; }
+    public float Width {
+        get {
+            return this._width * this.Scale;
+        }
+        set {
+            this._width = value;
+        }
+    }
+    private float _width;
 
     /// <summary>
     ///   Checks whether this rectangle contains the provided point
@@ -155,5 +148,9 @@ public class Rectangle : Shape {
     /// </returns>
     public override bool Intersects(Circle circle) {
         return circle.Intersects(this);
+    }
+
+    public override string ToString() {
+        return "<Rectangle> -> " + base.ToString() + " | Width: " + this.Width + " | Height: " + this.Height;
     }
 }
