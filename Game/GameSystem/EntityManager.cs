@@ -39,8 +39,8 @@ internal class EntityManager : IDisposable {
                 otherEntity = this._entities[j];
                 if ( entity.CheckCollision(otherEntity) ) {
                     Debug.WriteLine("Collision detected between " + entity.GetType().Name + " and " + otherEntity.GetType().Name);
-                    entity.HandleCollision(otherEntity);
-                    otherEntity.HandleCollision(entity);
+                    entity.GetType().InvokeMember("HandleCollision", System.Reflection.BindingFlags.InvokeMethod, null, entity, new object[] { otherEntity });
+                    otherEntity.GetType().InvokeMember("HandleCollision", System.Reflection.BindingFlags.InvokeMethod, null, otherEntity, new object[] { entity });
                 }
             }
         }
