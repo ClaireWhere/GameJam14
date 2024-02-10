@@ -27,17 +27,17 @@ internal class EntityActor : Entity {
         Debug.WriteLine("\tEntityActor -> EntityActor Collision...");
 
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was damaged by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") was damaged by entity (" + actor.GetType().Name + ")");
             actor.TakeDamage(this.Attack.AttackDamage);
         }
 
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Slow) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was slowed by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") was slowed by entity (" + actor.GetType().Name + ")");
             actor.Slow(this.Attack.SlowDuration, this.Attack.SlowMultiplier);
         }
 
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Stun) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was stunned by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") was stunned by entity (" + actor.GetType().Name + ")");
             actor.Stun(this.Attack.StunDuration);
         }
 
