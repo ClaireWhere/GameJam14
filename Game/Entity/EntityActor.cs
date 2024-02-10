@@ -110,6 +110,11 @@ internal class EntityActor : Entity {
     }
 
     public override void Update(GameTime gameTime) {
+        if ( this.IsDead ) {
+            this.Kill();
+            return;
+        }
+
         this.UpdateInvincibility(gameTime);
         this.UpdateModifiers(gameTime);
         this.Attack.Update(gameTime.ElapsedGameTime.TotalSeconds);
