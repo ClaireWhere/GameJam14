@@ -69,6 +69,11 @@ internal sealed class Player : EntityActor {
         }
     }
 
+    public override void Kill() {
+        Debug.WriteLine("PLAYER DIED D:");
+        this.Heal();
+    }
+
     private static Player s_Instance;
     private Player() : base(
         id: 0,

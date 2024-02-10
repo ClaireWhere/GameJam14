@@ -27,28 +27,38 @@ internal class EntityActor : Entity {
         Debug.WriteLine("\tEntityActor -> EntityActor Collision...");
 
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Damage) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was damaged by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") was damaged by entity (" + actor.GetType().Name + ")");
             actor.TakeDamage(this.Attack.AttackDamage);
         }
 
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Slow) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was slowed by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") was slowed by entity (" + actor.GetType().Name + ")");
             actor.Slow(this.Attack.SlowDuration, this.Attack.SlowMultiplier);
         }
 
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Stun) ) {
-            Debug.WriteLine("Entity " + this.Id + "(" + this.GetType().Name + ") was stunned by entity " + actor.Id + "(" + actor.GetType().Name + ")");
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") was stunned by entity (" + actor.GetType().Name + ")");
             actor.Stun(this.Attack.StunDuration);
         }
 
         base.HandleCollision(actor);
     }
 
-    private static float InvincibilityDuration = 0.5f;
+    private static readonly float InvincibilityDuration = 0.5f;
 
     public Attack Attack { get; private set; }
     public Stats BaseStats { get; private set; }
-    public int Health { get; private set; }
+    public int Health {
+        get {
+            return this._health;
+        }
+        private set {
+            this._health = value < 0 ? 0 : value > this.Stats.Health ? this.Stats.Health : value;
+
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") health: " + this.Health + "/" + this.Stats.Health);
+        }
+    }
+    private int _health;
     public float InvincibilityTimer { get; set; }
     public Inventory Inventory { get; private set; }
     public bool IsAlive { get { return this.Health > 0; } }
@@ -79,19 +89,15 @@ internal class EntityActor : Entity {
     }
 
     public void Heal(int healAmount) {
-        if ( this.Health + healAmount > this.Stats.Health ) {
-            this.Health = this.Stats.Health;
-        } else {
-            this.Health += healAmount;
-        }
+        this.Health += healAmount;
     }
 
     public void Heal() {
-        this.SetHealth(this.Stats.Health);
+        this.Health = this.Stats.Health;
     }
 
     public void SetHealth(int health) {
-        this.Health = health > this.Stats.Health ? this.Stats.Health : health;
+        this.Health = health;
     }
 
     public void TakeDamage(int amount) {
@@ -101,12 +107,14 @@ internal class EntityActor : Entity {
 
         this.InvincibilityTimer = InvincibilityDuration;
         this.Health -= amount;
-        if ( this.Health < 0 ) {
-            this.Health = 0;
-        }
     }
 
     public override void Update(GameTime gameTime) {
+        if ( this.IsDead ) {
+            this.Kill();
+            return;
+        }
+
         this.UpdateInvincibility(gameTime);
         this.UpdateModifiers(gameTime);
         this.Attack.Update(gameTime.ElapsedGameTime.TotalSeconds);

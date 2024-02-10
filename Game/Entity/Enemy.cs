@@ -98,7 +98,6 @@ internal class Enemy : EntityActor {
             return;
         }
 
-        this.CurrentTarget.Dispose();
         base.Dispose(disposing);
     }
 
