@@ -67,6 +67,7 @@ internal class Entity : IDisposable {
         if ( this.Collision.HasEffect(CollisionSource.CollisionEffect.Kill) ) {
             Debug.WriteLine("Entity " + this.GetType().Name + " was killed by entity " + entity.GetType().Name);
             entity.Kill();
+            return;
         }
 
         // TODO: Handle directional "stop moving" effect - currently, this will make the entity stuck
