@@ -48,7 +48,17 @@ internal class EntityActor : Entity {
 
     public Attack Attack { get; private set; }
     public Stats BaseStats { get; private set; }
-    public int Health { get; private set; }
+    public int Health {
+        get {
+            return this._health;
+        }
+        private set {
+            this._health = value < 0 ? 0 : value > this.Stats.Health ? this.Stats.Health : value;
+
+            Debug.WriteLine("Entity (" + this.GetType().Name + ") health: " + this.Health + "/" + this.Stats.Health);
+        }
+    }
+    private int _health;
     public float InvincibilityTimer { get; set; }
     public Inventory Inventory { get; private set; }
     public bool IsAlive { get { return this.Health > 0; } }
@@ -79,19 +89,15 @@ internal class EntityActor : Entity {
     }
 
     public void Heal(int healAmount) {
-        if ( this.Health + healAmount > this.Stats.Health ) {
-            this.Health = this.Stats.Health;
-        } else {
-            this.Health += healAmount;
-        }
+        this.Health += healAmount;
     }
 
     public void Heal() {
-        this.SetHealth(this.Stats.Health);
+        this.Health = this.Stats.Health;
     }
 
     public void SetHealth(int health) {
-        this.Health = health > this.Stats.Health ? this.Stats.Health : health;
+        this.Health = health;
     }
 
     public void TakeDamage(int amount) {
@@ -101,9 +107,6 @@ internal class EntityActor : Entity {
 
         this.InvincibilityTimer = InvincibilityDuration;
         this.Health -= amount;
-        if ( this.Health < 0 ) {
-            this.Health = 0;
-        }
     }
 
     public override void Update(GameTime gameTime) {
