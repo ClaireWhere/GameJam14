@@ -44,7 +44,7 @@ internal class EntityActor : Entity {
         base.HandleCollision(actor);
     }
 
-    private static float InvincibilityDuration = 0.5f;
+    private static readonly float InvincibilityDuration = 0.5f;
 
     public Attack Attack { get; private set; }
     public Stats BaseStats { get; private set; }
