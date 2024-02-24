@@ -114,4 +114,10 @@ public class Circle : Shape {
     public override string ToString() {
         return "<Circle> -> " + base.ToString() + " | Center: " + this.Position.ToString() + " | Radius: " + this.Radius;
     }
+
+    public override Circle Copy() {
+        return new Circle(this.Position, this.Radius, this.Scale);
+    }
+
+    public static new Vector2[] Corners => Array.Empty<Vector2>();
 }
