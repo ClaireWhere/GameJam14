@@ -72,6 +72,18 @@ public class LineSegment : Shape {
         }
     }
 
+    public double Angle {
+        get {
+            return Math.Atan2(this.End.Y - this.Start.Y, this.End.X - this.Start.X);
+        }
+    }
+
+    public double Slope {
+        get {
+            return ( this.End.Y - this.Start.Y ) / ( this.End.X - this.Start.X );
+        }
+    }
+
     private Vector2 _start;
 
     /// <summary>
@@ -184,4 +196,10 @@ public class LineSegment : Shape {
     public override string ToString() {
         return "<LineSegment> -> " + base.ToString() + " | Start: " + this.Start.ToString() + " | End: " + this.End.ToString();
     }
+
+    public override LineSegment Copy() {
+        return new LineSegment(this.Start, this.End, this.Scale);
+    }
+
+    public new Vector2[] Corners => new Vector2[] { this.Start, this.End };
 }
