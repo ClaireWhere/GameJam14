@@ -153,4 +153,19 @@ public class Rectangle : Shape {
     public override string ToString() {
         return "<Rectangle> -> " + base.ToString() + " | Width: " + this.Width + " | Height: " + this.Height;
     }
+
+    public override Rectangle Copy() {
+        return new Rectangle(this.Position, this.Width, this.Height, this.Scale);
+    }
+
+    public new Vector2[] Corners {
+        get {
+            return new Vector2[] {
+                new Vector2(this.Left, this.Top),
+                new Vector2(this.Right, this.Top),
+                new Vector2(this.Right, this.Bottom),
+                new Vector2(this.Left, this.Bottom)
+            };
+        }
+    }
 }
