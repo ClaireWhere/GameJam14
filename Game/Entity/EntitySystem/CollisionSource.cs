@@ -124,6 +124,17 @@ public class CollisionSource : IDisposable {
         return false;
     }
 
+    public bool CollidesWith(Shape.Shape shape) {
+        for ( int i = 0; i < this.Hitboxes.Count; i++ ) {
+            HitBox hitbox = this.Hitboxes[i];
+            if ( hitbox.Shape.Intersects(shape) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void Dispose() {
         this.Dispose(true);
         GC.SuppressFinalize(this);
