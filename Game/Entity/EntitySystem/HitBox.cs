@@ -40,4 +40,15 @@ public class HitBox {
     public void UpdateScale(float scale) {
         this.Shape.Scale = scale;
     }
+
+    public Vector2[] Corners {
+        get {
+            //Vector2[] corners = new Vector2[this.Shape.Corners.Length];
+            //for (int i = 0; i < this.Shape.Corners.Length; i++) {
+            //    corners[i] = this.Shape.Corners[i] + this.Offset;
+            //}
+            //return corners;
+            return this.Shape.Corners;
+        }
+    }
 }
