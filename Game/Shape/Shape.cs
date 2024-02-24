@@ -83,5 +83,46 @@ public abstract class Shape : IDisposable {
         return "<Shape> -> Scale: " + this.Scale + " | Position: " + this.Position.ToString();
     }
 
+    public abstract Shape Copy();
+
+    public bool WillIntersect(Shape shape, Vector2 projectedPosition) {
+        if ( this.Intersects(shape) ) {
+            return true;
+        }
+
+        Shape projectedShape = this.Copy();
+        projectedShape.Position = projectedPosition;
+        // projectedShape.GetType().InvokeMember("Intersects", System.Reflection.BindingFlags.InvokeMethod, null, projectedShape, new object[] { shape });
+        if ( projectedShape.Intersects(shape) ) {
+            return true;
+        }
+
+        LineSegment projectedRay = new LineSegment(this.Position, projectedPosition);
+        if ( projectedRay.Intersects(shape) ) {
+            return true;
+        }
+
+        LineSegment inverseProjectedRay = new LineSegment(shape.Position, shape.Position - ( projectedPosition - this.Position ));
+        if ( inverseProjectedRay.Intersects(this) ) {
+            return true;
+        }
+
+        foreach ( Vector2 corner in this.Corners ) {
+            LineSegment cornerRay = new LineSegment(this.Position + corner, projectedPosition + corner);
+            if ( cornerRay.Intersects(shape) ) {
+                return true;
+            }
+        }
+
+        foreach ( Vector2 corner in shape.Corners ) {
+            LineSegment cornerRay = new LineSegment(shape.Position + corner, this.Position + corner);
+            if ( cornerRay.Intersects(this) ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
     public Vector2 Position { get; set; }
+    public Vector2[] Corners { get; }
 }
