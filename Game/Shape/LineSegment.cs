@@ -111,7 +111,7 @@ public class LineSegment : Shape {
         return ( this.Start.Y - point.Y ) * ( this.End.X - this.Start.X ) == ( this.End.Y - this.Start.Y ) * ( this.Start.X - point.X );
     }
 
-    public Vector2 GetIntersection(LineSegment line) {
+    public Vector2 CalcIntersection(LineSegment line) {
         // (x1, x2) = (this.Start.X, this.End.X) (y1, y2) = (this.Start.Y, this.End.Y) (x3, x4) =
         // (line.Start.X, line.End.X) (y3, y4) = (line.Start.Y, line.End.Y)
 
@@ -139,6 +139,12 @@ public class LineSegment : Shape {
         return intersectThis >= 0 && intersectThis <= 1 && intersectOther >= 0 && intersectOther <= 1
             ? new Vector2(this.Start.X + ( ( this.End.X - this.Start.X ) * intersectThis ), this.Start.Y + ( ( this.End.Y - this.Start.Y ) * intersectThis ))
             : Vector2.Zero;
+    }
+
+    public Vector2 CalcIntersection(Circle circle) {
+        Vector2 start = this.Start - circle.Position;
+        Vector2 end = this.End - circle.Position;
+
     }
 
     public override bool Intersects(Shape shape) {
