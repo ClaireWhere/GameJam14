@@ -18,7 +18,7 @@ internal class SaveData {
     public SaveData(Entity.Player playerData, int currentArea) {
         this.Player = new PlayerData(playerData);
         this.CurrentArea = currentArea;
-        this.SaveDate = DateTime.Now;
+        this.SaveDate = DateTime.UtcNow;
     }
 
     public int CurrentArea { get; private set; }
@@ -27,7 +27,7 @@ internal class SaveData {
     public void Update(Entity.Player playerData, int currentArea) {
         this.Player = new PlayerData(playerData);
         this.CurrentArea = currentArea;
-        this.SaveDate = DateTime.Now;
+        this.SaveDate = DateTime.UtcNow;
     }
 
     public void UpdatePlayer() {
