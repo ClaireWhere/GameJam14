@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace GameJam14.Game.Graphics;
 internal class Screen : IDisposable {
-    private static readonly int _min_width = 720;
-    private static readonly int _min_height = 576;
+    private const int _min_width = 720;
+    private const int _min_height = 576;
 
-    private static readonly int _max_width = 7680;
-    private static readonly int _max_height = 4320;
+    private const int _max_width = 7680;
+    private const int _max_height = 4320;
     private bool _disposed;
 
     public int Width { get; }
