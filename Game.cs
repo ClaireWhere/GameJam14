@@ -18,10 +18,20 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
     public Screen Screen { get; private set; }
     public Camera Camera { get; private set; }
 
+    public float RandomFloat(float min, float max) {
+        return ( (float)this._random.NextDouble() * ( max - min ) ) + min;
+    }
+
+    public int RandomInt(int min, int max) {
+        return this._random.Next(min, max);
+    }
+
     private EntityManager _entityManager;
     private SaveManager _saveManager;
 
     private SaveData _currentSave;
+
+    private readonly Random _random = new Random();
 
     private bool _isPaused;
     private bool _isSaving;
