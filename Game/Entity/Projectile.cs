@@ -3,6 +3,7 @@ using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
 
+using System;
 using System.Diagnostics;
 
 namespace GameJam14.Game.Entity;
@@ -136,6 +137,8 @@ internal class Projectile : Entity {
                 // create a new Cloud attack entity at this position
                 base.Kill();
                 break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
