@@ -5,7 +5,6 @@ using GameJam14.Game.Graphics;
 
 using Microsoft.Xna.Framework;
 
-using System;
 using System.Collections.Generic;
 
 using static GameJam14.Game.Entity.EntitySystem.Attack;
@@ -66,9 +65,9 @@ internal class Enemy : EntityActor {
             return;
         }
 
-        int xMagnitude = this._random.Next(-1, 2);
-        int yMagnitude = this._random.Next(-1, 2);
-        float distance = this._random.Next(5, 10);
+        int xMagnitude = Game2.Instance().RandomInt(-1, 2);
+        int yMagnitude = Game2.Instance().RandomInt(-1, 2);
+        float distance = Game2.Instance().RandomInt(5, 10);
         if ( xMagnitude == 0 && yMagnitude == 0 ) {
             return;
         }
@@ -101,7 +100,6 @@ internal class Enemy : EntityActor {
         base.Dispose(disposing);
     }
 
-    private readonly Random _random = new Random();
     private void Shoot() {
         Vector2 angle = new Vector2(this.CurrentTarget.Position.X - this.Position.X, this.CurrentTarget.Position.Y - this.Position.Y);
         angle.Normalize();
