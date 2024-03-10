@@ -7,8 +7,8 @@ using System.Diagnostics;
 
 namespace GameJam14.Game.Graphics;
 internal class Camera {
-    public static readonly float maxZoom = 2000.0f;
-    public static readonly float minZoom = 0.1f;
+    public const float maxZoom = 2000.0f;
+    public const float minZoom = 0.1f;
     public Camera(Screen screen) {
         this.aspectRatio = screen.Width / (float)screen.Height;
         this.fieldOfView = (float)( Math.PI / 2.0f );
