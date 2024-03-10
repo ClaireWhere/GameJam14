@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Input;
 
 using System;
 using System.Diagnostics;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace GameJam14;
@@ -20,16 +19,11 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
     public Camera Camera { get; private set; }
 
     public float RandomFloat(float min, float max) {
-        byte[] data = new byte[4];
-        this._randomGenerator.GetBytes(data);
-        float scale = BitConverter.ToUInt32(data, 0) / ( uint.MaxValue + 1.0f );
-        return min + ( scale * ( max - min ) );
+        return ( (float)this._random.NextDouble() * ( max - min ) ) + min;
     }
 
     public int RandomInt(int min, int max) {
-        byte[] data = new byte[4];
-        this._randomGenerator.GetBytes(data);
-        return (int)( ( BitConverter.ToUInt32(data, 0) % ( max - min ) ) + min );
+        return this._random.Next(min, max);
     }
 
     private EntityManager _entityManager;
@@ -37,7 +31,7 @@ internal class Game2 : Microsoft.Xna.Framework.Game {
 
     private SaveData _currentSave;
 
-    private readonly RandomNumberGenerator _randomGenerator = RandomNumberGenerator.Create();
+    private readonly Random _random = new Random();
 
     private bool _isPaused;
     private bool _isSaving;
