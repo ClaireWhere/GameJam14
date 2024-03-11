@@ -37,22 +37,16 @@
 			<Slow>false</Slow>
 		</collisionEffects>
 
-		<hitbox>
-			<shape>
-				<type>Rectangle</type>
-				<source>
-					<x>0</x>
-					<y>0</y>
-				</source>
-				<width>32</width>
-				<height>32</height>
-				<scale>1</scale>
-			</shape>
-			<offset>
-				<x>16</x>
-				<y>16</y>
-			</offset>
-		</hitbox>
+		<hitboxes>
+			<hitbox id="1">
+				<shape>
+					<type>Rectangle</type>
+					<width>32</width>
+					<height>32</height>
+				</shape>
+				<offset x="16" y="16" />
+			</hitbox>
+		</hitboxes>
 		
 	</collision>
 
